@@ -13,7 +13,6 @@ Issues](http://githubbadges.herokuapp.com/jansteinfeld/tmt/issues.svg?style=flat
 [![Pending
 Pull-Requests](http://githubbadges.herokuapp.com/jansteinfeld/tmt/pulls.svg?style=flat-square)](https://github.com/jansteinfeld/tmt/pulls)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://github.com/jansteinfeld/tmt/commits)
-[![Downloads](https://cranlogs.r-pkg.org/badges/tmt?color=brightgreen)](http://www.r-pkg.org/pkg/tmt)
 [![github
 version](https://img.shields.io/badge/github%20version-0.1.9.00-orange.svg)](https://github.com/jansteinfeld/tmt)
 
