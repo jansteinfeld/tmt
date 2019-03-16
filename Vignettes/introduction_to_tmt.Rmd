@@ -1,0 +1,197 @@
+---
+title: "Introduction for the tmt package"
+author: "Jan Steinfeld"
+date: February 10, 2019
+
+output:
+  prettydoc::html_pretty:
+    smart: false
+    theme: cayman
+    highlight: github
+    css: style.css
+    fig_caption: yes
+    number_sections: TRUE
+
+
+vignette: >
+  %\VignetteIndexEntry{Introduction for the tmt package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+
+bibliography: references.bib
+csl: apa.csl
+---
+
+
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
+  knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    fig.width = 10, 
+    fig.height = 10
+  )
+  options(width=80)
+
+  # includes: in_header: "header.html"
+  library(tmt)
+```
+# Introduction
+This package provides a collection of functions to simulate data, estimate item parameters and calculation of likelihood ratio test in multistage designs. 
+In multistage tests, different groups of items (blocks) are presented to test persons depending on their response behavior to previous item groups. Multistage testing is thus a simple form of adaptive testing. If data are collected on the basis of such a multistage design and the items are estimated using the Conditional Maximum Likelihood (CML) method, @glas1988rasch has shown, that the item parameters are biased. 
+While @eggen2011item propose to avoid the bias using the marginal maximum likelihood (mml) method, @zwitser2015conditional showed in their work, that taking the applied multistage design in consideration and including it in the estimation of the item parameters, the estimation of item parameters is not biased using the CML method. Their proposed solution is implemented in our package.
+In this package, the approach of @zwitser2015conditional is implemented. It was ensured that the necessary specification of the multistage design is as simple as possible and will be described in detail below. For the multistage design, the elementary symmetric function has to be calculated several times, so that this is as efficient as possible, the relevant functions have been written in RCPP [@rcpp].
+In addition to estimating the item parameters for multistage designs, it is also possible to estimate the item parameters for conventional designs. In order to further increase the efficiency, the algorithm of @verhelst1984estimation was used for the elementary symmetry function.
+
+The package is well tested, but errors can still be exist. If you find a bug, please report it to us (with an working example) preferred via github: [issues](https://github.com/jansteinfeld/tmt/issues)
+
+# Package
+Below are a few sample applications of our package, which should provide information for the start:
+
+## Rasch model without multistage design
+For the estimation of item parameters of a simple 1-PL model, the function <tt>tmt_rm</tt> must be called. Here only the data set has to be passed (as matrix or data.frame) to estimate item parameters. Additional arguments allow to turn off the estimates of the standard errors (for example, for time reasons) or to switch from "nlminb" to "optim" (as in the example below). Per default the items are normalized to sum = 0 as recommended by @glas2016.
+
+```{r, rm_nmst, warning=FALSE}
+   # simulate some data 
+ dat <- tmt:::sim.rm(theta = 100,b = 10,seed = 1111)
+
+  # estimate item parameters
+ dat.rm <- tmt_rm(dat = dat, optimization = "optim")
+
+ # print summary
+ summary(dat.rm)
+
+```
+
+## Rasch model with simple multistage design
+If the item parameters are to be estimated for a multistage design, for which the package was genuinely built, then the design must first be created. For the multistage design, it is necessary that each block is defined, as exemplified below with B1, B2, etc. The name of the block is arbitrary. The name of the block follows with "=~" the vector with the items of the respective block. If all blocks have been defined, the start block(s) must be defined. The starting block(s) is/are described with a name and the sign "==" (double equal sign) followed by the particular block. Finally, all branches must be defined. Each branch has a name followed by the ":=" character in the starting block and all other blocks in the branch. Each block must be followed in parentheses by the minimum (first number) and maximum (second number) of solved items in the respective block.
+
+Keeping the syntax is very important, otherwise the design can not be translated.
+
+| component      | syntax | example                                                     |
+| -------------- |:------:| -----------------------------------------------------------:|
+| block          | =~     | B1 =~ c(i1, i2, i3, i4, i5)                                 |
+| starting block | ==     | Start == B2                                                 |
+| branch         | :=     | b1 := Start(minSolved,maxSolved) + B1(minSolved, maxSolved) |
+
+To estimate the item parameters the function <tt>tmt_rm</tt> must be called with the additional information of the multistage design. Additional arguments allow to turn off the estimates of the standard errors (for example, for time reasons) or to switch from "nlminb" to "optim" (as in the example below).
+
+```{r, rm_mst, warning=FALSE}
+  # Example for multistage-design
+  mstdesign <- "
+    B1 =~ c(i1, i2, i3, i4, i5)
+    B2 =~ c(i6, i7, i8, i9, i10)
+    B3 =~ c(i11, i12, i13, i14, i15)
+
+    # define starting Block
+    Start == B2
+
+    # define branches
+    b1 := Start(0,2) + B1(0,5)
+    b2 := Start(3,5) + B3(0,5)
+  "
+    # generate item parameters with corresponding names to the multistage design
+  items <- seq(-1,1, length.out = 15)
+  names(items) <- paste0("i",1:length(items))
+  
+    # generate random data under given multistage design
+  dat <- tmt_sim(mstdesign = mstdesign, 
+                      items = items, 
+                      persons = 500, 
+                      mean = 0, 
+                      sd = 1)
+    # estimate the item parameters under the given multistage-design
+  dat.rm <- tmt_rm(dat = dat, 
+                  mstdesign = mstdesign, 
+                  optimization = "optim")
+  
+    # print summary of item parameters
+  summary(dat.rm)
+```
+
+## Likelihood-ratio Test
+The likelihood ratio test of Andersen [@andersen1973goodness] is also implemented. The estimated item parameters either from an simple 1-PL model or from a 1-PL model with multistage design could be passed to the function <tt>tmt_lrtest</tt>. This function is also a generic function (like <tt>tmt_rm</tt>), which calls the specific function for data with/without multistage design. For the application on very large data sets it is possible to parallelize the <tt>tmt_lrtest</tt> function. For this purpose only the amount of cores has to be passed as additional argument (it is recommended to use three cores, if possible).
+
+```{r, rm_lrtest, warning=FALSE}
+    # simulate some data
+  dat_nmst <- tmt:::sim.rm(theta = 100,b = 10,seed = 1111)
+
+    # estimate item parameters
+  dat_nmst_rm <- tmt_rm(dat = dat_nmst, optimization = "optim")
+  
+    # calculate likelihood ratio-test
+  dat_lrt_nmst <- tmt_lrtest(dat_nmst_rm, optimization = "optim")
+  
+    # print summary
+  summary(dat_lrt_nmst)
+```
+
+```{r, rm_lrtest_mst, warning=FALSE}
+    # example of multistage-design
+  mstdesign <- "
+    B1 =~ c(i1, i2, i3, i4, i5)
+    B2 =~ c(i6, i7, i8, i9, i10)
+    B3 =~ c(i11, i12, i13, i14, i15)
+
+    # define starting Block
+    Start == B2
+
+    # define branches
+    b1 := Start(0,2) + B1(0,5)
+    b2 := Start(3,5) + B3(0,5)
+  "
+    # generate item parameters with corresponding names to the multistage design
+  items <- seq(-1,1, length.out = 15)
+  names(items) <- paste0("i",1:length(items))
+  
+      # generate random data under given multistage design
+  set.seed(1111)
+  dat_mst <- tmt_sim(mstdesign = mstdesign, 
+                      items = items, 
+                      persons = 500, 
+                      mean = 0, 
+                      sd = 1)
+
+    # estimate the item parameters under the given multistage-design
+  dat_mst_rm <- tmt_rm(dat = dat_mst, 
+                  mstdesign = mstdesign, 
+                  optimization = "optim")
+
+    # calculate likelihood ratio-test
+  dat_lrt_mst <- tmt_lrtest(dat_mst_rm, optimization = "optim")
+  
+    # print summary
+  summary(dat_lrt_mst)
+``` 
+
+## Graphical model check
+For a graphical comparison of estimated item parameters for each sub group, we provide a so-called graphical model check. Several options are available for further specification of the plot (internally the package ggplot2 is used)
+
+```{r, gmt, warning=FALSE}
+    # example of multistage-design
+  items <- seq(-1,1,length.out = 30)
+  names(items) <- paste0("i",1:30)
+  persons = 100
+  mean = 0
+  sd = 1
+  dat <- tmt:::sim.rm(theta = persons, b = items, 1111)
+  
+  dat.rm <- tmt_rm(dat, optimization = "optim")
+  dat.lrt <- tmt_lrtest(dat.rm, split = "median", optimization = "optim")
+
+
+  info <- rep(c("group_a","group_b"),each = 15)
+  names(info) <- paste0("i",1:30)
+
+  drop <- c("i1","i18","i20","i10")
+
+  tmt_gmc(object = dat.lrt, 
+    ellipse = TRUE, 
+    info = info,
+    drop = drop,
+    title = "graphical model check",
+    alpha = 0.05,
+    legendtitle = "split criteria")
+
+``` 
+
+# References

@@ -1,0 +1,32 @@
+********************************************************
+****               NEWS tmt Package                 ****
+********************************************************
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+The Multistage Testing (tmt)
+J. Steinfeld & A. Robitzsch
+
+  _____ __  __ _____ 
+ |_   _|  \/  |_   _|
+   | | | |\/| | | |  
+   |_| |_|  |_| |_|  
+
+
+mailto:
+-------
+Jan Steinfeld
+jan.d.steinfeld@gmail.com
+
+For reporting a bug, please always provide a reproducible R script 
+and (if necessary) a corresponding dataset.
+
+URL:
+----
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+-------------------------------------------------------------
+VERSIONS tmt 0.1  |  2019-xx-xx  |  Last: tmt 0.1-21
+-------------------------------------------------------------

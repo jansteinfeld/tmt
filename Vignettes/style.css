@@ -1,0 +1,11 @@
+div {
+	text-align: justify;
+	text-justify: inter-word;
+}
+.references p{
+	text-indent: -2em;
+    text-align: justify;
+    padding-left: 2em;
+    margin-bottom: 0;
+    margin-top: 1em;
+}
