@@ -16,13 +16,12 @@ Pull-Requests](http://githubbadges.herokuapp.com/jansteinfeld/tmt/pulls.svg?styl
 [![Downloads](https://cranlogs.r-pkg.org/badges/tmt?color=brightgreen)](http://www.r-pkg.org/pkg/tmt)
 [![github
 version](https://img.shields.io/badge/github%20version-0.1.9.00-orange.svg)](https://github.com/jansteinfeld/tmt)
-[![CRAN
-version](https://www.r-pkg.org/badges/version/tmt)](https://cran.r-project.org/package=tmt)
 
 The tmt package is developed for the application of the conditional
 maximum likelihood (CML) estimation in multistage designs (Zwitser &
-Maris, 2013, <doi:10.1007/s11336-013-9369-6>). Of course, CML-estimation
-of item parameters for conventional designs is also possible.
+Maris, 2013, <https://doi.org/10.1007/s11336-013-9369-6>). Of course,
+CML-estimation of item parameters for conventional designs is also
+possible.
 
 ## Installation
 

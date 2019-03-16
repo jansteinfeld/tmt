@@ -1,7 +1,7 @@
 Package: tmt
 Type: Package
 Title: Estimation of the Rasch Model for Multistage Tests
-Version: 0.1.9-00
+Version: 0.1.9-1
 Date: 2019-03-16
 Authors@R: c(
   person(given = "Jan", 
