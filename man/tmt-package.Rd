@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right'}}
 
-The tmt package is developed for the application of the conditional maximum likelihood (CML) estimation in multistage designs (Zwitser & Maris, 2013, <doi:10.1007/s11336-013-9369-6>). Of course, CML-estimation of item parameters for conventional designs is also possible.
+The tmt package is developed for the application of the conditional maximum likelihood (CML) estimation in multistage designs (Zwitser & Maris, 2013, <doi:10.1007/s11336-013-9369-6>). CML estimation of item parameters for conventional designs is also possible.
 }
 \details{
 In multistage tests different groups of items (blocks) are presented to persons depending on their response behavior to previous item groups. Multistage testing is thus a simple form of adaptive testing. If data is collected on the basis of such a multistage design and the items are estimated using the Conditional Maximum Likelihood (CML) method, Glas (1989) <doi:10.3102/10769986013001045> has shown, that the item parameters are biased. Zwitser and Maris (2013) <doi:10.1007/s11336-013-9369-6> showed in their work, that taking the applied multistage design in consideration and including it in the estimation of the item parameters, the estimation of item parameters is not biased using the CML method. Their proposed solution is implemented in our package.

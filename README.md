@@ -3,7 +3,7 @@
 <!-- README.md is generated from README.Rmd-->
 
 [![Build
-Status](https://api.travis-ci.com/jansteinfeld/tmt.svg?token=YsTqLvBJ7myior43p52T&branch=master)](https://travis-ci.com/jansteinfeld/tmt)
+Status](https://travis-ci.com/jansteinfeld/tmt.svg?branch=master)](https://travis-ci.com/jansteinfeld/tmt)
 [![codecov](https://codecov.io/gh/jansteinfeld/tmt/branch/master/graph/badge.svg?token=UwLlcu9JXp)](https://codecov.io/gh/jansteinfeld/tmt)
 [![GPL
 Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://opensource.org/licenses/GPL-3.0/)
@@ -18,9 +18,8 @@ version](https://img.shields.io/badge/github%20version-0.1.9.00-orange.svg)](htt
 
 The tmt package is developed for the application of the conditional
 maximum likelihood (CML) estimation in multistage designs (Zwitser &
-Maris, 2013, <https://doi.org/10.1007/s11336-013-9369-6>). Of course,
-CML-estimation of item parameters for conventional designs is also
-possible.
+Maris, 2013, <https://doi.org/10.1007/s11336-013-9369-6>). CML
+estimation of item parameters for conventional designs is also possible.
 
 ## Installation
 
@@ -109,7 +108,6 @@ summary(mod1)
 The following features are planned for future releases:
 
   - the partial credit model for multistage designs
-  - allow missing values in multistage designs
-  - automatic adaptation of the design if items are not estimable
+  - missing values in multistage designs
   - improving the speed of the package
-  - plot for the illustration of the multistage design
+  - plots of the multistage design

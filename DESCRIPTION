@@ -22,7 +22,7 @@ Author: Jan Steinfeld [cre, aut] (<https://orcid.org/0000-0001-9853-8260>),
 Maintainer: Jan Steinfeld <jan.d.steinfeld@gmail.com>
 URL: https://github.com/jansteinfeld/tmt
 BugReports: https://github.com/jansteinfeld/tmt/issues
-Description: The tmt package is developed for the application of the conditional maximum likelihood (CML) estimation in multistage designs (Zwitser & Maris, 2013, <doi:10.1007/s11336-013-9369-6>). Of course, CML-estimation of item parameters for conventional designs is also possible.
+Description: The tmt package is developed for the application of the conditional maximum likelihood (CML) estimation in multistage designs (Zwitser & Maris, 2013, <doi:10.1007/s11336-013-9369-6>). CML estimation of item parameters for conventional designs is also possible.
 License: GPL-3
 LazyLoad: yes
 LazyData: true

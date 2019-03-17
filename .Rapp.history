@@ -1,21 +1,3 @@
-string
-laenge <- length(strsplit(string,"\\s")[[1]])
-laenge
-paste(strsplit(string,"\\s")[[1]][1 : laenge-n])
-paste(strsplit(string,"\\s")[[1]])
-laenge-n
-n <- 2
-laenge-n
-paste(strsplit(string,"\\s")[[1]][1 : laenge-n])
-strsplit(string,"\\s")[[1]][1 : laenge-n]
-strsplit(string,"\\s")[[1]][1 : 4]
-strsplit(string,"\\s")[[1]][1 : (laenge-n)]
-extract_words <- function(x,n = 2){ #
-	laenge <- length(strsplit(string,"\\s")[[1]])#
-	out <- paste(strsplit(string,"\\s")[[1]][1 : (laenge-n)])#
-	return(out)#
-#
-}
 extract_words(string)
 strsplit(string,"\\s")[[1]][1 : (laenge-n)]
 paste0(strsplit(string,"\\s")[[1]][1 : (laenge-n),collapse=""]
@@ -895,22 +877,60 @@ minSolved = c(0,0,0)#
 maxSolved = c(4,2,3)
 psychotools::elementary_symmetric_functions(unlist(parlist), order = 2, diff = "sum" == "diff")
 setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_public")
-roxygen2::roxygenise()#
-devtools::check()#
-rmarkdown::render("README.rmd")#
-devtools::document(roclets=c('rd', 'collate', 'namespace', 'vignette'))#
-devtools::build_vignettes()#
-pkgdown::build_site()
-devtools::check()
 devtools::test()#
 devtools::build_manual()#
 #devtools::build(binary = TRUE, args = c('--preclean'))#
 # CRAN Ckecks#
 devtools::build()
+setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_dev")
+devtools::test()
+setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_public")
+devtools::test()#
+devtools::build_manual()#
+#devtools::build(binary = TRUE, args = c('--preclean'))#
+# CRAN Ckecks#
+devtools::build()
+p <- utils::packageDescription("tmt")
+p$Version
+system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
+setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_public")
+roxygen2::roxygenise()#
+devtools::check()#
+rmarkdown::render("README.rmd")#
+devtools::document(roclets=c('rd', 'collate', 'namespace', 'vignette'))#
+devtools::build_vignettes()#
+pkgdown::build_site()#
+# devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
 devtools::test()#
 devtools::build_manual()#
 #devtools::build(binary = TRUE, args = c('--preclean'))#
 # CRAN Ckecks#
 devtools::build()#
 # HERE push to GitHub
-n
+p <- utils::packageDescription("tmt")#
+p$Version#
+system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
+devtools::build()#
+# HERE push to GitHub#
+p <- utils::packageDescription("tmt")#
+p$Version#
+system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
+rmarkdown::render("README.rmd")
+devtools::build()#
+# HERE push to GitHub#
+p <- utils::packageDescription("tmt")#
+p$Version#
+system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
+rmarkdown::render("README.rmd")
+devtools::build()#
+# HERE push to GitHub#
+p <- utils::packageDescription("tmt")#
+p$Version#
+system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))#
+# rhub checks.
+rhub::check_with_valgrind()#
+# R-hub provides a special Docker image to run Address Sanitizer (ASAN) and Undefined Behavior Sanitizer (UBSAN)#
+rhub::check_with_sanitizers()#
+# Check an R-package on R-hub, for a CRAN submission.#
+rhub::check_for_cran()
+devtools::build_manual()
