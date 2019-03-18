@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.2</span>
       </span>
     </div>
 
@@ -227,15 +227,31 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># example for tmt_rm
-</div><span class='co'># NOT RUN {</span>
+    <pre class="examples"><div class='input'><span class='co'># example for tmt_rm</span>
 <span class='co'>#############################################################################</span>
 <span class='co'># Example simple Rasch model </span>
 <span class='co'>#############################################################################</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tmt</span><span class='kw ns'>:::</span><span class='fu'>sim.rm</span>(<span class='kw'>theta</span> <span class='kw'>=</span> <span class='fl'>100</span>,<span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>10</span>,<span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1111</span>)
 <span class='no'>dat.rm</span> <span class='kw'>&lt;-</span> <span class='fu'>tmt_rm</span>(<span class='kw'>dat</span> <span class='kw'>=</span> <span class='no'>dat</span>)
-<span class='no'>dat.rm</span>$<span class='no'>betapar</span>
-
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>dat.rm</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt;   tmt_rm(dat = dat)
+#&gt; 
+#&gt; 
+#&gt; Results of Rasch model (nmst) estimation: 
+#&gt; 
+#&gt; Difficulty parameters: 
+#&gt;             est.b_i01 est.b_i02 est.b_i03 est.b_i04  est.b_i05  est.b_i06
+#&gt; Estimate   -0.5437735 0.8132419 0.1538561 0.2977100 -0.4505727 -2.9776993
+#&gt; Std. Error  0.2096113 0.2261380 0.2101321 0.2122692  0.2087598  0.3658568
+#&gt;            est.b_i07 est.b_i08 est.b_i09 est.b_i10
+#&gt; Estimate   0.2014657 0.6506939 0.9856182 0.8694598
+#&gt; Std. Error 0.2107595 0.2206770 0.2330848 0.2282706
+#&gt; 
+#&gt; CLL: -373.6552 
+#&gt; Number of iterations: 26 
+#&gt; Number of parameters: 10 
+#&gt; </div><div class='input'>
 <span class='co'>#############################################################################</span>
 <span class='co'># Example for multistage-design</span>
 <span class='co'>#############################################################################</span>
@@ -243,30 +259,45 @@
   B1 =~ c(i1, i2, i3, i4, i5)
   B2 =~ c(i6, i7, i8, i9, i10)
   B3 =~ c(i11, i12, i13, i14, i15)
-  B4 =~ c(i16, i17, i18, i19, i20)
-  B5 =~ c(i21, i22, i23, i24, i25)
-  B6 =~ c(i26, i27, i28, i29, i30)
 
   # define starting Block
-  Start == B4
+  Start == B2
 
   # define branches
-  b1 := Start(0,2) + B2(0,2) + B1(0,5)
-  b2 := Start(0,2) + B2(3,5) + B3(0,5)
-  b3 := Start(3,5) + B5(0,2) + B3(0,5)
-  b4 := Start(3,5) + B5(3,5) + B6(0,5)
+  b1 := Start(0,2) + B1
+  b2 := Start(3,5) + B3
 "</span>
 
-<span class='no'>items</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>items</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"i"</span>,<span class='fl'>1</span>:<span class='fl'>30</span>)
-<span class='no'>persons</span> <span class='kw'>=</span> <span class='fl'>10000</span>
+<span class='no'>items</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>15</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>items</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"i"</span>,<span class='fl'>1</span>:<span class='fl'>15</span>)
+<span class='no'>persons</span> <span class='kw'>=</span> <span class='fl'>1000</span>
 <span class='no'>mean</span> <span class='kw'>=</span> <span class='fl'>0</span>
 <span class='no'>sd</span> <span class='kw'>=</span> <span class='fl'>1</span>
 <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tmt_sim.html'>tmt_sim</a></span>(<span class='kw'>mstdesign</span> <span class='kw'>=</span> <span class='no'>mstdesign</span>,
   <span class='kw'>items</span> <span class='kw'>=</span> <span class='no'>items</span>, <span class='kw'>persons</span> <span class='kw'>=</span> <span class='no'>persons</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='no'>sd</span>)
 <span class='no'>dat.rm</span> <span class='kw'>&lt;-</span> <span class='fu'>tmt_rm</span>(<span class='kw'>dat</span> <span class='kw'>=</span> <span class='no'>dat</span>, <span class='kw'>mstdesign</span> <span class='kw'>=</span> <span class='no'>mstdesign</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>dat.rm</span>)
-<span class='co'># }</span></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>dat.rm</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt;   tmt_rm(dat = dat, mstdesign = mstdesign)
+#&gt; 
+#&gt; 
+#&gt; Results of Rasch model (mst) estimation: 
+#&gt; 
+#&gt; Difficulty parameters: 
+#&gt;              est.b_i1   est.b_i2   est.b_i3   est.b_i4   est.b_i5    est.b_i6
+#&gt; Estimate   -1.1231632 -0.7460452 -0.4971600 -0.6128814 -0.4614154 -0.35769525
+#&gt; Std. Error  0.1041632  0.1031663  0.1036342  0.1033056  0.1037749  0.07328443
+#&gt;               est.b_i7    est.b_i8   est.b_i9  est.b_i10 est.b_i11 est.b_i12
+#&gt; Estimate   -0.11585266 0.004447177 0.10088173 0.33974679 0.5174146 0.4135879
+#&gt; Std. Error  0.07293232 0.072935340 0.07302074 0.07357146 0.1066099 0.1067474
+#&gt;            est.b_i13 est.b_i14 est.b_i15
+#&gt; Estimate   0.6499617 0.9784994 0.9096738
+#&gt; Std. Error 0.1066768 0.1080116 0.1075931
+#&gt; 
+#&gt; CLL: -4021.47 
+#&gt; Number of iterations: 48 
+#&gt; Number of parameters: 15 
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

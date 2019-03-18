@@ -1,86 +1,3 @@
-extract_words(string)
-strsplit(string,"\\s")[[1]][1 : (laenge-n)]
-paste0(strsplit(string,"\\s")[[1]][1 : (laenge-n),collapse=""]
-)
-paste0(strsplit(string,"\\s")[[1]][1 : (laenge-n)],collapse="")
-paste0(strsplit(string,"\\s")[[1]][1 : (laenge-n)],collapse=" ")
-extract_words <- function(x,n = 2){ #
-	laenge <- length(strsplit(string,"\\s")[[1]])#
-	out <- paste(strsplit(string,"\\s")[[1]][1 : (laenge-n)],collapse=" ")#
-	return(out)#
-#
-}
-extract_words(string,n)
-extract_words(string,3)
-extract_words(string,1)
-extract_words(string,0)
-string
-installed.packages('fftwtools', dep = TRUE)#
-#
-install.packages("ggimage")#
-install.packages("ggforce")#
-install.packages("hexSticker")#
-install.packages("sysfonts")#
-install.packages("showtext")#
-install.packages("ggimage")#
-#
-if (!require("devtools")) install.packages("devtools")#
-devtools::install_github("nrkoehler/streetsofle",force=TRUE)#
-library(hexSticker)#
-library(ggplot2)#
-library(streetsofle)#
-library(sysfonts)#
-library(showtext)#
-library(ggimage)#
-save_sticker <- function(filename, sticker=last_plot()) {#
-  ggsave(sticker, width = 43.9, height = 50.8,#
-         filename = filename,#
-         bg = 'transparent',#
-         units = "mm",dpi=450)#
-}
-p.1 <- ggplot(aes(x = lon, y = lat), data = shape.ortsteile) +#
-  theme_map_le() +#
-  coord_quickmap() +#
-  geom_polygon(aes(x = lon, y = lat, group = group), #
-               fill = NA, #
-               size = 1, #
-               color = "#FFCB00") +#
-  geom_polygon(aes(x = lon, y = lat, group = group),#
-               color = "#FFCB00", #
-               size = 1, #
-               fill = NA, #
-               data = shape.bezirke) #
-p.1 <- sticker(p.1,#
-               package="streetsofle", #
-               s_x = 1, # horizontal position of subplot#
-               s_y = 1.1, # vertical position of subplot#
-               s_width = 1.4, # width of subplot#
-               s_height = 1.4, # height of subplot#
-               p_x = 1, # horizontal position of font#
-               p_y = .43, # vertical position of font#
-               p_size = 6, # font size#
-               p_color = "#FFCB00", # font colour#
-               h_size = 3, # hexagon border size#
-               h_fill = "#004CFF", # hexagon fill colour#
-               h_color = "#FFCB00") # hexagon border colour
-library(ggplot2)
-p_size=15; s_x=0.05; s_y=.075; h_size=2; h_fill="#7EA71B"; h_color="#4a630e"; s_width=0.75;package="Post-Test-Analyse"#
-p_x=1; p_y=1.4;p_color="#FFFFFF"; p_family="serif"#
-#
-url = "https:\\\\psychometrie.bmb.gv.at";  u_x=1; u_y=0.08; u_color="black"; u_family="Aller_Rg"; u_size=3.5 #
-#
-d <- data.frame(x=1, y=.80, image="/Users/jansteinfeld/CloudStation/Hexsticker/startaPTA.png")#
-#
-hex <- hexagon(size=h_size, fill=h_fill, color=h_color) #
-sticker <- hex + geom_image(aes_(x=~x, y=~y, image=~image), d, size=s_width) #
-sticker <- sticker + geom_pkgname(package, p_x, p_y, p_color, p_family, p_size)#
-#
-sticker <- sticker + geom_url(url, x=u_x, y = u_y, color = u_color, family = u_family, size=u_size) #
-pp <- sticker +  theme(#
-  rect = element_rect(fill = "transparent") # bg of the panel#
-)#
-pp#
-save_sticker("/Users/jansteinfeld/CloudStation/HexstickerPTA_Sticker.pdf")
 save_sticker("/Users/jansteinfeld/CloudStation/Hexsticker/PTA_Sticker.pdf")
 # LICRE erstellen#
 ##########################
@@ -876,61 +793,113 @@ ojlist = list(c(1,1,1,1),c(1,1),c(1,1,1))#
 minSolved = c(0,0,0)#
 maxSolved = c(4,2,3)
 psychotools::elementary_symmetric_functions(unlist(parlist), order = 2, diff = "sum" == "diff")
-setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_public")
-devtools::test()#
-devtools::build_manual()#
-#devtools::build(binary = TRUE, args = c('--preclean'))#
-# CRAN Ckecks#
-devtools::build()
-setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_dev")
-devtools::test()
-setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_public")
-devtools::test()#
-devtools::build_manual()#
-#devtools::build(binary = TRUE, args = c('--preclean'))#
-# CRAN Ckecks#
-devtools::build()
-p <- utils::packageDescription("tmt")
-p$Version
-system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
-setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_public")
+setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_dev")#
+#
 roxygen2::roxygenise()#
 devtools::check()#
 rmarkdown::render("README.rmd")#
 devtools::document(roclets=c('rd', 'collate', 'namespace', 'vignette'))#
 devtools::build_vignettes()#
 pkgdown::build_site()#
-# devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
+devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
 devtools::test()#
 devtools::build_manual()#
 #devtools::build(binary = TRUE, args = c('--preclean'))#
-# CRAN Ckecks#
-devtools::build()#
-# HERE push to GitHub
-p <- utils::packageDescription("tmt")#
-p$Version#
-system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
-devtools::build()#
-# HERE push to GitHub#
-p <- utils::packageDescription("tmt")#
-p$Version#
-system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
-rmarkdown::render("README.rmd")
-devtools::build()#
-# HERE push to GitHub#
-p <- utils::packageDescription("tmt")#
-p$Version#
-system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
-rmarkdown::render("README.rmd")
-devtools::build()#
-# HERE push to GitHub#
-p <- utils::packageDescription("tmt")#
-p$Version#
-system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))#
-# rhub checks.
-rhub::check_with_valgrind()#
-# R-hub provides a special Docker image to run Address Sanitizer (ASAN) and Undefined Behavior Sanitizer (UBSAN)#
-rhub::check_with_sanitizers()#
-# Check an R-package on R-hub, for a CRAN submission.#
-rhub::check_for_cran()
+# CRAN Ckecks
+CopyDirOrFile<-function(FileOrDir){#
+    sourcepath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_dev"#
+    sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_test"#
+    DirSource <- paste0(sourcepath,FileOrDir)#
+    DirEnd<-paste0(sinkpath,FileOrDir)#
+    system(paste("cp -r",DirSource,DirEnd))#
+    return(file.exists(paste(MySinkDir, FileOrDir,sep="")))#
+}
+CopyDirOrFile("doc")
+CopyDirOrFile<-function(FileOrDir){#
+    sourcepath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_dev/"#
+    sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_test/"#
+    DirSource <- paste0(sourcepath,FileOrDir)#
+    DirEnd<-paste0(sinkpath,FileOrDir)#
+    system(paste("cp -r",DirSource,DirEnd))#
+    return(file.exists(paste0(sinkpath, FileOrDir)))#
+}
+CopyDirOrFile("doc")
+CopyDirOrFile("man")
+CopyDirOrFile("DESCRIPTION")
+setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_dev")#
+#
+roxygen2::roxygenise()#
+devtools::check()#
+rmarkdown::render("README.rmd")#
+devtools::document(roclets=c('rd', 'collate', 'namespace', 'vignette'))#
+devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
+devtools::build_vignettes()#
+rmarkdown::render("README.rmd")#
+pkgdown::build_site()#
+devtools::test()#
 devtools::build_manual()
+CopyDirOrFile<-function(FileOrDir){#
+    sourcepath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_dev/"#
+    sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_public/"#
+    DirSource <- paste0(sourcepath,FileOrDir)#
+    DirEnd<-paste0(sinkpath,FileOrDir)#
+    system(paste("cp -r",DirSource,DirEnd))#
+    return(file.exists(paste0(sinkpath, FileOrDir)))#
+}
+CopyDirOrFile("man")
+CopyDirOrFile("pkgdown")
+CopyDirOrFile("R")
+CopyDirOrFile("doc")
+CopyDirOrFile("Vignettes")
+CopyDirOrFile("vignettes")
+CopyDirOrFile<-function(FileOrDir){#
+    sourcepath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_dev/"#
+    sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_public/"#
+    DirSource <- paste0(sourcepath,FileOrDir)#
+    DirEnd<-paste0(sinkpath,FileOrDir)#
+    system(paste("cp -rf",DirSource,DirEnd))#
+    return(file.exists(paste0(sinkpath, FileOrDir)))#
+}
+CopyDirOrFile("vignettes")
+CopyDirOrFile("vignettes")
+CopyDirOrFile<-function(FileOrDir){#
+    sourcepath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_dev/"#
+    sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_public/"#
+    DirSource <- paste0(sourcepath,FileOrDir)#
+    DirEnd<-paste0(sinkpath,FileOrDir)#
+    system(paste("cp -rf",DirSource,DirEnd))#
+    return(file.exists(paste0(sinkpath, FileOrDir)))#
+}
+CopyDirOrFile("vignettes")
+FileOrDir <- "vignettes"
+sourcepath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_dev/"#
+    sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_public/"
+DirSource <- paste0(sourcepath,FileOrDir)
+DirEnd<-paste0(sinkpath,FileOrDir)
+DirSource
+DirEnd
+paste("cp -rf",DirSource,DirEnd)
+CopyDirOrFile<-function(FileOrDir){#
+    sourcepath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_dev/"#
+    sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_public/"#
+    DirSource <- paste0(sourcepath,FileOrDir)#
+    system(paste("cp -rf",DirSource,sinkpath))#
+    return(file.exists(paste0(sinkpath, FileOrDir)))#
+}
+CopyDirOrFile("vignettes")
+CopyDirOrFile("doc")#
+# copy_folder_to_public("docs") # sollte von der Vignette und pkgdown befüllt werden#
+CopyDirOrFile("man")#
+CopyDirOrFile("Meta")#
+CopyDirOrFile("pkgdown")#
+CopyDirOrFile("R")
+CopyDirOrFile("src")#
+CopyDirOrFile("tests")#
+CopyDirOrFile("inst")#
+CopyDirOrFile("vignettes")#
+CopyDirOrFile(".travis.yml")#
+CopyDirOrFile("DESCRIPTION")
+CopyDirOrFile("NAMESPACE")
+setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_public")
+rmarkdown::render("README.rmd")
+pkgdown::build_site()

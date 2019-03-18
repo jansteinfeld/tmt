@@ -5,7 +5,6 @@
 #'
 #' @section logo:
 #' \if{latex}{\figure{tmt.pdf}{options: width=0.6in}}
-#' \if{html}{\figure{tmt.png}{options: align='right'}}
 #' 
 #' @references
 #'\itemize{
