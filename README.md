@@ -7,14 +7,17 @@ Status](https://travis-ci.com/jansteinfeld/tmt.svg?branch=master)](https://travi
 [![codecov](https://codecov.io/gh/jansteinfeld/tmt/branch/master/graph/badge.svg?token=UwLlcu9JXp)](https://codecov.io/gh/jansteinfeld/tmt)
 [![GPL
 Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://opensource.org/licenses/GPL-3.0/)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2019--03--18-yellowgreen.svg)](/commits/master)
-[![Github
-Issues](http://githubbadges.herokuapp.com/jansteinfeld/tmt/issues.svg?style=flat-square)](https://github.com/jansteinfeld/tmt/issues)
-[![Pending
-Pull-Requests](http://githubbadges.herokuapp.com/jansteinfeld/tmt/pulls.svg?style=flat-square)](https://github.com/jansteinfeld/tmt/pulls)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://github.com/jansteinfeld/tmt/commits)
-[![github
+[![GitHub last
+commit](https://img.shields.io/github/last-commit/jansteinfeld/tmt.svg)](https://github.com/jansteinfeld/tmt)
+[![GitHub pull
+requests](https://img.shields.io/github/issues-pr/jansteinfeld/tmt.svg)](https://github.com/jansteinfeld/tmt/pulls)
+[![GitHub
+issues](https://img.shields.io/github/issues-raw/jansteinfeld/tmt.svg)](https://github.com/jansteinfeld/tmt/issues)
+[![GitHub
 version](https://img.shields.io/badge/github%20version-0.1.9--2-orange.svg)](https://github.com/jansteinfeld/tmt)
+[![CRAN](http://www.r-pkg.org/badges/version/tmt)](https://cran.r-project.org/package=tmt)
+[![CRAN/Downloads](http://cranlogs.r-pkg.org/badges/tmt?color=brightgreen)](http://www.r-pkg.org/pkg/tmt)
 
 The *tmt* Package provides conditional maximum likelihood (CML)
 estimation of item parameters in multistage designs (Zwitser & Maris,

@@ -1,90 +1,3 @@
-save_sticker("/Users/jansteinfeld/CloudStation/Hexsticker/PTA_Sticker.pdf")
-# LICRE erstellen#
-##########################
-p_size=10; s_x=0.05; s_y=.075; h_size=2; h_fill="#fbb900"; h_color="#b58501"; s_width=0.75;package="Limesurvey-Creation [licre]"#
-p_x=1; p_y=1.4;p_color="#FFFFFF"; p_family="serif"#
-#
-url = "https:\\\\psychometrie.bmb.gv.at";  u_x=1; u_y=0.08; u_color="black"; u_family="Aller_Rg"; u_size=3.5 #
-#
-d <- data.frame(x=1, y=.80, image="\\\\sv2profilew7\\folder\\steinfeldj\\Desktop\\limes.png")#
-#
-hex <- hexagon(size=h_size, fill=h_fill, color=h_color) #
-sticker <- hex + geom_image(aes_(x=~x, y=~y, image=~image), d, size=s_width) #
-sticker <- sticker + geom_pkgname(package, p_x, p_y, p_color, p_family, p_size)#
-#
-sticker <- sticker + geom_url(url, x=u_x, y = u_y, color = u_color, family = u_family, size=u_size) #
-pp <- sticker +  theme(#
-  rect = element_rect(fill = "transparent") # bg of the panel#
-)#
-pp#
-save_sticker("licre_Sticker.png")#
-# LICRE erstellen#
-##########################
-p_size=10; s_x=0.05; s_y=.075; h_size=2; h_fill="#fbb900"; h_color="#b58501"; s_width=0.75;package="Limesurvey-Creation [licre]"#
-p_x=1; p_y=1.4;p_color="#FFFFFF"; p_family="serif"#
-#
-url = "https:\\\\psychometrie.bmb.gv.at";  u_x=1; u_y=0.08; u_color="black"; u_family="Aller_Rg"; u_size=3.5 #
-#
-d <- data.frame(x=1, y=.80, image="/Users/jansteinfeld/CloudStation/Hexsticker/imes.png")#
-#
-hex <- hexagon(size=h_size, fill=h_fill, color=h_color) #
-sticker <- hex + geom_image(aes_(x=~x, y=~y, image=~image), d, size=s_width) #
-sticker <- sticker + geom_pkgname(package, p_x, p_y, p_color, p_family, p_size)#
-#
-sticker <- sticker + geom_url(url, x=u_x, y = u_y, color = u_color, family = u_family, size=u_size) #
-pp <- sticker +  theme(#
-  rect = element_rect(fill = "transparent") # bg of the panel#
-)#
-pp#
-save_sticker("/Users/jansteinfeld/CloudStation/Hexsticker/licre_Sticker.pdf")#
-# SRDP erstellen#
-##########################
-p_size=15; s_x=0.05; s_y=.075; h_size=2; h_fill="#b9c1cd"; h_color="#506482"; s_width=0.85;package="Feldtestungen [srdp]"#
-p_x=1; p_y=1.4;p_color="#FFFFFF"; p_family="serif"#
-#
-url = "https:\\\\psychometrie.bmb.gv.at";  u_x=1; u_y=0.08; u_color="black"; u_family="Aller_Rg"; u_size=3.5 #
-#
-d <- data.frame(x=1, y=.80, image="/Users/jansteinfeld/CloudStation/Hexsticker/SRDP-Logo.png")#
-#
-hex <- hexagon(size=h_size, fill=h_fill, color=h_color) #
-sticker <- hex + geom_image(aes_(x=~x, y=~y, image=~image), d, size=s_width) #
-sticker <- sticker + geom_pkgname(package, p_x, p_y, p_color, p_family, p_size)#
-#
-sticker <- sticker + geom_url(url, x=u_x, y = u_y, color = u_color, family = u_family, size=u_size) #
-pp <- sticker +  theme(#
-  rect = element_rect(fill = "transparent") # bg of the panel#
-)#
-pp#
-save_sticker("/Users/jansteinfeld/CloudStation/Hexsticker/srdp_Sticker.pdf")
-# LICRE erstellen#
-##########################
-p_size=10; s_x=0.05; s_y=.075; h_size=2; h_fill="#fbb900"; h_color="#b58501"; s_width=0.75;package="Limesurvey-Creation [licre]"#
-p_x=1; p_y=1.4;p_color="#FFFFFF"; p_family="serif"#
-#
-url = "https:\\\\psychometrie.bmb.gv.at";  u_x=1; u_y=0.08; u_color="black"; u_family="Aller_Rg"; u_size=3.5 #
-#
-d <- data.frame(x=1, y=.80, image="/Users/jansteinfeld/CloudStation/Hexsticker/limes.png")#
-#
-hex <- hexagon(size=h_size, fill=h_fill, color=h_color) #
-sticker <- hex + geom_image(aes_(x=~x, y=~y, image=~image), d, size=s_width) #
-sticker <- sticker + geom_pkgname(package, p_x, p_y, p_color, p_family, p_size)#
-#
-sticker <- sticker + geom_url(url, x=u_x, y = u_y, color = u_color, family = u_family, size=u_size) #
-pp <- sticker +  theme(#
-  rect = element_rect(fill = "transparent") # bg of the panel#
-)#
-pp#
-save_sticker("/Users/jansteinfeld/CloudStation/Hexsticker/licre_Sticker.pdf")
-library(PP)
-vignette()
-vignette("ppass_par_and_fit")
-vignette("intro_pfit")
-library(PP)
-?PPall
-reg <- ""^(\\s*\\d+=[^;=]+;){1,}\\s*\\d+=[^;=]+$"
-reg <- "^(\\s*\\d+=[^;=]+;){1,}\\s*\\d+=[^;=]+$"
-test  <- "das1234asldkj"
-grep(reg,test)
 ?PP
 library(PP)
 ?PP
@@ -793,39 +706,189 @@ ojlist = list(c(1,1,1,1),c(1,1),c(1,1,1))#
 minSolved = c(0,0,0)#
 maxSolved = c(4,2,3)
 psychotools::elementary_symmetric_functions(unlist(parlist), order = 2, diff = "sum" == "diff")
+library(tmt)
+library(tictoc)
+tic("start")
+dat <- tmt:::sim.rm(theta = 100,b = 10,seed = 1111)#
+dat.rm <- tmt_rm(dat = dat)#
+dat.rm$betapar#
+#
+##############################################################################
+# Example for multistage-design#
+##############################################################################
+mstdesign <- "#
+  B1 =~ c(i1, i2, i3, i4, i5)#
+  B2 =~ c(i6, i7, i8, i9, i10)#
+  B3 =~ c(i11, i12, i13, i14, i15)#
+  B4 =~ c(i16, i17, i18, i19, i20)#
+  B5 =~ c(i21, i22, i23, i24, i25)#
+  B6 =~ c(i26, i27, i28, i29, i30)#
+#
+  # define starting Block#
+  Start == B4#
+#
+  # define branches#
+  b1 := Start(0,2) + B2(0,2) + B1(0,5)#
+  b2 := Start(0,2) + B2(3,5) + B3(0,5)#
+  b3 := Start(3,5) + B5(0,2) + B3(0,5)#
+  b4 := Start(3,5) + B5(3,5) + B6(0,5)#
+"#
+#
+items <- seq(-3,3,length.out = 30)#
+names(items) <- paste0("i",1:30)#
+persons = 10000#
+mean = 0#
+sd = 1#
+dat <- tmt_sim(mstdesign = mstdesign, #
+  items = items, persons = persons, mean = mean, sd = sd)#
+dat.rm <- tmt_rm(dat = dat, mstdesign = mstdesign)#
+summary(dat.rm)
+toc()
+tic("start")
+dat <- tmt:::sim.rm(theta = 100,b = 10,seed = 1111)#
+dat.rm <- tmt_rm(dat = dat)#
+dat.rm$betapar#
+#
+##############################################################################
+# Example for multistage-design#
+##############################################################################
+mstdesign <- "#
+  B1 =~ c(i1, i2, i3, i4, i5)#
+  B2 =~ c(i6, i7, i8, i9, i10)#
+  B3 =~ c(i11, i12, i13, i14, i15)#
+#
+  # define starting Block#
+  Start == B2#
+#
+  # define branches#
+  b1 := Start(0,2) + B1#
+  b2 := Start(3,5) + B3#
+"#
+#
+items <- seq(-1,1,length.out = 15)#
+names(items) <- paste0("i",1:15)#
+persons = 1000#
+mean = 0#
+sd = 1#
+dat <- tmt_sim(mstdesign = mstdesign, #
+  items = items, persons = persons, mean = mean, sd = sd)#
+dat.rm <- tmt_rm(dat = dat, mstdesign = mstdesign)#
+summary(dat.rm)
+toc()
+tic("start")
+# Example simple Rasch model #
+##############################################################################
+dat <- tmt:::sim.rm(theta = 100,b = 10,seed = 1111)#
+dat.rm <- tmt_rm(dat = dat)#
+summary(dat.rm)#
+#
+##############################################################################
+# Example for multistage-design#
+##############################################################################
+mstdesign <- "#
+  B1 =~ c(i1, i2, i3, i4, i5)#
+  B2 =~ c(i6, i7, i8, i9, i10)#
+  B3 =~ c(i11, i12, i13, i14, i15)#
+#
+  # define starting Block#
+  Start == B2#
+#
+  # define branches#
+  b1 := Start(0,2) + B1#
+  b2 := Start(3,5) + B3#
+"#
+#
+items <- seq(-1,1,length.out = 15)#
+names(items) <- paste0("i",1:15)#
+persons = 1000#
+mean = 0#
+sd = 1#
+dat <- tmt_sim(mstdesign = mstdesign, #
+  items = items, persons = persons, mean = mean, sd = sd)#
+dat.rm <- tmt_rm(dat = dat, mstdesign = mstdesign)#
+summary(dat.rm)
+toc()
+?dexterMST
+??dexterMST
+?sirt
+??sirt
+??PP
+library(PP)
+?PP
+library(TAM)
+?TAM
+library(dexterMST)
+?dexterMST
+??dexterMST
 setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_dev")#
 #
 roxygen2::roxygenise()#
 devtools::check()#
 rmarkdown::render("README.rmd")#
 devtools::document(roclets=c('rd', 'collate', 'namespace', 'vignette'))#
-devtools::build_vignettes()#
-pkgdown::build_site()#
 devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
+devtools::build_vignettes()#
+rmarkdown::render("README.rmd")#
+pkgdown::build_site()#
 devtools::test()#
 devtools::build_manual()#
 #devtools::build(binary = TRUE, args = c('--preclean'))#
-# CRAN Ckecks
-CopyDirOrFile<-function(FileOrDir){#
-    sourcepath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_dev"#
-    sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_test"#
-    DirSource <- paste0(sourcepath,FileOrDir)#
-    DirEnd<-paste0(sinkpath,FileOrDir)#
-    system(paste("cp -r",DirSource,DirEnd))#
-    return(file.exists(paste(MySinkDir, FileOrDir,sep="")))#
-}
-CopyDirOrFile("doc")
+# CRAN Ckecks#
+devtools::build()#
+p <- utils::packageDescription("tmt")#
+p$Version#
+system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
+setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_dev")#
+#
+roxygen2::roxygenise()#
+devtools::check()#
+rmarkdown::render("README.rmd")#
+devtools::document(roclets=c('rd', 'collate', 'namespace', 'vignette'))#
+devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
+devtools::build_vignettes()#
+rmarkdown::render("README.rmd")#
+pkgdown::build_site()#
+devtools::test()#
+devtools::build_manual()#
+#devtools::build(binary = TRUE, args = c('--preclean'))#
+# CRAN Ckecks#
+devtools::build()#
+p <- utils::packageDescription("tmt")#
+p$Version#
+system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
+setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_dev")
+CopyDirOrFile("man")
 CopyDirOrFile<-function(FileOrDir){#
     sourcepath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_dev/"#
-    sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_test/"#
+    sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_public/"#
     DirSource <- paste0(sourcepath,FileOrDir)#
-    DirEnd<-paste0(sinkpath,FileOrDir)#
-    system(paste("cp -r",DirSource,DirEnd))#
+    system(paste("cp -rf",DirSource,sinkpath))#
     return(file.exists(paste0(sinkpath, FileOrDir)))#
 }
-CopyDirOrFile("doc")
 CopyDirOrFile("man")
+CopyDirOrFile("R")
 CopyDirOrFile("DESCRIPTION")
+ls()
+rm(list=ls())
+setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_public")#
+roxygen2::roxygenise()#
+devtools::check()#
+rmarkdown::render("README.rmd")#
+devtools::document(roclets=c('rd', 'collate', 'namespace', 'vignette'))#
+devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
+devtools::build_vignettes()#
+rmarkdown::render("README.rmd")#
+pkgdown::build_site()#
+devtools::test()#
+devtools::build_manual()#
+# devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
+#devtools::build(binary = TRUE, args = c('--preclean'))#
+# CRAN Ckecks#
+devtools::build()#
+# HERE push to GitHub#
+p <- utils::packageDescription("tmt")#
+p$Version#
+system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
 setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_dev")#
 #
 roxygen2::roxygenise()#
@@ -838,47 +901,27 @@ rmarkdown::render("README.rmd")#
 pkgdown::build_site()#
 devtools::test()#
 devtools::build_manual()
-CopyDirOrFile<-function(FileOrDir){#
-    sourcepath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_dev/"#
-    sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_public/"#
-    DirSource <- paste0(sourcepath,FileOrDir)#
-    DirEnd<-paste0(sinkpath,FileOrDir)#
-    system(paste("cp -r",DirSource,DirEnd))#
-    return(file.exists(paste0(sinkpath, FileOrDir)))#
-}
-CopyDirOrFile("man")
-CopyDirOrFile("pkgdown")
-CopyDirOrFile("R")
-CopyDirOrFile("doc")
-CopyDirOrFile("Vignettes")
-CopyDirOrFile("vignettes")
-CopyDirOrFile<-function(FileOrDir){#
-    sourcepath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_dev/"#
-    sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_public/"#
-    DirSource <- paste0(sourcepath,FileOrDir)#
-    DirEnd<-paste0(sinkpath,FileOrDir)#
-    system(paste("cp -rf",DirSource,DirEnd))#
-    return(file.exists(paste0(sinkpath, FileOrDir)))#
-}
-CopyDirOrFile("vignettes")
-CopyDirOrFile("vignettes")
-CopyDirOrFile<-function(FileOrDir){#
-    sourcepath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_dev/"#
-    sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_public/"#
-    DirSource <- paste0(sourcepath,FileOrDir)#
-    DirEnd<-paste0(sinkpath,FileOrDir)#
-    system(paste("cp -rf",DirSource,DirEnd))#
-    return(file.exists(paste0(sinkpath, FileOrDir)))#
-}
-CopyDirOrFile("vignettes")
-FileOrDir <- "vignettes"
-sourcepath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_dev/"#
-    sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_public/"
-DirSource <- paste0(sourcepath,FileOrDir)
-DirEnd<-paste0(sinkpath,FileOrDir)
-DirSource
-DirEnd
-paste("cp -rf",DirSource,DirEnd)
+rm(list=ls())
+setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_public")#
+roxygen2::roxygenise()#
+devtools::check()#
+rmarkdown::render("README.rmd")#
+devtools::document(roclets=c('rd', 'collate', 'namespace', 'vignette'))#
+devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
+devtools::build_vignettes()#
+rmarkdown::render("README.rmd")#
+pkgdown::build_site()#
+devtools::test()#
+devtools::build_manual()#
+# devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
+#devtools::build(binary = TRUE, args = c('--preclean'))#
+# CRAN Ckecks#
+devtools::build()#
+# HERE push to GitHub#
+p <- utils::packageDescription("tmt")#
+p$Version#
+system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
+CopyDirOrFile("NEWS.md")
 CopyDirOrFile<-function(FileOrDir){#
     sourcepath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_dev/"#
     sinkpath <- "/Users/jansteinfeld/CloudStation/GIT/tmt_public/"#
@@ -886,20 +929,63 @@ CopyDirOrFile<-function(FileOrDir){#
     system(paste("cp -rf",DirSource,sinkpath))#
     return(file.exists(paste0(sinkpath, FileOrDir)))#
 }
-CopyDirOrFile("vignettes")
-CopyDirOrFile("doc")#
-# copy_folder_to_public("docs") # sollte von der Vignette und pkgdown befüllt werden#
-CopyDirOrFile("man")#
-CopyDirOrFile("Meta")#
-CopyDirOrFile("pkgdown")#
-CopyDirOrFile("R")
-CopyDirOrFile("src")#
-CopyDirOrFile("tests")#
-CopyDirOrFile("inst")#
-CopyDirOrFile("vignettes")#
-CopyDirOrFile(".travis.yml")#
-CopyDirOrFile("DESCRIPTION")
-CopyDirOrFile("NAMESPACE")
+setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_dev")
+CopyDirOrFile("NEWS.md")
 setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_public")
-rmarkdown::render("README.rmd")
-pkgdown::build_site()
+roxygen2::roxygenise()#
+devtools::check()#
+rmarkdown::render("README.rmd")#
+devtools::document(roclets=c('rd', 'collate', 'namespace', 'vignette'))#
+devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
+devtools::build_vignettes()#
+rmarkdown::render("README.rmd")#
+pkgdown::build_site()#
+devtools::test()#
+devtools::build_manual()#
+# devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
+#devtools::build(binary = TRUE, args = c('--preclean'))#
+# CRAN Ckecks#
+devtools::build()#
+# HERE push to GitHub#
+p <- utils::packageDescription("tmt")#
+p$Version#
+system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
+setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_public")#
+roxygen2::roxygenise()#
+devtools::check()#
+rmarkdown::render("README.rmd")#
+devtools::document(roclets=c('rd', 'collate', 'namespace', 'vignette'))#
+devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
+devtools::build_vignettes()#
+rmarkdown::render("README.rmd")#
+pkgdown::build_site()#
+devtools::test()#
+devtools::build_manual()#
+# devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
+#devtools::build(binary = TRUE, args = c('--preclean'))#
+# CRAN Ckecks#
+devtools::build()
+p <- utils::packageDescription("tmt")#
+p$Version#
+system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
+library(tmt)
+?tmt
+setwd("/Users/jansteinfeld/CloudStation/GIT/tmt_public")#
+roxygen2::roxygenise()#
+devtools::check()#
+rmarkdown::render("README.rmd")#
+devtools::document(roclets=c('rd', 'collate', 'namespace', 'vignette'))#
+devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
+devtools::build_vignettes()#
+rmarkdown::render("README.rmd")#
+pkgdown::build_site()#
+devtools::test()#
+devtools::build_manual()#
+# devtools::install('.', reload = TRUE, args = '--build --preclean', build_vignettes = TRUE)#
+#devtools::build(binary = TRUE, args = c('--preclean'))#
+# CRAN Ckecks#
+devtools::build()#
+# HERE push to GitHub#
+p <- utils::packageDescription("tmt")#
+p$Version#
+system(paste0("R CMD check --as-cran ~/CloudStation/GIT/tmt_",p$Version,".tar.gz"))
