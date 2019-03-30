@@ -31,7 +31,7 @@ tmt.Rcheck/
 *.sty
 *.backup
 .Rhistory
-*.Rapp.history
+.Rapp.history
 *_dont_track/
 .Rproj.user
 *.o
