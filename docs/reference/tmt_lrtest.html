@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.3</span>
       </span>
     </div>
 
@@ -192,16 +192,19 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># example for tmt_lrtest
-</div><span class='co'># NOT RUN {</span>
+    <pre class="examples"><div class='input'><span class='co'># example for tmt_lrtest</span>
 <span class='co'>#############################################################################</span>
 <span class='co'># Example Rasch model and Likelihood Ratio Test</span>
 <span class='co'>#############################################################################</span>
-<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tmt</span><span class='kw ns'>:::</span><span class='fu'>sim.rm</span>(<span class='kw'>theta</span> <span class='kw'>=</span> <span class='fl'>100</span>,<span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>10</span>,<span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1111</span>)
+<span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tmt</span><span class='kw ns'>:::</span><span class='fu'>sim.rm</span>(<span class='kw'>theta</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1111</span>)
 <span class='no'>dat.rm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tmt_rm.html'>tmt_rm</a></span>(<span class='kw'>dat</span> <span class='kw'>=</span> <span class='no'>dat</span>)
 <span class='no'>dat.lrt</span> <span class='kw'>&lt;-</span> <span class='fu'>tmt_lrtest</span>(<span class='no'>dat.rm</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>dat.lrt</span>)
-<span class='co'># }</span></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>dat.lrt</span>)</div><div class='output co'>#&gt; 
+#&gt; Likelihood ratio test (Andersen):
+#&gt; 
+#&gt; Value (Chi^2):  6.722
+#&gt; df (Chi^2):  9
+#&gt; p-value:  0.666</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

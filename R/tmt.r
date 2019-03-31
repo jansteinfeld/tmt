@@ -6,6 +6,7 @@
 #' @section logo:
 #' \if{latex}{\figure{tmt.pdf}{options: width=0.6in}}
 #' 
+#' 
 #' @references
 #'\itemize{
 #' \item Andersen, E. B. (1973). A goodness of fit test for the Rasch model. \emph{Psychometrika}, 38(1), 123-140.

@@ -74,7 +74,7 @@ a seed can also be passed." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.3</span>
       </span>
     </div>
 
@@ -182,8 +182,7 @@ a seed can also be passed.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'>#############################################################################</span>
+    <pre class="examples"><div class='input'><span class='co'>#############################################################################</span>
 <span class='co'># translate multistage model 1</span>
 <span class='co'>#############################################################################</span>
  <span class='no'>mstdesign</span> <span class='kw'>&lt;-</span> <span class='st'>"
@@ -198,12 +197,16 @@ a seed can also be passed.</p>
 	 b1 := Start(0,2) + B1
 	 b2 := Start(3,5) + B3
  "</span>
- <span class='no'>items</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>15</span>)
- <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>items</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"i"</span>,<span class='fl'>1</span>:<span class='fl'>15</span>)
+<span class='no'>items</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>15</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>items</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"i"</span>,<span class='fl'>1</span>:<span class='fl'>15</span>)
 
- <span class='no'>persons</span> <span class='kw'>=</span> <span class='fl'>500</span>
+<span class='no'>persons</span> <span class='kw'>=</span> <span class='fl'>500</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1111</span>)
- <span class='fu'>tmt_sim</span>(<span class='kw'>mstdesign</span> <span class='kw'>=</span> <span class='no'>mstdesign</span>, <span class='kw'>items</span> <span class='kw'>=</span> <span class='no'>items</span>, <span class='kw'>persons</span> <span class='kw'>=</span> <span class='no'>persons</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='no'>data_1</span> <span class='kw'>&lt;-</span> <span class='fu'>tmt_sim</span>(<span class='kw'>mstdesign</span> <span class='kw'>=</span> <span class='no'>mstdesign</span>,
+    <span class='kw'>items</span> <span class='kw'>=</span> <span class='no'>items</span>,
+    <span class='kw'>persons</span> <span class='kw'>=</span> <span class='no'>persons</span>,
+    <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+    <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
 <span class='co'>#############################################################################</span>
 <span class='co'># translate multistage model 2</span>
@@ -226,14 +229,15 @@ a seed can also be passed.</p>
     b4 := Start(3,5) + B5(3,5) + B6
   "</span>
 
- <span class='no'>items</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>)
- <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>items</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"i"</span>,<span class='fl'>1</span>:<span class='fl'>30</span>)
+<span class='no'>items</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>items</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"i"</span>,<span class='fl'>1</span>:<span class='fl'>30</span>)
 <span class='no'>persons</span> <span class='kw'>=</span> <span class='fl'>500</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1111</span>)
- <span class='fu'>tmt_sim</span>(<span class='kw'>mstdesign</span> <span class='kw'>=</span> <span class='no'>mstdesign</span>, <span class='kw'>items</span> <span class='kw'>=</span> <span class='no'>items</span>, <span class='kw'>persons</span> <span class='kw'>=</span> <span class='no'>persons</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-
-
-<span class='co'># }</span></pre>
+<span class='no'>data_2</span> <span class='kw'>&lt;-</span> <span class='fu'>tmt_sim</span>(<span class='kw'>mstdesign</span> <span class='kw'>=</span> <span class='no'>mstdesign</span>,
+    <span class='kw'>items</span> <span class='kw'>=</span> <span class='no'>items</span>,
+    <span class='kw'>persons</span> <span class='kw'>=</span> <span class='no'>persons</span>,
+    <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+    <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

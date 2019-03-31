@@ -34,7 +34,6 @@ distribution with specified mean and standard deviation (default N (0,1)). As an
 a seed can also be passed.
 }
 \examples{
-\dontrun{
 #############################################################################
 # translate multistage model 1
 #############################################################################
@@ -50,12 +49,16 @@ a seed can also be passed.
 	 b1 := Start(0,2) + B1
 	 b2 := Start(3,5) + B3
  "
- items <- seq(-3,3,length.out = 15)
- names(items) <- paste0("i",1:15)
+items <- seq(-3,3,length.out = 15)
+names(items) <- paste0("i",1:15)
 
- persons = 500
+persons = 500
 set.seed(1111)
- tmt_sim(mstdesign = mstdesign, items = items, persons = persons, mean = 0, sd = 1)
+data_1 <- tmt_sim(mstdesign = mstdesign, 
+    items = items, 
+    persons = persons, 
+    mean = 0, 
+    sd = 1)
 
 #############################################################################
 # translate multistage model 2
@@ -78,14 +81,15 @@ mstdesign <- "
     b4 := Start(3,5) + B5(3,5) + B6
   "
 
- items <- seq(-3,3,length.out = 30)
- names(items) <- paste0("i",1:30)
+items <- seq(-3,3,length.out = 30)
+names(items) <- paste0("i",1:30)
 persons = 500
 set.seed(1111)
- tmt_sim(mstdesign = mstdesign, items = items, persons = persons, mean = 0, sd = 1)
-
-
-}
+data_2 <- tmt_sim(mstdesign = mstdesign, 
+    items = items, 
+    persons = persons, 
+    mean = 0, 
+    sd = 1)
 }
 \author{
 Jan Steinfeld

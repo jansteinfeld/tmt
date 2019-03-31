@@ -36,7 +36,7 @@ print.mst <- function(x,...){
   cat("Number of iterations:", x$iterations, "\n")
   cat("Number of parameters:", x$df+1, "\n")
   cat("used mstdesign:\n")
-  print(x$designelements$tmtdesign)
+  print(x$designelements$design)
   cat("\n")
    cat("item parameters (difficulty): \n")
     betapar <- x$betapar

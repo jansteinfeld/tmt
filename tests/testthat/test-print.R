@@ -76,7 +76,7 @@ test_that("print functions raschmodel mst", {
   expect_that(datrm_4p.out[12], equals(c("used mstdesign:")))
   expect_that(datrm_6p.out[2], equals(c("Results of Rasch model (mst) estimation: ")))
   expect_that(datrm_6p.out[12], equals(c("used mstdesign:")))
-  expect_that(grep("Std. Error", datrm_4p.out[18]), equals(1))
+  expect_false(length(grep("Std. Error",datrm_4p.out))==0)
 })
 
 
