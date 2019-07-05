@@ -1,8 +1,8 @@
 Package: tmt
 Type: Package
 Title: Estimation of the Rasch Model for Multistage Tests
-Version: 0.1.9-3
-Date: 2019-03-31
+Version: 0.2.1-0
+Date: 2019-07-05
 Authors@R: c(
   person(given = "Jan", 
          family = "Steinfeld", 
@@ -20,7 +20,7 @@ Authors@R: c(
 Author: Jan Steinfeld [cre, aut] (<https://orcid.org/0000-0001-9853-8260>),
         Alexander Robitzsch [aut] (<https://orcid.org/0000-0002-8226-3132>)
 Maintainer: Jan Steinfeld <jan.d.steinfeld@gmail.com>
-URL: https://github.com/jansteinfeld/tmt
+URL: https://jansteinfeld.github.io/tmt, https://github.com/jansteinfeld/tmt
 BugReports: https://github.com/jansteinfeld/tmt/issues
 Description: Provides conditional maximum likelihood (CML) estimation of item parameters in multistage designs (Zwitser & Maris, 2013, <doi:10.1007/s11336-013-9369-6>) and CML estimation for conventional designs. Additional features are the likelihood ratio test (Andersen, 1973, <doi:10.1007/BF02291180>) and simulation of multistage designs. 
 License: GPL-3

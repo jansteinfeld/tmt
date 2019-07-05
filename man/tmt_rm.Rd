@@ -63,16 +63,16 @@ summary(dat.rm)
 # Example-1 for multistage-design
 #############################################################################
 mstdesign <- "
-  B1 =~ c(i1, i2, i3, i4, i5)
-  B2 =~ c(i6, i7, i8, i9, i10)
-  B3 =~ c(i11, i12, i13, i14, i15)
+  M1 =~ c(i1, i2, i3, i4, i5)
+  M2 =~ c(i6, i7, i8, i9, i10)
+  M3 =~ c(i11, i12, i13, i14, i15)
 
-  # define starting Block
-  Start == B2
+  # define starting module
+  Start == M2
 
-  # define branches
-  b1 := Start(0,2) + B1
-  b2 := Start(3,5) + B3
+  # define path
+  p1 := Start(0,2) + M1
+  p2 := Start(3,5) + M3
 "
 
 items <- seq(-1,1,length.out = 15)
@@ -98,22 +98,55 @@ summary(dat.rm)
   ############################################################################
   # also using 'paste' is possible
   mstdesign <- "
-    B1 =~ paste0('i',1:5)
-    B2 =~ paste0('i',6:10)
-    B3 =~ paste0('i',11:15)
-    B4 =~ paste0('i',16:20)
-    B5 =~ paste0('i',21:25)
-    B6 =~ paste0('i',26:30)
-    # define starting Block
-    Start == B4
-    # define branches
-    b1 := Start(0,2) + B2(0,2) + B1
-    b2 := Start(0,2) + B2(3,5) + B3
-    b3 := Start(3,5) + B5(0,2) + B3
-    b4 := Start(3,5) + B5(3,5) + B6
+    M1 =~ paste0('i',1:5)
+    M2 =~ paste0('i',6:10)
+    M3 =~ paste0('i',11:15)
+    M4 =~ paste0('i',16:20)
+    M5 =~ paste0('i',21:25)
+    M6 =~ paste0('i',26:30)
+
+    # define starting module
+    Start == M4
+
+    # define path
+    p1 := Start(0,2) + M2(0,2) + M1
+    p2 := Start(0,2) + M2(3,5) + M3
+    p3 := Start(3,5) + M5(0,2) + M3
+    p4 := Start(3,5) + M5(3,5) + M6
   "
   items <- seq(-1,1,length.out = 30)
   names(items) <- paste0("i",1:30)
+  persons = 1000
+  mean = 0
+  sd = 1
+  dat <- tmt_sim(mstdesign = mstdesign, 
+    items = items, persons = persons, mean = mean, sd = sd)
+  dat.rm <- tmt_rm(dat = dat, mstdesign = mstdesign)
+  summary(dat.rm)
+
+    ############################################################################
+  # Example-3 for cumulative multistage-design
+  ############################################################################
+  # also using 'paste' is possible
+  mstdesign <- "
+    M1  =~ paste0('i',21:30)
+    M2  =~ paste0('i',11:20)
+    M3  =~ paste0('i', 1:10)
+    M4  =~ paste0('i',31:40)
+    M5  =~ paste0('i',41:50)
+    M6  =~ paste0('i',51:60)
+    
+    # define starting module
+    Start == M1
+
+    # define path
+    p1 := Start(0, 5) += M2( 0,10) += M3
+    p2 := Start(0, 5) += M2(11,15) += M4
+    p3 := Start(6,10) += M5( 6,15) += M4
+    p4 := Start(6,10) += M5(16,20) += M6
+    "
+  items <- seq(-1,1,length.out = 60)
+  names(items) <- paste0("i",1:60)
   persons = 1000
   mean = 0
   sd = 1
@@ -139,7 +172,7 @@ summary(dat.rm)
  \item Rasch, G. (1960). \emph{Probabalistic models for some intelligence and attainment tests.} Danmarks
     paedagogiske institut.
  \item Verhelst, N.D., Glas, C.A.W. und van der Sluis, A. (1984). Estimation Problems in the Rasch-Model:
-    The Basic Symmetric Functions. \emph{Computational Statistics Quatarly}, 1(3), 245-262.
+    The Basic Symmetric Functions. \emph{Computational Statistics Quarterly}, 1(3), 245-262.
  \item Zwitser, R. J., & Maris, G. (2015). Conditional statistical inference with multistage testing designs.
     \emph{Psychometrika}, 80(1), 65-84.
 }

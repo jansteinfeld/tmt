@@ -6,7 +6,7 @@ mstdesign <- "
     B5 =~ c(i21, i22, i23, i24, i25)
     B6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting Block
+    # define starting module
     Start == B4
 
     # define branches
@@ -24,7 +24,7 @@ mstdesign_max <- "
     B5 =~ c(i21, i22, i23, i24, i25)
     B6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting Block
+    # define starting module
     Start == B4
 
     # define branches
@@ -42,7 +42,7 @@ mstdesign_max <- "
     B5 =~ c(i21, i22, i23, i24, i25)
     B6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting Block
+    # define starting module
     Start1 == B4
     Start2 == B5
 

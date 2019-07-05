@@ -15,6 +15,7 @@
 #' 
 #' @importFrom stats optim nlminb
 #' @importFrom Rcpp sourceCpp
+#' @importFrom utils tail
 #' 
 #' @details
 #' According to Glas (1988) <doi:10.3102/10769986013001045> CML estimation of item parameters is biased if the data is collected in multistage designs and this design is not considered. Zwitser and Maris (2015) <doi:10.1007/s11336-013-9369-6> propose to use an additional design matrix to fragment the elementary-symmetric-function. Their approach is implemented in this package.
@@ -56,7 +57,7 @@
 #'  \item Rasch, G. (1960). \emph{Probabalistic models for some intelligence and attainment tests.} Danmarks
 #'     paedagogiske institut.
 #'  \item Verhelst, N.D., Glas, C.A.W. und van der Sluis, A. (1984). Estimation Problems in the Rasch-Model:
-#'     The Basic Symmetric Functions. \emph{Computational Statistics Quatarly}, 1(3), 245-262.
+#'     The Basic Symmetric Functions. \emph{Computational Statistics Quarterly}, 1(3), 245-262.
 #'  \item Zwitser, R. J., & Maris, G. (2015). Conditional statistical inference with multistage testing designs.
 #'     \emph{Psychometrika}, 80(1), 65-84.
 #' }

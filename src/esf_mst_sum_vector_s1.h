@@ -24,7 +24,7 @@ Rcpp::NumericVector esf_mst_sum_vector_s1(
   int rmax;
   Rcpp::NumericVector rcum = oj.size();
   Rcpp::NumericVector eps_position = oj.size();
-  rcum(0) = oj(0) + 1;		/* +1 adds score zero */
+  rcum(0) = oj(0) + 1;    /* +1 adds score zero */
   eps_position(0) = 0;
   for(int i = 1; i < m; i++) {
     rcum(i) = rcum(i-1) + oj(i);
@@ -48,12 +48,12 @@ Rcpp::NumericVector esf_mst_sum_vector_s1(
     }
   }
 /* summation algorithm, zero order */
-for (i = 1; i < m; i++) {	/* successively add items */
+for (i = 1; i < m; i++) { /* successively add items */
 /* calculate column indices once */
   ncol = i * rmax;
   ocol = (i-1) * rmax;
   for (r = 1; r < rcum[i]; r++) {
-    gamma0[r + ncol] = gamma0[r + ocol];	 /* already score r with i-1 items or ... */
+    gamma0[r + ncol] = gamma0[r + ocol];   /* already score r with i-1 items or ... */
     for (k = 0; (k < oj[i]) & (k <= r); k++) /* ..score r-k and now cat k (0 means 1). */
       gamma0[r + ncol] += gamma0[r - (k + 1) + ocol] * par[eps_position[i]+k];
     }

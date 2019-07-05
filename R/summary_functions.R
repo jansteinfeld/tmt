@@ -75,6 +75,7 @@ summary.lrtest_mst <- function(object,...)
   cat("\nValue (Chi^2): ", round(object$LRvalue,3))
   cat("\ndf (Chi^2): ",object$df)
   cat("\np-value: ",round(object$pvalue,3))
+  cat("\n")
 }
 # ---------------------------------
 # Class lrt_nmst
@@ -87,4 +88,5 @@ summary.lrtest_nmst <- function(object,...)
   cat("\nValue (Chi^2): ", round(object$LRvalue,3))
   cat("\ndf (Chi^2): ",object$df)
   cat("\np-value: ",round(object$pvalue,3))
+  cat("\n")
 }

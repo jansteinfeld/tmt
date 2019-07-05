@@ -2,9 +2,12 @@ title: tmt
 template:
   params:
     bootswatch: flatly
+    docsearch:
+      api_key: cc39db1658f617f09fb24d30d4ddc270
+      index_name: tmt
 pandoc: 1.12.3
 pkgdown: 1.3.0
 pkgdown_sha: ~
 articles:
   introduction_to_tmt: introduction_to_tmt.html
-
+url: https://jansteinfeld.github.io/tmt/

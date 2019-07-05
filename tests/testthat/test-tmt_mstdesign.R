@@ -6,7 +6,7 @@ mstdesign <- "
     B5 =~ c(i21, i22, i23, i24, i25)
     B6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting Block
+    # define starting module
     Start == B4
 
     # define branches
@@ -24,7 +24,7 @@ mstdesign_ms1 <- "
     B5 =~ c(i21, i22, i23, i24, i25)
     B6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting Block
+    # define starting module
     Start == B4
 
     # define branches
@@ -41,7 +41,7 @@ mstdesign_ms2 <- "
     B5 =~ c(i21, i22, i23, i24, i25)
     B6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting Block
+    # define starting module
     Start == B4
 
     # define branches
@@ -55,7 +55,7 @@ mstdesign_ms4 <- "
      B2 =~ c(i6, i7, i8, i9, i10)
      B3 =~ c(i11, i12, i13, i14, i15)
 
-     # define starting Block
+     # define starting module
      Start == B2
 
      # define branches
@@ -69,7 +69,7 @@ context("test-tmt_mstdesign")
     tmp <- tmt_mstdesign(mstdesign = mstdesign)
     expect_is(tmp,"list")
     expect_that(length(tmp), equals(5))
-    expect_named(tmp, c("blocks", "simulation", "design", "items","start"))
+    expect_named(tmp, c("modules", "simulation", "design", "items","start"))
   })
 
 # -----------------------------------------------------------------

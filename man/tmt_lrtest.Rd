@@ -9,7 +9,7 @@ tmt_lrtest(object, split = "median", cores = NULL, se = TRUE, ...)
 \arguments{
 \item{object}{it is necessary to submit an object of the function \code{mst} or \code{nmst}}
 
-\item{split}{default is the split criteria "median" of the raw score, optional are "mean" or any dichotomouse vector}
+\item{split}{default is the split criteria "median" of the raw score, optional are "mean" or any dichotomous vector}
 
 \item{cores}{submit integer of cores you would like to apply}
 

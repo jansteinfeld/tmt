@@ -3,7 +3,7 @@
 #' This function applies the Likelihood Ratio Test of Andersen. Note that all persons with raw score equal to "median" are assigned to lower group. Is is also allowed to split after "mean" or submit any dichotomous vector.
 #' 
 #' @param object it is necessary to submit an object of the function \code{mst} or \code{nmst}
-#' @param split  default is the split criteria "median" of the raw score, optional are "mean" or any dichotomouse vector
+#' @param split  default is the split criteria "median" of the raw score, optional are "mean" or any dichotomous vector
 #' @param cores  submit integer of cores you would like to apply
 #' @param se     logical: if true, the standard error is estimated
 #' @param \ldots further arguments for the \code{tmt_rm} function

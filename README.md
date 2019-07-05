@@ -46,21 +46,21 @@ You will find a detailed description of the package in the vignette:
 library(tmt)
 
 mstdesign <- "
-    B1 =~ paste0('i',1:5)
-    B2 =~ c(i6, i7, i8, i9, i10)
-    B3 =~ c(i11, i12, i13, i14, i15)
-    B4 =~ c(i16, i17, i18, i19, i20)
-    B5 =~ c(i21, i22, i23, i24, i25)
-    B6 =~ c(i26, i27, i28, i29, i30)
+    M1 =~ paste0('i',1:5)
+    M2 =~ c(i6, i7, i8, i9, i10)
+    M3 =~ c(i11, i12, i13, i14, i15)
+    M4 =~ c(i16, i17, i18, i19, i20)
+    M5 =~ c(i21, i22, i23, i24, i25)
+    M6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting Block
-    Start == B4
+    # define starting module
+    Start == M4
 
     # define branches
-    b1 := Start(0,2) + B2(0,2) + B1(0,5)
-    b2 := Start(0,2) + B2(3,5) + B3(0,5)
-    b3 := Start(3,5) + B5(0,2) + B3(0,5)
-    b4 := Start(3,5) + B5(3,5) + B6(0,5)
+    p1 := Start(0,2) + M2(0,2) + M1(0,5)
+    p2 := Start(0,2) + M2(3,5) + M3(0,5)
+    p3 := Start(3,5) + M5(0,2) + M3(0,5)
+    p4 := Start(3,5) + M5(3,5) + M6(0,5)
   "
 # simulate some data
   items <- seq(-2,2,length.out=30)

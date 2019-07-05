@@ -36,6 +36,12 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 <meta property="og:title" content="Function for the Simulation of Multistage-Designs — tmt_sim" />
 
@@ -43,7 +49,7 @@
 distribution with specified mean and standard deviation (default N (0,1)). As an additional argument, 
 a seed can also be passed." />
 
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="https://jansteinfeld.github.io/tmt/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -74,7 +80,7 @@ a seed can also be passed." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1.0</span>
       </span>
     </div>
 
@@ -115,6 +121,12 @@ a seed can also be passed." />
 </li>
       </ul>
       
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -154,7 +166,7 @@ a seed can also be passed.</p>
     </tr>
     <tr>
       <th>persons</th>
-      <td><p>amount of persons per starting block</p></td>
+      <td><p>amount of persons per starting module</p></td>
     </tr>
     <tr>
       <th>mean</th>
@@ -175,7 +187,7 @@ a seed can also be passed.</p>
     <p>List with following entries</p>
 <p></p>
 <dt>data</dt><dd><p>Matrix with item responses</p></dd>
- <dt>data_mst</dt><dd><p>Data frame with item responses and additional a vector of used blocks per person</p></dd>
+ <dt>data_mst</dt><dd><p>Data frame with item responses and additional a vector of used modules per person</p></dd>
  <dt>persons</dt><dd><p>Generated and used person parameters</p></dd>
  <dt>mstdesign</dt><dd><p>Submitted multistage design</p></dd>
 
@@ -186,16 +198,16 @@ a seed can also be passed.</p>
 <span class='co'># translate multistage model 1</span>
 <span class='co'>#############################################################################</span>
  <span class='no'>mstdesign</span> <span class='kw'>&lt;-</span> <span class='st'>"
-	 B1 =~ c(i1, i2, i3, i4, i5)
-	 B2 =~ c(i6, i7, i8, i9, i10)
-	 B3 =~ c(i11, i12, i13, i14, i15)
+	 M1 =~ c(i1, i2, i3, i4, i5)
+	 M2 =~ c(i6, i7, i8, i9, i10)
+	 M3 =~ c(i11, i12, i13, i14, i15)
 
-	 # define starting Block
-	 Start == B2
+	 # define starting module
+	 Start == M2
 
 	 # define branches
-	 b1 := Start(0,2) + B1
-	 b2 := Start(3,5) + B3
+	 p1 := Start(0,2) + M1
+	 p2 := Start(3,5) + M3
  "</span>
 <span class='no'>items</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>15</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>items</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"i"</span>,<span class='fl'>1</span>:<span class='fl'>15</span>)
@@ -212,21 +224,21 @@ a seed can also be passed.</p>
 <span class='co'># translate multistage model 2</span>
 <span class='co'>#############################################################################</span>
 <span class='no'>mstdesign</span> <span class='kw'>&lt;-</span> <span class='st'>"
-    B1 =~ c(i1, i2, i3, i4, i5)
-    B2 =~ c(i6, i7, i8, i9, i10)
-    B3 =~ c(i11, i12, i13, i14, i15)
-    B4 =~ c(i16, i17, i18, i19, i20)
-    B5 =~ c(i21, i22, i23, i24, i25)
-    B6 =~ c(i26, i27, i28, i29, i30)
+    M1 =~ c(i1, i2, i3, i4, i5)
+    M2 =~ c(i6, i7, i8, i9, i10)
+    M3 =~ c(i11, i12, i13, i14, i15)
+    M4 =~ c(i16, i17, i18, i19, i20)
+    M5 =~ c(i21, i22, i23, i24, i25)
+    M6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting Block
-    Start == B4
+    # define starting module
+    Start == M4
 
     # define branches
-    b1 := Start(0,2) + B2(0,2) + B1
-    b2 := Start(0,2) + B2(3,5) + B3
-    b3 := Start(3,5) + B5(0,2) + B3
-    b4 := Start(3,5) + B5(3,5) + B6
+    p1 := Start(0,2) + M2(0,2) + M1
+    p2 := Start(0,2) + M2(3,5) + M3
+    p3 := Start(3,5) + M5(0,2) + M3
+    p4 := Start(3,5) + M5(3,5) + M6
   "</span>
 
 <span class='no'>items</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>)
@@ -266,6 +278,23 @@ a seed can also be passed.</p>
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: 'cc39db1658f617f09fb24d30d4ddc270',
+    indexName: 'tmt',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>

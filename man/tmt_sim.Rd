@@ -12,7 +12,7 @@ tmt_sim(mstdesign = NULL, items = NULL, persons = NULL, mean = 0,
 
 \item{items}{vector of difficulty parameters for each items}
 
-\item{persons}{amount of persons per starting block}
+\item{persons}{amount of persons per starting module}
 
 \item{mean}{optional mean for person parameter; default = 0}
 
@@ -24,7 +24,7 @@ tmt_sim(mstdesign = NULL, items = NULL, persons = NULL, mean = 0,
 List with following entries
 
  \item{data}{Matrix with item responses}
- \item{data_mst}{Data frame with item responses and additional a vector of used blocks per person}
+ \item{data_mst}{Data frame with item responses and additional a vector of used modules per person}
  \item{persons}{Generated and used person parameters}
  \item{mstdesign}{Submitted multistage design}
 }
@@ -38,16 +38,16 @@ a seed can also be passed.
 # translate multistage model 1
 #############################################################################
  mstdesign <- "
-	 B1 =~ c(i1, i2, i3, i4, i5)
-	 B2 =~ c(i6, i7, i8, i9, i10)
-	 B3 =~ c(i11, i12, i13, i14, i15)
+	 M1 =~ c(i1, i2, i3, i4, i5)
+	 M2 =~ c(i6, i7, i8, i9, i10)
+	 M3 =~ c(i11, i12, i13, i14, i15)
 
-	 # define starting Block
-	 Start == B2
+	 # define starting module
+	 Start == M2
 
 	 # define branches
-	 b1 := Start(0,2) + B1
-	 b2 := Start(3,5) + B3
+	 p1 := Start(0,2) + M1
+	 p2 := Start(3,5) + M3
  "
 items <- seq(-3,3,length.out = 15)
 names(items) <- paste0("i",1:15)
@@ -64,21 +64,21 @@ data_1 <- tmt_sim(mstdesign = mstdesign,
 # translate multistage model 2
 #############################################################################
 mstdesign <- "
-    B1 =~ c(i1, i2, i3, i4, i5)
-    B2 =~ c(i6, i7, i8, i9, i10)
-    B3 =~ c(i11, i12, i13, i14, i15)
-    B4 =~ c(i16, i17, i18, i19, i20)
-    B5 =~ c(i21, i22, i23, i24, i25)
-    B6 =~ c(i26, i27, i28, i29, i30)
+    M1 =~ c(i1, i2, i3, i4, i5)
+    M2 =~ c(i6, i7, i8, i9, i10)
+    M3 =~ c(i11, i12, i13, i14, i15)
+    M4 =~ c(i16, i17, i18, i19, i20)
+    M5 =~ c(i21, i22, i23, i24, i25)
+    M6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting Block
-    Start == B4
+    # define starting module
+    Start == M4
 
     # define branches
-    b1 := Start(0,2) + B2(0,2) + B1
-    b2 := Start(0,2) + B2(3,5) + B3
-    b3 := Start(3,5) + B5(0,2) + B3
-    b4 := Start(3,5) + B5(3,5) + B6
+    p1 := Start(0,2) + M2(0,2) + M1
+    p2 := Start(0,2) + M2(3,5) + M3
+    p3 := Start(3,5) + M5(0,2) + M3
+    p4 := Start(3,5) + M5(3,5) + M6
   "
 
 items <- seq(-3,3,length.out = 30)

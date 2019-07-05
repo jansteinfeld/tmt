@@ -9,6 +9,7 @@ print.lrtest_nmst <- function(x,...) {
   cat("\nValue (Chi^2): ", round(x$LRvalue,3))
   cat("\ndf (Chi^2): ",x$df)
   cat("\np-value: ",round(x$pvalue,3))
+  cat("\n")
   invisible(x)
 }
 
@@ -21,6 +22,7 @@ print.lrtest_mst <- function(x,...) {
   cat("\nValue (Chi^2): ", round(x$LRvalue,3))
   cat("\ndf (Chi^2): ",x$df)
   cat("\np-value: ",round(x$pvalue,3))
+  cat("\n")
   invisible(x)
 }
 
@@ -51,6 +53,7 @@ print.mst <- function(x,...){
     }
     colnames(result) <- colnames(x$data)
   print(result)
+  cat("\n")
   invisible(x)
 }
 
@@ -80,6 +83,7 @@ print.nmst <- function(x,...){
     }
   colnames(result) <- colnames(x$data)
   print(result)
+  cat("\n")
   invisible(x)
 }
 

@@ -49,10 +49,10 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
   designelements <- tmt_mstdesign(mstdesign = mstdesign, options = c("design","items","start"))
   items_design <- designelements$items
   mstdesign <- apply(designelements$design,2,as.character)
-  startblocks <-  designelements$start
+  startmodules <-  designelements$start
   info_startval <- NULL
-  if(nrow(startblocks)==1){
-    info_startval <- strsplit(startblocks[,"items"],",")[[1]]
+  if(nrow(startmodules)==1){
+    info_startval <- strsplit(startmodules[,"items"],",")[[1]]
   }
 
   # amount of Items and Persons
@@ -87,14 +87,16 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
   # ----------------------------
   stopifnot(length(weights) == n)
 
-  # ---------------- Start loop over multistage blocks here -------------------
+  # ---------------- Start loop over multistage modules here -------------------
   res <- data_processing_mst(dat, mstdesign, weights)
     y_i <- res$y_i
     na_p <- res$na_p
     items_i <- res$items_i
     items_l <- res$items_l
     minSolved_i <- res$minSolved_i
+    minSolved_stage_i <- res$minSolved_stage_i
     maxSolved_i <- res$maxSolved_i
+    maxSolved_stage_i <- res$maxSolved_stage_i
     cs_i <- res$cs_i
     rs_i <- res$rs_i
     rf_i <- res$rf_i
@@ -105,7 +107,7 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
       cs <- colSums(dat * weights, na.rm = TRUE)
       ws <- colSums(!is.na(dat) * weights)
       start <- log(ws - cs) - log(cs)
-        # choose for start block informative starting values
+        # choose for start module informative starting values
         if(!is.null(info_startval)){
           start[!names(start)%in%info_startval] <- 0
         }
@@ -119,7 +121,7 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
       cs <- colSums(dat * weights, na.rm = TRUE)
       ws <- colSums(!is.na(dat) * weights)
       start <- log(ws - cs) - log(cs)
-        # choose for start block informative starting values
+        # choose for start module informative starting values
         if(!is.null(info_startval)){
           start[!names(start)%in%info_startval] <- 0
         }
@@ -130,10 +132,12 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
   }
 
     ## conditional log-likelihood function for NA pattern i
-    cll_i <- function(cs_i, par_i, rf_i, oj_i, minSolved_i, maxSolved_i) {
+    cll_i <- function(cs_i, par_i, rf_i, oj_i, minSolved_i, minSolved_stage_i, maxSolved_i, maxSolved_stage_i) {
       esf <- esf_mst_sum_vector(parlist = par_i, ojlist = oj_i, 0,
-                                              minSolved = minSolved_i, maxSolved = maxSolved_i)[[1]]
-      esf[(sum(minSolved_i) + 1):(sum(maxSolved_i) + 1)] <- log(esf[(sum(minSolved_i)+1):(sum(maxSolved_i)+1)])
+                                minSolved = minSolved_i, maxSolved = maxSolved_i,
+                                minSolved_design = minSolved_stage_i, maxSolved_design = maxSolved_stage_i)[[1]]
+      #esf[(sum(minSolved_i) + 1):(sum(maxSolved_i) + 1)] <- log(esf[(sum(minSolved_i)+1):(sum(maxSolved_i)+1)])
+      esf[(tail(minSolved_stage_i,n=1) + 1):(tail(maxSolved_stage_i,n=1) + 1)] <- log(esf[(tail(minSolved_stage_i,n=1) + 1):(tail(maxSolved_stage_i,n=1) + 1)])
       return( -sum( cs_i * unlist(par_i) ) - sum(rf_i  * esf) )
     }
 
@@ -148,7 +152,7 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
         ## initialize return values and extract esf parameters
         cll <- 0
         ## conditional log-likelihood
-        cll <- sum(mapply(cll_i, cs_i, par_i, rf_i, oj_i , minSolved_i, maxSolved_i, SIMPLIFY = TRUE, USE.NAMES = FALSE))
+        cll <- sum(mapply(cll_i, cs_i, par_i, rf_i, oj_i , minSolved_i, minSolved_stage_i, maxSolved_i, maxSolved_stage_i, SIMPLIFY = TRUE, USE.NAMES = FALSE))
        ## collect and return
        # browser(expr= cll==Inf )
         return(-cll)
@@ -166,15 +170,18 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
       ## initialize return value and esf parameters
       out <- matrix(0, nrow = nrow(mstdesign), ncol = i)
       g01 <- mapply(FUN = esf_mst_sum_vector, parlist = par_i,
-                    ojlist = oj_i, order = 1, minSolved = minSolved_i, maxSolved = maxSolved_i, SIMPLIFY = FALSE)
+                    ojlist = oj_i, order = 1, minSolved = minSolved_i, maxSolved = maxSolved_i,
+                    minSolved_design = minSolved_stage_i, maxSolved_design = maxSolved_stage_i, SIMPLIFY = FALSE)
       for(nai in 1:nrow(mstdesign)) {
-        min_nai <- sum(minSolved_i[[nai]])+1
-        max_nai <- sum(maxSolved_i[[nai]])+1
+        min_nai <- minSolved_stage_i[[nai]] + 1
+        max_nai <- maxSolved_stage_i[[nai]] + 1
+        min_nai <- tail(min_nai,n=1)
+        max_nai <- tail(max_nai,n=1)
 
         gr1   <- cs_i[[nai]]
-        g0    <- g01[[nai]][[1]][sum(min_nai):sum(max_nai)]
-        g1    <- g01[[nai]][[2]][sum(min_nai):sum(max_nai),]
-        rf_ii <- rf_i[[nai]][sum(min_nai):sum(max_nai)]
+        g0    <- g01[[nai]][[1]][min_nai:max_nai]
+        g1    <- g01[[nai]][[2]][min_nai:max_nai,]
+        rf_ii <- rf_i[[nai]][min_nai:max_nai]
 
         gr2 <- -(rf_ii %*% (g1 / g0))
         out[nai, items_i[[nai]]] <- gr1 + gr2
@@ -195,16 +202,19 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
       oj_i <- lapply(par_i, function(x) lapply(x, function(y) rep(1,length(y))))
       out <- matrix(0, nrow = length(par)+1, ncol = length(par)+1)
       g012 <- mapply(FUN = esf_mst_sum_vector, parlist = par_i,
-                     ojlist = oj_i, order = 2, minSolved = minSolved_i, maxSolved = maxSolved_i, SIMPLIFY = FALSE)
+                     ojlist = oj_i, order = 2, minSolved = minSolved_i, maxSolved = maxSolved_i,
+                     minSolved_design = minSolved_stage_i, maxSolved_design = maxSolved_stage_i, SIMPLIFY = FALSE)
       ## loop over observed NA patterns      
       for(nai in 1:nrow(mstdesign)) {
-        min_nai <- sum(minSolved_i[[nai]])+1
-        max_nai <- sum(maxSolved_i[[nai]])+1
-
-        g0_i <- g012[[nai]][[1]][sum(min_nai):sum(max_nai)]
-        g1_i <- g012[[nai]][[2]][sum(min_nai):sum(max_nai),]
-        g2_i <- g012[[nai]][[3]][sum(min_nai):sum(max_nai),,]
-        rf_ii <- rf_i[[nai]][sum(min_nai):sum(max_nai)]
+        min_nai <- minSolved_stage_i[[nai]] + 1
+        max_nai <- maxSolved_stage_i[[nai]] + 1
+        min_nai <- tail(min_nai,n=1)
+        max_nai <- tail(max_nai,n=1)
+        
+        g0_i <- g012[[nai]][[1]][min_nai:max_nai]
+        g1_i <- g012[[nai]][[2]][min_nai:max_nai,]
+        g2_i <- g012[[nai]][[3]][min_nai:max_nai,,]
+        rf_ii <- rf_i[[nai]][min_nai:max_nai]
         
         i_i <- ncol(y_i[[nai]])
         g1dg0 <- g1_i/g0_i

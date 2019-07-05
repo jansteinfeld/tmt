@@ -36,12 +36,18 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 <meta property="og:title" content="Function to Translate the <code>mstdesign</code> Syntax — tmt_mstdesign" />
 
 <meta property="og:description" content="This function translates the multistage design for different purposes." />
 
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="https://jansteinfeld.github.io/tmt/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -72,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1.0</span>
       </span>
     </div>
 
@@ -113,6 +119,12 @@
 </li>
       </ul>
       
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -134,7 +146,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>tmt_mstdesign</span>(<span class='no'>mstdesign</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"design"</span>, <span class='st'>"simulation"</span>, <span class='st'>"blocks"</span>,
+    <pre class="usage"><span class='fu'>tmt_mstdesign</span>(<span class='no'>mstdesign</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"design"</span>, <span class='st'>"simulation"</span>, <span class='st'>"modules"</span>,
   <span class='st'>"items"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -146,7 +158,7 @@
     </tr>
     <tr>
       <th>options</th>
-      <td><p>vector of required output. 'blocks' = Matrix with the classification of Block and Items. ' simulation' = list of all stages. 'design' = matrix of all branches. 'items' vector of all Items.</p></td>
+      <td><p>vector of required output. 'modules' = Matrix with the classification of modules and items. ' simulation' = list of all stages. 'design' = matrix of all branches. 'items' vector of all Items.</p></td>
     </tr>
     </table>
     
@@ -154,11 +166,11 @@
 
     <p>List with following entries</p>
 <p></p>
-<dt>blocks</dt><dd><p>Matrix which contains each block with its corresponding items</p></dd>
+<dt>modules</dt><dd><p>Matrix which contains each module with its corresponding items</p></dd>
  <dt>simulation</dt><dd><p>List of the multistage design. Each element within the list contains a matrix for each stage</p></dd>
  <dt>design</dt><dd><p>Matrix of all possible branches</p></dd>
  <dt>items</dt><dd><p>Vector of item names</p></dd>
- <dt>start</dt><dd><p>Items of the starting block(s)</p></dd>
+ <dt>start</dt><dd><p>Items of the starting module(s)</p></dd>
 
     
 
@@ -166,7 +178,7 @@
     <pre class="examples"><div class='input'># example for tmt_mstdesign
 </div><span class='co'># NOT RUN {</span>
 <span class='co'>###################################</span>
-<span class='co'># Example-2 </span>
+<span class='co'># Example-1</span>
 <span class='co'>###################################</span>
   <span class='no'>mstdesign</span> <span class='kw'>&lt;-</span> <span class='st'>"
     B1 =~ c(i1, i2, i3, i4, i5)
@@ -176,7 +188,7 @@
     B5 =~ c(i21, i22, i23, i24, i25)
     B6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting Block
+    # define starting module
     Start == B4
 
     # define branches
@@ -191,11 +203,11 @@
 
 <span class='co'># ---------------------------</span>
 <span class='co'># summary of the submitted design</span>
-<span class='fu'>tmt_mstdesign</span>(<span class='no'>mstdesign</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='st'>"design"</span>)$<span class='no'>tmtdesign</span>
+<span class='fu'>tmt_mstdesign</span>(<span class='no'>mstdesign</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='st'>"design"</span>)$<span class='no'>design</span>
 
 <span class='co'># ---------------------------</span>
-<span class='co'># matrix of all blocks with the containing items</span>
-<span class='fu'>tmt_mstdesign</span>(<span class='no'>mstdesign</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='st'>"blocks"</span>)$<span class='no'>tmtblocks</span>
+<span class='co'># matrix of all modules with the containing items</span>
+<span class='fu'>tmt_mstdesign</span>(<span class='no'>mstdesign</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='st'>"modules"</span>)$<span class='no'>modules</span>
 
 <span class='co'># ---------------------------</span>
 <span class='co'># vector of all items</span>
@@ -203,7 +215,7 @@
 
 <span class='co'># ---------------------------</span>
 <span class='co'># list of all four elements</span>
-<span class='fu'>tmt_mstdesign</span>(<span class='no'>mstdesign</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"design"</span>, <span class='st'>"simulation"</span>, <span class='st'>"blocks"</span>, <span class='st'>"items"</span>))
+<span class='fu'>tmt_mstdesign</span>(<span class='no'>mstdesign</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"design"</span>, <span class='st'>"simulation"</span>, <span class='st'>"modules"</span>, <span class='st'>"items"</span>))
 <span class='co'># }</span><div class='input'>
 <span class='co'>###################################</span>
 <span class='co'># Example-2 </span>
@@ -216,7 +228,7 @@
       B5 =~ paste0('i',21:25)
       B6 =~ paste0('i',26:30)
 
-      # define starting Block
+      # define starting module
       Start == B4
 
       # define branches
@@ -226,7 +238,7 @@
       b4 := Start(3,5) + B5(3,5) + B6
     "</span>
 <span class='no'>designelements</span> <span class='kw'>&lt;-</span> <span class='fu'>tmt_mstdesign</span>(<span class='no'>mstdesign</span>,
-    <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"design"</span>, <span class='st'>"simulation"</span>, <span class='st'>"blocks"</span>, <span class='st'>"items"</span>))</div></pre>
+    <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"design"</span>, <span class='st'>"simulation"</span>, <span class='st'>"modules"</span>, <span class='st'>"items"</span>))</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -255,6 +267,23 @@
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: 'cc39db1658f617f09fb24d30d4ddc270',
+    indexName: 'tmt',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>

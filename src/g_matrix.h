@@ -16,6 +16,5 @@ Rcpp::NumericVector g_matrix(
     }
       //return g_mat;
   }
-  return g_mat(Rcpp::_,(size_mat-1));
-}
+  return g_mat(Rcpp::_,(size_mat-1));}
 #endif

@@ -1,7 +1,7 @@
 .onAttach <- function(libname,pkgname){
   p <- utils::packageDescription("tmt")
   packageStartupMessage(
-    paste("- " , p$Package," Version: " , p$Version ," (",p$Date,")",sep="")  )
+    paste("- " , p$Package," " , p$Version ," (",p$Date,")",sep="")  )
 }
 
 

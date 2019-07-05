@@ -2,7 +2,7 @@ year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date, perl = TRUE)
 vers <- paste("R package version", meta$Version)
 
 pkg <- meta$Package
-pkg_title <- "the multistage testing package"
+pkg_title <- "Estimation of the Rasch Model for Multistage Tests"
 
 citHeader( paste0( "To cite the '", pkg , "' package in publications use:") )
 

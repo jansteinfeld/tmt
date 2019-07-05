@@ -1,5 +1,5 @@
 #' @details
-#' In multistage tests different groups of items (blocks) are presented to persons depending on their response behavior to previous item groups. Multistage testing is thus a simple form of adaptive testing. If data is collected on the basis of such a multistage design and the items are estimated using the Conditional Maximum Likelihood (CML) method, Glas (1989) <doi:10.3102/10769986013001045> has shown, that the item parameters are biased. Zwitser and Maris (2013) <doi:10.1007/s11336-013-9369-6> showed in their work, that taking the applied multistage design in consideration and including it in the estimation of the item parameters, the estimation of item parameters is not biased using the CML method. Their proposed solution is implemented in our package.
+#' In multistage tests different groups of items (modules) are presented to persons depending on their response behavior to previous item groups. Multistage testing is thus a simple form of adaptive testing. If data is collected on the basis of such a multistage design and the items are estimated using the Conditional Maximum Likelihood (CML) method, Glas (1989) <doi:10.3102/10769986013001045> has shown, that the item parameters are biased. Zwitser and Maris (2013) <doi:10.1007/s11336-013-9369-6> showed in their work, that taking the applied multistage design in consideration and including it in the estimation of the item parameters, the estimation of item parameters is not biased using the CML method. Their proposed solution is implemented in our package.
 #' 
 #' An application example can be found in the vignette by using the following command in the R console \code{vignette("introduction_to_tmt")}
 #'
@@ -30,7 +30,10 @@
 #' 
 #' @examples
 #'  tmt:::tmt_ascii()
-#' 
-#' 
+#' ##  _             _   
+#' ## | |_ _ __ ___ | |_ 
+#' ## | __| '_ ` _ \| __|
+#' ## | |_| | | | | | |_ 
+#' ## \__|_| |_| |_|\__|
 #' 
 "_PACKAGE"

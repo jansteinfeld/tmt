@@ -6,8 +6,8 @@
 using namespace Rcpp;
 
 // esf_mst_sum_vector
-List esf_mst_sum_vector(List parlist, List ojlist, int order, NumericVector minSolved, NumericVector maxSolved);
-RcppExport SEXP _tmt_esf_mst_sum_vector(SEXP parlistSEXP, SEXP ojlistSEXP, SEXP orderSEXP, SEXP minSolvedSEXP, SEXP maxSolvedSEXP) {
+List esf_mst_sum_vector(List parlist, List ojlist, int order, NumericVector minSolved, NumericVector maxSolved, NumericVector minSolved_design, NumericVector maxSolved_design);
+RcppExport SEXP _tmt_esf_mst_sum_vector(SEXP parlistSEXP, SEXP ojlistSEXP, SEXP orderSEXP, SEXP minSolvedSEXP, SEXP maxSolvedSEXP, SEXP minSolved_designSEXP, SEXP maxSolved_designSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -16,7 +16,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type order(orderSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type minSolved(minSolvedSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type maxSolved(maxSolvedSEXP);
-    rcpp_result_gen = Rcpp::wrap(esf_mst_sum_vector(parlist, ojlist, order, minSolved, maxSolved));
+    Rcpp::traits::input_parameter< NumericVector >::type minSolved_design(minSolved_designSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type maxSolved_design(maxSolved_designSEXP);
+    rcpp_result_gen = Rcpp::wrap(esf_mst_sum_vector(parlist, ojlist, order, minSolved, maxSolved, minSolved_design, maxSolved_design));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -33,8 +35,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // esf_mst_sum_vector_s2
-Rcpp::NumericVector esf_mst_sum_vector_s2(Rcpp::NumericVector eps, int m, Rcpp::NumericVector rcum, Rcpp::NumericVector eps_position, Rcpp::NumericVector minSolved, Rcpp::NumericVector maxSolved);
-RcppExport SEXP _tmt_esf_mst_sum_vector_s2(SEXP epsSEXP, SEXP mSEXP, SEXP rcumSEXP, SEXP eps_positionSEXP, SEXP minSolvedSEXP, SEXP maxSolvedSEXP) {
+Rcpp::NumericVector esf_mst_sum_vector_s2(Rcpp::NumericVector eps, int m, Rcpp::NumericVector rcum, Rcpp::NumericVector eps_position, Rcpp::NumericVector minSolved, Rcpp::NumericVector maxSolved, Rcpp::NumericVector minSolved_design, Rcpp::NumericVector maxSolved_design);
+RcppExport SEXP _tmt_esf_mst_sum_vector_s2(SEXP epsSEXP, SEXP mSEXP, SEXP rcumSEXP, SEXP eps_positionSEXP, SEXP minSolvedSEXP, SEXP maxSolvedSEXP, SEXP minSolved_designSEXP, SEXP maxSolved_designSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -44,7 +46,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type eps_position(eps_positionSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type minSolved(minSolvedSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type maxSolved(maxSolvedSEXP);
-    rcpp_result_gen = Rcpp::wrap(esf_mst_sum_vector_s2(eps, m, rcum, eps_position, minSolved, maxSolved));
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type minSolved_design(minSolved_designSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type maxSolved_design(maxSolved_designSEXP);
+    rcpp_result_gen = Rcpp::wrap(esf_mst_sum_vector_s2(eps, m, rcum, eps_position, minSolved, maxSolved, minSolved_design, maxSolved_design));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -62,9 +66,9 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_tmt_esf_mst_sum_vector", (DL_FUNC) &_tmt_esf_mst_sum_vector, 5},
+    {"_tmt_esf_mst_sum_vector", (DL_FUNC) &_tmt_esf_mst_sum_vector, 7},
     {"_tmt_esf_mst_sum_vector_s1", (DL_FUNC) &_tmt_esf_mst_sum_vector_s1, 2},
-    {"_tmt_esf_mst_sum_vector_s2", (DL_FUNC) &_tmt_esf_mst_sum_vector_s2, 6},
+    {"_tmt_esf_mst_sum_vector_s2", (DL_FUNC) &_tmt_esf_mst_sum_vector_s2, 8},
     {"_tmt_esf_nmst_sum_matrix", (DL_FUNC) &_tmt_esf_nmst_sum_matrix, 2},
     {NULL, NULL, 0}
 };

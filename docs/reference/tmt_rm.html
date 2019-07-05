@@ -36,12 +36,18 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 <meta property="og:title" content="Estimation (CML) ot the Rasch model with or without Multistage-Designs. — tmt_rm" />
 
 <meta property="og:description" content="The tmt_rm function estimates the Rasch model if the data is collected within a multistage design (see Zwitser and Maris, 2015). If no mstdesign is submitted to the function, than a simple Rasch model will be estimated." />
 
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="https://jansteinfeld.github.io/tmt/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -72,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1.0</span>
       </span>
     </div>
 
@@ -112,6 +118,12 @@
   </a>
 </li>
       </ul>
+      
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
       
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -216,7 +228,7 @@
 <li><p>Rasch, G. (1960). <em>Probabalistic models for some intelligence and attainment tests.</em> Danmarks
     paedagogiske institut.</p></li>
 <li><p>Verhelst, N.D., Glas, C.A.W. und van der Sluis, A. (1984). Estimation Problems in the Rasch-Model:
-    The Basic Symmetric Functions. <em>Computational Statistics Quatarly</em>, 1(3), 245-262.</p></li>
+    The Basic Symmetric Functions. <em>Computational Statistics Quarterly</em>, 1(3), 245-262.</p></li>
 <li><p>Zwitser, R. J., &amp; Maris, G. (2015). Conditional statistical inference with multistage testing designs.
     <em>Psychometrika</em>, 80(1), 65-84.</p></li>
 </ul>
@@ -256,16 +268,16 @@
 <span class='co'># Example-1 for multistage-design</span>
 <span class='co'>#############################################################################</span>
 <span class='no'>mstdesign</span> <span class='kw'>&lt;-</span> <span class='st'>"
-  B1 =~ c(i1, i2, i3, i4, i5)
-  B2 =~ c(i6, i7, i8, i9, i10)
-  B3 =~ c(i11, i12, i13, i14, i15)
+  M1 =~ c(i1, i2, i3, i4, i5)
+  M2 =~ c(i6, i7, i8, i9, i10)
+  M3 =~ c(i11, i12, i13, i14, i15)
 
-  # define starting Block
-  Start == B2
+  # define starting module
+  Start == M2
 
-  # define branches
-  b1 := Start(0,2) + B1
-  b2 := Start(3,5) + B3
+  # define path
+  p1 := Start(0,2) + M1
+  p2 := Start(3,5) + M3
 "</span>
 
 <span class='no'>items</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>15</span>)
@@ -311,22 +323,55 @@
   <span class='co'>############################################################################</span>
   <span class='co'># also using 'paste' is possible</span>
   <span class='no'>mstdesign</span> <span class='kw'>&lt;-</span> <span class='st'>"
-    B1 =~ paste0('i',1:5)
-    B2 =~ paste0('i',6:10)
-    B3 =~ paste0('i',11:15)
-    B4 =~ paste0('i',16:20)
-    B5 =~ paste0('i',21:25)
-    B6 =~ paste0('i',26:30)
-    # define starting Block
-    Start == B4
-    # define branches
-    b1 := Start(0,2) + B2(0,2) + B1
-    b2 := Start(0,2) + B2(3,5) + B3
-    b3 := Start(3,5) + B5(0,2) + B3
-    b4 := Start(3,5) + B5(3,5) + B6
+    M1 =~ paste0('i',1:5)
+    M2 =~ paste0('i',6:10)
+    M3 =~ paste0('i',11:15)
+    M4 =~ paste0('i',16:20)
+    M5 =~ paste0('i',21:25)
+    M6 =~ paste0('i',26:30)
+
+    # define starting module
+    Start == M4
+
+    # define path
+    p1 := Start(0,2) + M2(0,2) + M1
+    p2 := Start(0,2) + M2(3,5) + M3
+    p3 := Start(3,5) + M5(0,2) + M3
+    p4 := Start(3,5) + M5(3,5) + M6
   "</span>
   <span class='no'>items</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>30</span>)
   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>items</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"i"</span>,<span class='fl'>1</span>:<span class='fl'>30</span>)
+  <span class='no'>persons</span> <span class='kw'>=</span> <span class='fl'>1000</span>
+  <span class='no'>mean</span> <span class='kw'>=</span> <span class='fl'>0</span>
+  <span class='no'>sd</span> <span class='kw'>=</span> <span class='fl'>1</span>
+  <span class='no'>dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tmt_sim.html'>tmt_sim</a></span>(<span class='kw'>mstdesign</span> <span class='kw'>=</span> <span class='no'>mstdesign</span>,
+    <span class='kw'>items</span> <span class='kw'>=</span> <span class='no'>items</span>, <span class='kw'>persons</span> <span class='kw'>=</span> <span class='no'>persons</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='no'>mean</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='no'>sd</span>)
+  <span class='no'>dat.rm</span> <span class='kw'>&lt;-</span> <span class='fu'>tmt_rm</span>(<span class='kw'>dat</span> <span class='kw'>=</span> <span class='no'>dat</span>, <span class='kw'>mstdesign</span> <span class='kw'>=</span> <span class='no'>mstdesign</span>)
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>dat.rm</span>)
+
+    <span class='co'>############################################################################</span>
+  <span class='co'># Example-3 for cumulative multistage-design</span>
+  <span class='co'>############################################################################</span>
+  <span class='co'># also using 'paste' is possible</span>
+  <span class='no'>mstdesign</span> <span class='kw'>&lt;-</span> <span class='st'>"
+    M1  =~ paste0('i',21:30)
+    M2  =~ paste0('i',11:20)
+    M3  =~ paste0('i', 1:10)
+    M4  =~ paste0('i',31:40)
+    M5  =~ paste0('i',41:50)
+    M6  =~ paste0('i',51:60)
+    
+    # define starting module
+    Start == M1
+
+    # define path
+    p1 := Start(0, 5) += M2( 0,10) += M3
+    p2 := Start(0, 5) += M2(11,15) += M4
+    p3 := Start(6,10) += M5( 6,15) += M4
+    p4 := Start(6,10) += M5(16,20) += M6
+    "</span>
+  <span class='no'>items</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>60</span>)
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>items</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"i"</span>,<span class='fl'>1</span>:<span class='fl'>60</span>)
   <span class='no'>persons</span> <span class='kw'>=</span> <span class='fl'>1000</span>
   <span class='no'>mean</span> <span class='kw'>=</span> <span class='fl'>0</span>
   <span class='no'>sd</span> <span class='kw'>=</span> <span class='fl'>1</span>
@@ -370,6 +415,23 @@
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: 'cc39db1658f617f09fb24d30d4ddc270',
+    indexName: 'tmt',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>

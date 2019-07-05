@@ -36,13 +36,19 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 <meta property="og:title" content="tmt: Estimation of the Rasch Model for Multistage Tests — tmt-package" />
 
 <meta property="og:description" content="
 Provides conditional maximum likelihood (CML) estimation of item parameters in multistage designs (Zwitser &amp;amp; Maris, 2013, &amp;lt;doi:10.1007/s11336-013-9369-6&amp;gt;) and CML estimation for conventional designs. Additional features are the likelihood ratio test (Andersen, 1973, &amp;lt;doi:10.1007/BF02291180&amp;gt;) and simulation of multistage designs." />
 
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="https://jansteinfeld.github.io/tmt/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -73,7 +79,7 @@ Provides conditional maximum likelihood (CML) estimation of item parameters in m
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1.0</span>
       </span>
     </div>
 
@@ -114,6 +120,12 @@ Provides conditional maximum likelihood (CML) estimation of item parameters in m
 </li>
       </ul>
       
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -139,7 +151,7 @@ Provides conditional maximum likelihood (CML) estimation of item parameters in m
         
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>In multistage tests different groups of items (blocks) are presented to persons depending on their response behavior to previous item groups. Multistage testing is thus a simple form of adaptive testing. If data is collected on the basis of such a multistage design and the items are estimated using the Conditional Maximum Likelihood (CML) method, Glas (1989) &lt;doi:10.3102/10769986013001045&gt; has shown, that the item parameters are biased. Zwitser and Maris (2013) &lt;doi:10.1007/s11336-013-9369-6&gt; showed in their work, that taking the applied multistage design in consideration and including it in the estimation of the item parameters, the estimation of item parameters is not biased using the CML method. Their proposed solution is implemented in our package.</p>
+    <p>In multistage tests different groups of items (modules) are presented to persons depending on their response behavior to previous item groups. Multistage testing is thus a simple form of adaptive testing. If data is collected on the basis of such a multistage design and the items are estimated using the Conditional Maximum Likelihood (CML) method, Glas (1989) &lt;doi:10.3102/10769986013001045&gt; has shown, that the item parameters are biased. Zwitser and Maris (2013) &lt;doi:10.1007/s11336-013-9369-6&gt; showed in their work, that taking the applied multistage design in consideration and including it in the estimation of the item parameters, the estimation of item parameters is not biased using the CML method. Their proposed solution is implemented in our package.</p>
 <p>An application example can be found in the vignette by using the following command in the R console <code><a href='../articles/introduction_to_tmt.html'>vignette("introduction_to_tmt")</a></code></p>
     
     <h2 class="hasAnchor" id="logo"><a class="anchor" href="#logo"></a>logo</h2>
@@ -172,7 +184,7 @@ Provides conditional maximum likelihood (CML) estimation of item parameters in m
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Useful links:</p><ul>
-<li><p><a href='https://github.com/jansteinfeld/tmt'>https://github.com/jansteinfeld/tmt</a></p></li>
+<li><p><a href='https://jansteinfeld.github.io/tmt'>https://jansteinfeld.github.io/tmt</a></p></li>
 <li><p>Report bugs at <a href='https://github.com/jansteinfeld/tmt/issues'>https://github.com/jansteinfeld/tmt/issues</a></p></li>
 </ul></div>
     
@@ -184,8 +196,11 @@ Provides conditional maximum likelihood (CML) estimation of item parameters in m
 #&gt; | __| '_ ` _ \| __|
 #&gt; | |_| | | | | | |_ 
 #&gt;  \__|_| |_| |_|\__|
-#&gt; </div><div class='input'>
-
+#&gt; </div><div class='input'>##  _             _   
+## | |_ _ __ ___ | |_ 
+## | __| '_ ` _ \| __|
+## | |_| | | | | | |_ 
+## \__|_| |_| |_|\__|
 
 </div></pre>
   </div>
@@ -226,6 +241,23 @@ Provides conditional maximum likelihood (CML) estimation of item parameters in m
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: 'cc39db1658f617f09fb24d30d4ddc270',
+    indexName: 'tmt',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>

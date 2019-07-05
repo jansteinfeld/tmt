@@ -1,7 +1,7 @@
 # example for tmt_mstdesign
 \dontrun{
 ###################################
-# Example-2 
+# Example-1
 ###################################
   mstdesign <- "
     B1 =~ c(i1, i2, i3, i4, i5)
@@ -11,7 +11,7 @@
     B5 =~ c(i21, i22, i23, i24, i25)
     B6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting Block
+    # define starting module
     Start == B4
 
     # define branches
@@ -26,11 +26,11 @@ tmt_mstdesign(mstdesign, options = "simulation")$simulation
 
 # ---------------------------
 # summary of the submitted design
-tmt_mstdesign(mstdesign, options = "design")$tmtdesign
+tmt_mstdesign(mstdesign, options = "design")$design
 
 # ---------------------------
-# matrix of all blocks with the containing items
-tmt_mstdesign(mstdesign, options = "blocks")$tmtblocks
+# matrix of all modules with the containing items
+tmt_mstdesign(mstdesign, options = "modules")$modules
 
 # ---------------------------
 # vector of all items
@@ -38,7 +38,7 @@ tmt_mstdesign(mstdesign, options = "items")$items
 
 # ---------------------------
 # list of all four elements
-tmt_mstdesign(mstdesign, options = c("design", "simulation", "blocks", "items"))
+tmt_mstdesign(mstdesign, options = c("design", "simulation", "modules", "items"))
 }
 
 ###################################
@@ -52,7 +52,7 @@ mstdesign <- "
       B5 =~ paste0('i',21:25)
       B6 =~ paste0('i',26:30)
 
-      # define starting Block
+      # define starting module
       Start == B4
 
       # define branches
@@ -62,4 +62,4 @@ mstdesign <- "
       b4 := Start(3,5) + B5(3,5) + B6
     "
 designelements <- tmt_mstdesign(mstdesign, 
-    options = c("design", "simulation", "blocks", "items"))
+    options = c("design", "simulation", "modules", "items"))
