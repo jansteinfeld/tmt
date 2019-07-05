@@ -15,7 +15,8 @@ requests](https://img.shields.io/github/issues-pr/jansteinfeld/tmt.svg)](https:/
 [![GitHub
 issues](https://img.shields.io/github/issues-raw/jansteinfeld/tmt.svg)](https://github.com/jansteinfeld/tmt/issues)
 [![GitHub
-version](https://img.shields.io/badge/github%20version-0.1.9--3-orange.svg)](https://github.com/jansteinfeld/tmt)
+version](https://img.shields.io/badge/github%20version-0.2.1--0-orange.svg)](https://github.com/jansteinfeld/tmt)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2019--05--07-yellowgreen.svg)](/commits/master)
 [![CRAN](http://www.r-pkg.org/badges/version/tmt)](https://cran.r-project.org/package=tmt)
 [![CRAN/Downloads](http://cranlogs.r-pkg.org/badges/tmt?color=brightgreen)](http://www.r-pkg.org/pkg/tmt)
 
