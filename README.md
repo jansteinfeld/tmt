@@ -19,6 +19,8 @@ version](https://img.shields.io/github/release/jansteinfeld/tmt.svg?color=blue)]
 [![Last-changedate](https://img.shields.io/github/release-date/jansteinfeld/tmt.svg)](https://github.com/jansteinfeld/tmt)
 [![CRAN
 version](http://www.r-pkg.org/badges/version/tmt?color=blue)](https://cran.r-project.org/package=tmt)
+[![cran
+checks](https://cranchecks.info/badges/summary/tmt)](https://cran.r-project.org/web/checks/check_results_tmt.html)
 [![CRAN
 downloads](http://cranlogs.r-pkg.org/badges/tmt?color=brightgreen)](http://www.r-pkg.org/pkg/tmt)
 
