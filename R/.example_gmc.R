@@ -4,8 +4,6 @@
 items <- seq(-3,3,length.out = 16)
 names(items) <- paste0("i",1:16)
 persons = 500
-mean = 0
-sd = 1
 dat <- tmt:::sim.rm(theta = persons, b = items, seed = 1234)
 dat.rm <- tmt_rm(dat)
 dat.lrt <- tmt_lrtest(dat.rm, split = "median")

@@ -8,7 +8,7 @@ mstdesign <- object$mstdesign
 
 if(!is.null(cores)){
   if(cores > parallel::detectCores()){
-    stop(paste0("You specified more cores than your computer have. Pleas change to equal or lower of: ",
+    stop(paste0("You specified more cores than your computer have. Please change to equal or lower of: ",
     parallel::detectCores()," cores \n"))
   }
   cl <- parallel::makeCluster(cores)
@@ -47,7 +47,7 @@ if(!is.null(cores)){
       stop("The submitted split vector does not match the amount of persons in your data\n")
     } 
     if(length(unique(split)) != 2){
-      stop("Pleas submit a dichotomous split vector!\n")
+      stop("Please submit a dichotomous split vector!\n")
     }
     split_i <- as.factor(as.character(split))
   }
@@ -62,7 +62,7 @@ names(datalist) <- levels(split_i)
 
 #----------item to be deleted---------------
 deleted_items <- lapply(datalist, function(x) {
-                    it.sub <- data_check(dat = x)$status  #items to be removed within subgroup
+                      data_check(dat = x)$status  #items to be removed within subgroup
                     })
 
 deleted_item <- unique(unlist(deleted_items))
@@ -77,7 +77,7 @@ if(length(deleted_item) > 0){
   #  cat("\nFull and subgroup models are estimated without these items!\n")
   #), immediate.=TRUE)
   cat("The following items have to be excluded due to inappropriate response patterns within subgroups: ", deleted_item)
-  stop("It is necessary, that all Items in the dataset are also specified in the submitted mstdesign and vice versa! \nPleas update the mstdesign and the data.\n")
+  stop("It is necessary, that all Items in the dataset are also specified in the submitted mstdesign and vice versa! \nPlease update the mstdesign and the data.\n")
 }
 
 

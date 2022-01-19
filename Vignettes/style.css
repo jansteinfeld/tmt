@@ -9,3 +9,9 @@ div {
     margin-bottom: 0;
     margin-top: 1em;
 }
+.navbar-fixed-top, .navbar-fixed-bottom {
+    position: absolute;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}

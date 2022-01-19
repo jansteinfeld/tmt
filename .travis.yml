@@ -5,13 +5,17 @@ matrix:
   - r: devel
   - r: release
   before_cache:
+    - Rscript -e "if (!require('devtools')) install.packages('devtools')"
+    - Rscript -e "devtools::install_deps(dep = TRUE)"
     - Rscript -e 'remotes::install_cran("pkgdown")'
     - Rscript -e 'remotes::install_cran("parallel")'
+    - Rscript -e "devtools::install_github('r-lib/covr')"
+  r_github_packages:
+    - r-lib/covr
+  after_success:
+    - Rscript -e 'covr::codecov()'
   deploy:
     provider: script
     script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE)'
     skip_cleanup: true
-r_github_packages:
-  - r-lib/covr
-after_success:
-  - Rscript -e 'covr::codecov()'
+

@@ -85,8 +85,3 @@ context("test-tmt_gmc check errors")
     	throws_error()
     )
   })
-
-
-
-
-

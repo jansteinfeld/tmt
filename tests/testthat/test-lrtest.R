@@ -6,19 +6,16 @@ mstdesign <- "
     B5 =~ c(i21, i22, i23, i24, i25)
     B6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting module
-    Start == B4
-
     # define branches
-    b1 := Start(0,2) + B2(0,2) + B1(0,5)
-    b2 := Start(0,2) + B2(3,5) + B3(0,5)
-    b3 := Start(3,5) + B5(0,2) + B3(0,5)
-    b4 := Start(3,5) + B5(3,5) + B6(0,5)
+    b1 := B4(0,2) + B2(0,2) + B1(0,5)
+    b2 := B4(0,2) + B2(3,5) + B3(0,5)
+    b3 := B4(3,5) + B5(0,2) + B3(0,5)
+    b4 := B4(3,5) + B5(3,5) + B6(0,5)
   "
 
-dat <- tmt:::sim.rm(100,5,1111)
+dat <- tmt:::sim.rm(250,5,1111)
 datna <- dat
-datna[sample(1:length(datna),50,replace = FALSE)] <- NA
+datna[sample(seq_len(length(datna)),50,replace = FALSE)] <- NA
 datrm_1 <- tmt_rm(dat, optimization="optim")
 
 items <- seq(-2,2,length.out=30)
@@ -26,9 +23,7 @@ names(items) <- c(paste0("i",1:30))
 set.seed(1111)
 dat_mst <- tmt_sim(mstdesign = mstdesign,
 			items = items,
-			persons = 500,
-			mean = 0,
-			sd = 1)
+			persons = 500, seed = 1111)
 datrm_1 <- tmt_rm(dat, optimization="optim")
 datrm_1na <- tmt_rm(datna, optimization="optim")
 datrm_2 <- tmt_rm(dat_mst$data,mstdesign=mstdesign, optimization="optim")
@@ -37,10 +32,6 @@ datlrt_1 <- tmt_lrtest(datrm_1, optimization="optim")
 datlrt_1na <- tmt_lrtest(datrm_1na, optimization="optim")
 datlrt_2 <- tmt_lrtest(datrm_2, optimization="optim")
 
-if(parallel::detectCores() >=2 ){
-  datlrt_1p <- tmt_lrtest(datrm_1, cores = 2, optimization="optim")
-  datlrt_2p <- tmt_lrtest(datrm_2, cores = 2, optimization="optim")
-}
 # -----------------------------------------------------------------
 context("test-lrtest")
 # -----------------------------------------------------------------
@@ -54,12 +45,13 @@ context("test-lrtest")
 context("test-lrtest lrtest.nmst")
 # -----------------------------------------------------------------
   if(parallel::detectCores() >=2 ){
+    datlrt_1p <- tmt_lrtest(datrm_1, cores = 2, optimization="optim")
     expect_that(datlrt_1$LRvalue, is_equivalent_to(datlrt_1p$LRvalue))
   }
   test_that("tmt_lrtest split = mean", {
     split1 <- "mean"
     set.seed(1111)
-    split2 <- sample(x = c(1,2), size = 100, replace = TRUE)
+    split2 <- sample(x = c(1,2), size = 250, replace = TRUE)
     set.seed(1111)
     split2mst <- sample(x = c(1,2), size = 500, replace = TRUE)
     expect_type(tmt_lrtest(datrm_1, split = split1, optimization="optim"),"list")
@@ -75,6 +67,7 @@ context("test-lrtest lrtest.nmst")
     # -----------------------------------------------------------------
     context("test-lrtest lrtest.mst parallel")
     # -----------------------------------------------------------------
+    datlrt_2p <- tmt_lrtest(datrm_2, cores = 2, optimization="optim")
     expect_that(datlrt_2$LRvalue, is_equivalent_to(datlrt_2p$LRvalue))
   }
 
@@ -82,7 +75,7 @@ context("test-lrtest lrtest.nmst")
 context("test-lrtest lrtest errors")
 # -----------------------------------------------------------------
   test_that("tmt_lrtest split poly", {
-    split4a <- sample(x = c(1,2,3), size = 100, replace = TRUE)
+    split4a <- sample(x = c(1,2,3), size = 250, replace = TRUE)
     split4b <- sample(x = c(1,2,3), size = 500, replace = TRUE)
     expect_that(tmt_lrtest(datrm_1, split = split4a, optimization="optim"), throws_error())
     expect_that(tmt_lrtest(datrm_1na, split = split4a, optimization="optim"), throws_error())
@@ -90,7 +83,7 @@ context("test-lrtest lrtest errors")
   })
   
   test_that("tmt_lrtest split to small", {
-    split5 <- sample(x = c(1,2), size = 100-10, replace = TRUE)
+    split5 <- sample(x = c(1,2), size = 250-10, replace = TRUE)
     expect_that(tmt_lrtest(datrm_1, split = split5, optimization="optim"), throws_error())
     expect_that(tmt_lrtest(datrm_1na, split = split5, optimization="optim"), throws_error())
     expect_that(tmt_lrtest(datrm_2, split = split5, optimization="optim"), throws_error())
@@ -112,7 +105,7 @@ context("test-lrtest lrtest errors")
     datrm_1db <- datrm_1da <- datrm_1
     datrm_1dbna <- datrm_1dana <- datrm_1na
     datrm_2db <- datrm_2da <- datrm_2
-    split5 <- rep(c(1,2),50)
+    split5 <- rep(c(1,2),125)
     split6a <- rep(c(1,2),250)
     datrm_1da$data[split5==1,] <- datrm_1da$data[split5==1,]*0
     datrm_1dana$data[split5==1,] <- datrm_1dana$data[split5==1,]*0

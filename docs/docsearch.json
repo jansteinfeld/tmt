@@ -2,21 +2,21 @@
   "index_name": "tmt",
   "start_urls": [
     {
-      "url": "https://jansteinfeld.github.io/tmt//index.html",
+      "url": "https://jansteinfeld.github.io/tmt/index.html",
       "selectors_key": "homepage",
       "tags": [
         "homepage"
       ]
     },
     {
-      "url": "https://jansteinfeld.github.io/tmt//reference",
+      "url": "https://jansteinfeld.github.io/tmt/reference",
       "selectors_key": "reference",
       "tags": [
         "reference"
       ]
     },
     {
-      "url": "https://jansteinfeld.github.io/tmt//articles",
+      "url": "https://jansteinfeld.github.io/tmt/articles",
       "selectors_key": "articles",
       "tags": [
         "articles"
@@ -30,7 +30,7 @@
     "/articles/index.html"
   ],
   "sitemap_urls": [
-    "https://jansteinfeld.github.io/tmt//sitemap.xml"
+    "https://jansteinfeld.github.io/tmt/sitemap.xml"
   ],
   "selectors": {
     "homepage": {
@@ -74,7 +74,7 @@
         "selector": ".contents h2, .contents h3",
         "default_value": "Context"
       },
-      "text": ".contents p, .contents li, .tempate-article .contents .pre"
+      "text": ".contents p, .contents li"
     }
   },
   "selectors_exclude": [

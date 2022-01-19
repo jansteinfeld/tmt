@@ -2,15 +2,23 @@
 % Please edit documentation in R/tmt_rm.R
 \name{tmt_rm}
 \alias{tmt_rm}
-\title{Estimation (CML) ot the Rasch model with or without Multistage-Designs.}
+\title{Estimation (CML) ot the Rasch model with or without multistage designs.}
 \usage{
-tmt_rm(dat, mstdesign = NULL, weights = NULL, start = NULL,
-  sum0 = TRUE, se = TRUE, optimization = "nlminb", ...)
+tmt_rm(
+  dat,
+  mstdesign = NULL,
+  weights = NULL,
+  start = NULL,
+  sum0 = TRUE,
+  se = TRUE,
+  optimization = "nlminb",
+  ...
+)
 }
 \arguments{
 \item{dat}{a matrix of dichotomous (0/1) data or a list of the function \code{tmt_designsim}}
 
-\item{mstdesign}{Model for the multistage design, if CML should be applied to multistage. If not, leave the default value}
+\item{mstdesign}{Model for the multistage design, if CML estimation without multistage designs is required, than leave the default value}
 
 \item{weights}{is optional for the weights of cases}
 
@@ -45,10 +53,10 @@ List with following entries
 	\item{mstdesign}{If the multistage version is requested, the submitted design is returned, otherwise NULL}
 }
 \description{
-The \code{tmt_rm} function estimates the Rasch model if the data is collected within a multistage design (see Zwitser and Maris, 2015). If no \code{mstdesign} is submitted to the function, than a simple Rasch model will be estimated.
+The \code{tmt_rm} function estimates the Rasch model. If the data are collected based on a multistage design (see Zwitser and Maris, 2015) the specific multistage design \code{mstdesign} has to be submitted.
 }
 \details{
-According to Glas (1988) <doi:10.3102/10769986013001045> CML estimation of item parameters is biased if the data is collected in multistage designs and this design is not considered. Zwitser and Maris (2015) <doi:10.1007/s11336-013-9369-6> propose to use an additional design matrix to fragment the elementary-symmetric-function. Their approach is implemented in this package.
+According to Glas (1988) <doi:10.3102/10769986013001045> CML estimation of item parameters is biased if the data is collected in multistage designs and this design is not considered. Zwitser and Maris (2015) <doi:10.1007/s11336-013-9369-6> propose to use an additional design matrix to fragment the elementary symmetric function. Their approach is implemented in this package. MST designs with a probabilistic instead of a deterministic routing rule (see, e.g. Chen, Yamamoto, & von Davier, 2014 <doi:10.1201/b16858>) are not estimated with this method, therefore the proposed solouting is again modified by Steinfeld and Robitzsch (2021) <doi:10.31234/osf.io/ew27f> which is also integrated into this package.
 }
 \examples{
 # example for tmt_rm
@@ -67,21 +75,17 @@ mstdesign <- "
   M2 =~ c(i6, i7, i8, i9, i10)
   M3 =~ c(i11, i12, i13, i14, i15)
 
-  # define starting module
-  Start == M2
-
   # define path
-  p1 := Start(0,2) + M1
-  p2 := Start(3,5) + M3
+  p1 := M2(0,2) + M1
+  p2 := M2(3,5) + M3
 "
 
 items <- seq(-1,1,length.out = 15)
 names(items) <- paste0("i",1:15)
 persons = 1000
-mean = 0
-sd = 1
+
 dat <- tmt_sim(mstdesign = mstdesign, 
-  items = items, persons = persons, mean = mean, sd = sd)
+  items = items, persons = persons)
 dat.rm <- tmt_rm(dat = dat, mstdesign = mstdesign)
 summary(dat.rm)
 
@@ -105,22 +109,17 @@ summary(dat.rm)
     M5 =~ paste0('i',21:25)
     M6 =~ paste0('i',26:30)
 
-    # define starting module
-    Start == M4
-
     # define path
-    p1 := Start(0,2) + M2(0,2) + M1
-    p2 := Start(0,2) + M2(3,5) + M3
-    p3 := Start(3,5) + M5(0,2) + M3
-    p4 := Start(3,5) + M5(3,5) + M6
+    p1 := M4(0,2) + M2(0,2) + M1
+    p2 := M4(0,2) + M2(3,5) + M3
+    p3 := M4(3,5) + M5(0,2) + M3
+    p4 := M4(3,5) + M5(3,5) + M6
   "
   items <- seq(-1,1,length.out = 30)
   names(items) <- paste0("i",1:30)
   persons = 1000
-  mean = 0
-  sd = 1
   dat <- tmt_sim(mstdesign = mstdesign, 
-    items = items, persons = persons, mean = mean, sd = sd)
+    items = items, persons = persons)
   dat.rm <- tmt_rm(dat = dat, mstdesign = mstdesign)
   summary(dat.rm)
 
@@ -136,22 +135,17 @@ summary(dat.rm)
     M5  =~ paste0('i',41:50)
     M6  =~ paste0('i',51:60)
     
-    # define starting module
-    Start == M1
-
     # define path
-    p1 := Start(0, 5) += M2( 0,10) += M3
-    p2 := Start(0, 5) += M2(11,15) += M4
-    p3 := Start(6,10) += M5( 6,15) += M4
-    p4 := Start(6,10) += M5(16,20) += M6
+    p1 := M1(0, 5) += M2( 0,10) += M3
+    p2 := M1(0, 5) += M2(11,15) += M4
+    p3 := M1(6,10) += M5( 6,15) += M4
+    p4 := M1(6,10) += M5(16,20) += M6
     "
   items <- seq(-1,1,length.out = 60)
   names(items) <- paste0("i",1:60)
   persons = 1000
-  mean = 0
-  sd = 1
   dat <- tmt_sim(mstdesign = mstdesign, 
-    items = items, persons = persons, mean = mean, sd = sd)
+    items = items, persons = persons)
   dat.rm <- tmt_rm(dat = dat, mstdesign = mstdesign)
   summary(dat.rm)
 
@@ -160,8 +154,11 @@ summary(dat.rm)
 \references{
 \itemize{
  \item Baker, F. B., & Harwell, M. R. (1996). Computing elementary symmetric functions and their derivatives:
-    A didactic. \emph{Applied Psychological Measurement}, 20(2), 169-192. Chicago
+    A didactic. \emph{Applied Psychological Measurement}, 20(2), 169-192.
  \item Baker, F. B., & Kim, S. H. (2004). \emph{Item response theory: Parameter estimation techniques}. CRC Press.
+\item Chen, H., Yamamoto, K., & von Davier, M. (2014). Controlling multistage testing exposure rates in international large-scale assessments. 
+   In A. Yan, A. A. von Davier, & C. Lewis (Eds.), \emph{Computerized Multistage Testing: Theory and Applications} (pp. 391–409). 
+   New York: CRC Press. https://doi.org/10.1201/b16858
  \item Fischer, G. H., & Molenaar, I. W. (Eds.). (2012). \emph{Rasch models: Foundations, recent developments, and applications}. 
 			Springer Science & Business Media.
 	\item Formann, A. K. (1986). A note on the computation of the second-order derivatives of the elementary symmetric 
@@ -171,7 +168,9 @@ summary(dat.rm)
 	  Volume two: Statistical tools.} (pp. 197 - 236). New York: CRC Press.
  \item Rasch, G. (1960). \emph{Probabalistic models for some intelligence and attainment tests.} Danmarks
     paedagogiske institut.
- \item Verhelst, N.D., Glas, C.A.W. und van der Sluis, A. (1984). Estimation Problems in the Rasch-Model:
+\item Steinfeld, J., & Robitzsch, A. (2021). Conditional maximum likelihood estimation in probability-branched multistage designs. 
+   \emph{PsyArXiv}. 20 March 2021. https://doi.org/10.31234/osf.io/ew27f
+ \item Verhelst, N.D., Glas, C.A.W., & van der Sluis, A. (1984). Estimation Problems in the Rasch-Model:
     The Basic Symmetric Functions. \emph{Computational Statistics Quarterly}, 1(3), 245-262.
  \item Zwitser, R. J., & Maris, G. (2015). Conditional statistical inference with multistage testing designs.
     \emph{Psychometrika}, 80(1), 65-84.

@@ -73,7 +73,7 @@ if(any(is.na(object$data))){
       stop("The submitted split vector does not match the amount of persons in your data\n")
     } 
     if(length(unique(split)) != 2){
-      stop("Pleas submit a dichotomous split vector!\n")
+      stop("Please submit a dichotomous split vector!\n")
     }
     split_i <- as.factor(as.character(split))
   }
@@ -85,7 +85,7 @@ names(datalist) <- levels(split_i)
 
 #----------item to be deleted---------------
 deleted_items <- lapply(datalist, function(x) {
-                    it.sub <- data_check(dat = x)$status  #items to be removed within subgroup
+                      data_check(dat = x)$status  #items to be removed within subgroup
                     })
 
 deleted_item <- unique(unlist(deleted_items))

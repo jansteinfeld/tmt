@@ -7,30 +7,25 @@ mstdesign <- "
     B5 =~ c(i21, i22, i23, i24, i25)
     B6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting module
-    Start == B4
-
     # define branches
-    b1 := Start(0,2) + B2(0,2) + B1(0,5)
-    b2 := Start(0,2) + B2(3,5) + B3(0,5)
-    b3 := Start(3,5) + B5(0,2) + B3(0,5)
-    b4 := Start(3,5) + B5(3,5) + B6(0,5)
+    b1 := B4(0,2) + B2(0,2) + B1(0,5)
+    b2 := B4(0,2) + B2(3,5) + B3(0,5)
+    b3 := B4(3,5) + B5(0,2) + B3(0,5)
+    b4 := B4(3,5) + B5(3,5) + B6(0,5)
   "
-# Vorbereitung
-dat <- tmt:::sim.rm(100,5, 1111)
-colnames(dat) <- paste0("i",1:ncol(dat))
+
+dat <- tmt:::sim.rm(100, 5, 1111)
+colnames(dat) <- paste0("i",seq_len(ncol(dat)))
 datna <- dat
-datna[sample(1:length(datna),50,replace = FALSE)] <- NA
+datna[sample(seq_len(length(datna)),50,replace = FALSE)] <- NA
 datrm_1 <- tmt_rm(dat, optimization="optim")
 
-items <- seq(-2,2,length.out=30)
-names(items) <- c(paste0("i",1:30))
-set.seed(1111)
+items <- seq(-2,2, length.out = 30)
+names(items) <- c(paste0("i",seq_len(30)))
 dat_mst <- tmt_sim(mstdesign = mstdesign,
 			items = items,
 			persons = 500,
-			mean = 0,
-			sd = 1)
+			seed = 1111)
 datrm_1a <- tmt_rm(dat, optimization = "optim")
 datrm_1b <- tmt_rm(data.frame(dat), optimization = "optim")
 datrm_1c <- tmt_rm(dat, optimization = "nlminb")
@@ -88,8 +83,8 @@ test_that("error raschmodel.mst",{
     expect_that(raschmodel.mst(dat_mst$data,mstdesign=NULL), throws_error())
 })
 test_that("error raschmodel.nmst",{
-    expect_that(raschmodel.nmst(datrm_1a, start = rep(0,10)), throws_error())
-    expect_that(raschmodel.nmst(dat, start = rep(0,10)), throws_error())
+    expect_that(suppressWarnings(raschmodel.nmst(datrm_1a, start = rep(0,10))), throws_error())
+    expect_that(suppressWarnings(raschmodel.nmst(dat, start = rep(0,10))), throws_error())
 	})
 
 # -----------------------------------------------------------------
@@ -107,18 +102,3 @@ context("test-raschmodel check errors")
     expect_that(suppressWarnings(tmt_rm(dat_mst_4)), throws_error())
     expect_that(suppressWarnings(tmt_rm(dat_mst_5)), throws_error())
   })
-
-# Checks einbauen
-# Abfrage der Parameter, die geschätzt werden
-# Abfrage der Struktur
-# Checks checken
-
-# expect_equal() is equal within small numerical tolerance?
-# expect_identical() is exactly equal?
-# expect_match() matches specified string or regular expression? expect_output() prints specified output?
-# expect_message() displays specified message?
-# expect_warning() displays specified warning?
-# expect_error() throws specified error?
-# expect_is() output inherits from certain class?
-# expect_false() returns FALSE?
-# expect_true() returns TRUE?

@@ -28,12 +28,9 @@
     M2 =~ c(i6, i7, i8, i9, i10)
     M3 =~ c(i11, i12, i13, i14, i15)
 
-    # define starting Block
-    Start == M2
-
     # define path
-    p1 := Start(0,2) + M1(0,5)
-    p2 := Start(3,5) + M3(0,5)
+    p1 := M2(0,2) + M1(0,5)
+    p2 := M2(3,5) + M3(0,5)
   "
     # generate item parameters with corresponding names to the multistage design
   items <- seq(-1,1, length.out = 15)
@@ -42,9 +39,7 @@
     # generate random data under given multistage design
   dat <- tmt_sim(mstdesign = mstdesign, 
                       items = items, 
-                      persons = 500, 
-                      mean = 0, 
-                      sd = 1)
+                      persons = 500)
     # estimate the item parameters under the given multistage-design
   dat.rm <- tmt_rm(dat = dat, 
                   mstdesign = mstdesign, 
@@ -62,15 +57,12 @@
     M4  =~ paste0('i',31:40)
     M5  =~ paste0('i',41:50)
     M6  =~ paste0('i',51:60)
-    
-    # define starting module
-    Start == M1
 
     # define path
-    p1 := Start(0, 5) += M2( 0,10) += M3
-    p2 := Start(0, 5) += M2(11,15) += M4
-    p3 := Start(6,10) += M5( 6,15) += M4
-    p4 := Start(6,10) += M5(16,20) += M6
+    p1 := M1(0, 5) += M2( 0,10) += M3
+    p2 := M1(0, 5) += M2(11,15) += M4
+    p3 := M1(6,10) += M5( 6,15) += M4
+    p4 := M1(6,10) += M5(16,20) += M6
     "
     # generate item parameters with corresponding names to the multistage design
   items <- seq(-1,1, length.out = 60)
@@ -79,9 +71,7 @@
     # generate random data under given multistage design
   dat <- tmt_sim(mstdesign = mstdesign, 
                       items = items, 
-                      persons = 1000, 
-                      mean = 0, 
-                      sd = 1)
+                      persons = 1000)
     # estimate the item parameters under the given multistage-design
   dat.rm <- tmt_rm(dat = dat, 
                   mstdesign = mstdesign, 
@@ -110,24 +100,19 @@
     M2 =~ c(i6, i7, i8, i9, i10)
     M3 =~ c(i11, i12, i13, i14, i15)
 
-    # define starting Block
-    Start == M2
-
     # define path
-    p1 := Start(0,2) + M1(0,5)
-    p2 := Start(3,5) + M3(0,5)
+    p1 := M2(0,2) + M1(0,5)
+    p2 := M2(3,5) + M3(0,5)
   "
     # generate item parameters with corresponding names to the multistage design
   items <- seq(-1,1, length.out = 15)
   names(items) <- paste0("i",1:length(items))
   
       # generate random data under given multistage design
-  set.seed(1111)
-  dat_mst <- tmt_sim(mstdesign = mstdesign, 
+    dat_mst <- tmt_sim(mstdesign = mstdesign, 
                       items = items, 
-                      persons = 500, 
-                      mean = 0, 
-                      sd = 1)
+                      persons = 500,
+                      seed = 1111)
 
     # estimate the item parameters under the given multistage-design
   dat_mst_rm <- tmt_rm(dat = dat_mst, 

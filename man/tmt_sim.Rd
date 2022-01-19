@@ -4,8 +4,13 @@
 \alias{tmt_sim}
 \title{Function for the Simulation of Multistage-Designs}
 \usage{
-tmt_sim(mstdesign = NULL, items = NULL, persons = NULL, mean = 0,
-  sd = 1, ...)
+tmt_sim(
+  mstdesign = NULL,
+  items = NULL,
+  persons = NULL,
+  preconditions = NULL,
+  ...
+)
 }
 \arguments{
 \item{mstdesign}{definition of desired multistage design}
@@ -14,11 +19,9 @@ tmt_sim(mstdesign = NULL, items = NULL, persons = NULL, mean = 0,
 
 \item{persons}{amount of persons per starting module}
 
-\item{mean}{optional mean for person parameter; default = 0}
+\item{preconditions}{definition of preconditions can optionally be specified. In the case of probabilistic routing preconditions such as a pre-test, which are taken into account in the MST design. For the specification the correlation with the true person parameter have to be specified. The submitted correlation is adjusted in the function according to Demirtas and Yavuz (2015; <doi:10.1080/10543406.2014.920868>) It is also possible to submit your own vector with integers for the preconditions.}
 
-\item{sd}{optional sd for person parameter; default = 1}
-
-\item{...}{further optional arguments like \code{set.seed}}
+\item{...}{further optional arguments like setting a \code{seed}}
 }
 \value{
 List with following entries
@@ -29,9 +32,7 @@ List with following entries
  \item{mstdesign}{Submitted multistage design}
 }
 \description{
-This function simulates data after a multistage design. The subjects are drawn from a normal 
-distribution with specified mean and standard deviation (default N (0,1)). As an additional argument, 
-a seed can also be passed.
+This function simulates data according to the specified and submitted multistage design. The persons are drawn from a standard normal distribution if the amount of persons are specified. As an additional argument, a seed can also be set. If requested, it is also possible to submit a vector ore list of person parameters to specify different person distributions.
 }
 \examples{
 #############################################################################
@@ -42,23 +43,17 @@ a seed can also be passed.
 	 M2 =~ c(i6, i7, i8, i9, i10)
 	 M3 =~ c(i11, i12, i13, i14, i15)
 
-	 # define starting module
-	 Start == M2
-
 	 # define branches
-	 p1 := Start(0,2) + M1
-	 p2 := Start(3,5) + M3
+	 p1 := M2(0,2) + M1
+	 p2 := M2(3,5) + M3
  "
 items <- seq(-3,3,length.out = 15)
-names(items) <- paste0("i",1:15)
+names(items) <- paste0("i", seq(items))
 
-persons = 500
-set.seed(1111)
 data_1 <- tmt_sim(mstdesign = mstdesign, 
     items = items, 
-    persons = persons, 
-    mean = 0, 
-    sd = 1)
+    persons = 500, 
+    seed = 1111)
 
 #############################################################################
 # translate multistage model 2
@@ -71,25 +66,25 @@ mstdesign <- "
     M5 =~ c(i21, i22, i23, i24, i25)
     M6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting module
-    Start == M4
-
     # define branches
-    p1 := Start(0,2) + M2(0,2) + M1
-    p2 := Start(0,2) + M2(3,5) + M3
-    p3 := Start(3,5) + M5(0,2) + M3
-    p4 := Start(3,5) + M5(3,5) + M6
+    p1 := M4(0,2) + M2(0,2) + M1
+    p2 := M4(0,2) + M2(3,5) + M3
+    p3 := M4(3,5) + M5(0,2) + M3
+    p4 := M4(3,5) + M5(3,5) + M6
   "
 
 items <- seq(-3,3,length.out = 30)
-names(items) <- paste0("i",1:30)
-persons = 500
-set.seed(1111)
+names(items) <- paste0("i", seq(items))
+
 data_2 <- tmt_sim(mstdesign = mstdesign, 
     items = items, 
-    persons = persons, 
-    mean = 0, 
-    sd = 1)
+    persons = 500,
+    seed = 1111)
+}
+\references{
+\itemize{
+ \item Demirtas, H., & Yavuz, Y. (2015). Concurrent Generation of Ordinal and Normal Data. \emph{Journal of Biopharmaceutical Statistics}, 25(4), 635-650. https://doi.org/10.1080/10543406.2014.920868
+}
 }
 \author{
 Jan Steinfeld

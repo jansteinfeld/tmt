@@ -38,3 +38,7 @@ tmt.Rcheck/
 *.so
 *.dll
 *.csv
+/doc/
+/Meta/
+*.DS_Store
+*.JPG

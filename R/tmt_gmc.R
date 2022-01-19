@@ -1,8 +1,8 @@
 #' Function for the Graphical Model Check
 #' 
-#' This function is a wrapper that processes the data of the likelihood ratio test for \code{ggplot2}. Items can be color coded and also excluded.
+#' This function performs a so-called graphical model check on the basis of the previously performed Likelihood Ratio Test [tmt::tmt_lrttest()]. The estimated item parameters of the two groups are plotted against each other. There is the possibility in this function to highlight items, to be excluded items from the plot, and to produce confidence-ellipses if desired.
 #'
-#' @param object      object of the function \link{tmt_lrtest}
+#' @param object      object of the function [tmt::tmt_lrttest()]
 #' @param title       of the plot
 #' @param xaxis       description of the x-axis
 #' @param yaxis       description of the y-axis

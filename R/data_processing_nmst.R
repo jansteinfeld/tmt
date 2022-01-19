@@ -1,6 +1,7 @@
 data_processing_nmst <- function(dat, weights){
 ## process NA patterns and calculate static things once
   i <- ncol(dat)
+  # do.call(paste0,branches_new)
   na_patterns <- factor(apply(is.na(dat), 1, function(x) paste(which(x), collapse = "\r")))
   y_i <- na_i <- wi_i <- wi2_i <- cs_i <- rs_i <- rf_i <- k_i <- vector("list", nlevels(na_patterns))
   # na_pattern_levels <- levels(na_patterns)

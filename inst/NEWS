@@ -26,9 +26,19 @@ URL:
 ----
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-------------------------------------------------------------
+VERSIONS tmt 0.3.1-19  |  2022-01-19  |  Last: tmt 0.2.1-0
+-------------------------------------------------------------
+* added the feature of item parameter estimation of probabilistic MST designs
+* fixed tmt_sim function which ignored seed, when theta and or b where > 1
+* improved the performance of the package
+* added seed to the simulation function
+* changed the definition of cumulative MST designs from += to ++ (respectively both are working)
+* added possibility to specify further conditions 'preconditions' in the MST design
+* fixed bug in determining the se at small MST designs
 
 -------------------------------------------------------------
-VERSIONS tmt 0.2  |  2019-xx-xx  |  Last: tmt 0.1.9-3
+VERSIONS tmt 0.2.1-0  |  2019-07-05  |  Last: tmt 0.1.9-3
 -------------------------------------------------------------
 * cumulative designs are now supported (see vignette)
 * increased the speed of the package

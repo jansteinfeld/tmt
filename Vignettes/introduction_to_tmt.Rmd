@@ -1,7 +1,7 @@
 ---
 title: "Introduction for the tmt package"
-author: "Jan Steinfeld"
-date: June 27, 2019
+author: "Jan Steinfeld & Alexander Robitzsch"
+date: January 19, 2022
 
 output:
   prettydoc::html_pretty:
@@ -38,7 +38,7 @@ csl: apa.csl
 # Introduction
 This package provides a collection of functions to simulate data, estimate item parameters and calculation of likelihood ratio test in multistage designs. 
 In multistage tests, different groups of items (module) are presented to test persons depending on their response behavior to previous item groups. Multistage testing is thus a simple form of adaptive testing. If data are collected on the basis of such a multistage design and the items are estimated using the Conditional Maximum Likelihood (CML) method, @glas1988rasch has shown, that the item parameters are biased. 
-While @eggen2011item propose to avoid the bias using the marginal maximum likelihood (MML) method, @zwitser2015conditional showed in their work, that taking the applied multistage design in consideration and including it in the estimation of the item parameters, the estimation of item parameters is not biased using the CML method. Their proposed solution is implemented in our package.
+While @eggen2011item propose to avoid the bias using the marginal maximum likelihood (MML) method, @zwitser2015conditional showed in their work, that taking the applied multistage design in consideration and including it in the estimation of the item parameters, the estimation of item parameters is not biased using the CML method.
 In this package, the approach of @zwitser2015conditional is implemented. It was ensured that the necessary specification of the multistage design is as simple as possible and will be described in detail below. For the multistage design, the elementary symmetric function has to be calculated several times, so that this is as efficient as possible, the relevant functions have been written in Rcpp [@rcpp].
 In addition to estimating the item parameters for multistage designs, it is also possible to estimate the item parameters for conventional designs. In order to further increase the efficiency, the algorithm of @verhelst1984estimation was used for the elementary symmetry function.
 
@@ -67,12 +67,12 @@ In order to estimate the item parameters in a multistage design, the correspondi
 
 Keeping the syntax is very important, otherwise the design can not be translated.
 
-| component         | syntax | example                                                      |
-| ----------------- |:------:| ------------------------------------------------------------:|
-| module            | =~     | M1 =~ c(i1, i2, i3, i4, i5)                                  |
-| starting module   | ==     | Start == M2                                                  |
-| path              | :=     | p1 := Start(minSolved,maxSolved)                             |
-| stages            | +      | p1 := Start(minSolved,maxSolved) + M1(minSolved, maxSolved)  |
+| component         | syntax   | example                                                      |
+| ----------------- |:-------: | ------------------------------------------------------------:|
+| module            | =~       | M1 =~ c(i1, i2, i3, i4, i5)                                  |
+| pre conditions    | ==       | xcon(1:3)                                                    |
+| path              | :=       | p1 := M2(minSolved,maxSolved)                                |
+| stages            | += or ++ | p1 := M2(minSolved,maxSolved) += M1(minSolved, maxSolved)    |
 
 To estimate the item parameters the function <tt>tmt_rm</tt> must be called with the additional information of the multistage design. Additional arguments allow to turn off the estimates of the standard errors (for example, for time reasons) or to switch from "nlminb" to "optim" (as in the example below).
 
@@ -83,12 +83,9 @@ To estimate the item parameters the function <tt>tmt_rm</tt> must be called with
     M2 =~ c(i6, i7, i8, i9, i10)
     M3 =~ c(i11, i12, i13, i14, i15)
 
-    # define starting Block
-    Start == M2
-
     # define path
-    p1 := Start(0,2) + M1(0,5)
-    p2 := Start(3,5) + M3(0,5)
+    p1 := M2(0,2) + M1(0,5)
+    p2 := M2(3,5) + M3(0,5)
   "
     # generate item parameters with corresponding names to the multistage design
   items <- seq(-1,1, length.out = 15)
@@ -97,9 +94,7 @@ To estimate the item parameters the function <tt>tmt_rm</tt> must be called with
     # generate random data under given multistage design
   dat <- tmt_sim(mstdesign = mstdesign, 
                       items = items, 
-                      persons = 500, 
-                      mean = 0, 
-                      sd = 1)
+                      persons = 500)
     # estimate the item parameters under the given multistage-design
   dat.rm <- tmt_rm(dat = dat, 
                   mstdesign = mstdesign, 
@@ -113,12 +108,12 @@ In order to estimate the item parameters in a cumulative multistage design, the 
 
 Keeping the syntax is very important, otherwise the design can not be translated.
 
-| component         | syntax | example                                                      |
-| ----------------- |:------:| ------------------------------------------------------------:|
-| module            | =~     | M1 =~ c(i1, i2, i3, i4, i5)                                  |
-| starting module   | ==     | Start == M2                                                  |
-| path              | :=     | p1 := Start(minSolved,maxSolved)                             |
-| stages            | +=     | p1 := Start(minSolved,maxSolved) += M1(minSolved, maxSolved) |
+| component         | syntax   | example                                                      |
+| ----------------- |:-------: | ------------------------------------------------------------:|
+| module            | =~       | M1 =~ c(i1, i2, i3, i4, i5)                                  |
+| pre conditions    | ==       | xcon(1:3)                                                    |
+| path              | :=       | p1 := M2(minSolved,maxSolved)                                |
+| stages            | += or ++ | p1 := M2(minSolved,maxSolved) += M1(minSolved, maxSolved)    |
 
 To estimate the item parameters the function <tt>tmt_rm</tt> must be called with the additional information of the multistage design. Additional arguments allow to turn off the estimates of the standard errors (for example, for time reasons) or to switch from "nlminb" to "optim" (as in the example below).
 
@@ -131,15 +126,12 @@ To estimate the item parameters the function <tt>tmt_rm</tt> must be called with
     M4  =~ paste0('i',31:40)
     M5  =~ paste0('i',41:50)
     M6  =~ paste0('i',51:60)
-    
-    # define starting module
-    Start == M1
 
     # define path
-    p1 := Start(0, 5) += M2( 0,10) += M3
-    p2 := Start(0, 5) += M2(11,15) += M4
-    p3 := Start(6,10) += M5( 6,15) += M4
-    p4 := Start(6,10) += M5(16,20) += M6
+    p1 := M1(0, 5) += M2( 0,10) += M3
+    p2 := M1(0, 5) += M2(11,15) += M4
+    p3 := M1(6,10) += M5( 6,15) += M4
+    p4 := M1(6,10) += M5(16,20) += M6
     "
     # generate item parameters with corresponding names to the multistage design
   items <- seq(-1,1, length.out = 60)
@@ -148,9 +140,7 @@ To estimate the item parameters the function <tt>tmt_rm</tt> must be called with
     # generate random data under given multistage design
   dat <- tmt_sim(mstdesign = mstdesign, 
                       items = items, 
-                      persons = 1000, 
-                      mean = 0, 
-                      sd = 1)
+                      persons = 1000)
     # estimate the item parameters under the given multistage-design
   dat.rm <- tmt_rm(dat = dat, 
                   mstdesign = mstdesign, 
@@ -184,24 +174,19 @@ The likelihood ratio test of Andersen [@andersen1973goodness] is also implemente
     M2 =~ c(i6, i7, i8, i9, i10)
     M3 =~ c(i11, i12, i13, i14, i15)
 
-    # define starting Block
-    Start == M2
-
     # define path
-    p1 := Start(0,2) + M1(0,5)
-    p2 := Start(3,5) + M3(0,5)
+    p1 := M2(0,2) + M1(0,5)
+    p2 := M2(3,5) + M3(0,5)
   "
     # generate item parameters with corresponding names to the multistage design
   items <- seq(-1,1, length.out = 15)
   names(items) <- paste0("i",1:length(items))
   
       # generate random data under given multistage design
-  set.seed(1111)
-  dat_mst <- tmt_sim(mstdesign = mstdesign, 
+    dat_mst <- tmt_sim(mstdesign = mstdesign, 
                       items = items, 
-                      persons = 500, 
-                      mean = 0, 
-                      sd = 1)
+                      persons = 500,
+                      seed = 1111)
 
     # estimate the item parameters under the given multistage-design
   dat_mst_rm <- tmt_rm(dat = dat_mst, 

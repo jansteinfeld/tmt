@@ -11,6 +11,10 @@ raschmodel.nmst <- function(dat, weights = NULL, start = NULL, sum0 = TRUE,
 
   if ( !is.matrix(dat) & !is.data.frame(dat) ) stop("please submit either a 'data.frame' or a 'matrix'")
 
+  # check data
+  dat_orig <- dat
+  dat <- data_check(dat = dat)$dat
+
   # amount of Items and Persons
   i <- ncol(dat)
   n <- nrow(dat)
@@ -34,9 +38,7 @@ raschmodel.nmst <- function(dat, weights = NULL, start = NULL, sum0 = TRUE,
   # colSums
   cs <- colSums(dat * weights, na.rm = TRUE)
 
-  # check data
-  dat_orig <- dat
-  dat <- data_check(dat = dat)$dat
+ 
 
   dat <- dat[weights > 0, , drop = FALSE]
   weights <- weights[weights > 0]
@@ -126,13 +128,13 @@ raschmodel.nmst <- function(dat, weights = NULL, start = NULL, sum0 = TRUE,
     res <- data_processing_nmst(dat, weights)
     na_patterns <- res$na_patterns
     y_i <- res$y_i 
-    na_i <- res$na_i
+    # na_i <- res$na_i
     wi_i <- res$wi_i
-    wi2_i <- res$wi2_i
+    # wi2_i <- res$wi2_i
     cs_i <- res$cs_i
-    rs_i <- res$rs_i
+    # rs_i <- res$rs_i
     rf_i <- res$rf_i
-    k_i <- res$k_i
+    # k_i <- res$k_i
 
     ## conditional log-likelihood function for NA pattern i
     cll_i <- function( cs_i, par_i, rf_i ) {

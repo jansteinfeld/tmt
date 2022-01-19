@@ -6,32 +6,27 @@ mstdesign <- "
     B5 =~ c(i21, i22, i23, i24, i25)
     B6 =~ c(i26, i27, i28, i29, i30)
 
-    # define starting module
-    Start == B4
-
     # define branches
-    b1 := Start(0,2) + B2(0,2) + B1(0,5)
-    b2 := Start(0,2) + B2(3,5) + B3(0,5)
-    b3 := Start(3,5) + B5(0,2) + B3(0,5)
-    b4 := Start(3,5) + B5(3,5) + B6(0,5)
+    b1 := B4(0,2) + B2(0,2) + B1(0,5)
+    b2 := B4(0,2) + B2(3,5) + B3(0,5)
+    b3 := B4(3,5) + B5(0,2) + B3(0,5)
+    b4 := B4(3,5) + B5(3,5) + B6(0,5)
   "
-# Vorbereitung
+
 items <- seq(-2,2,length.out=30)
 persons <- 1000
 
 dat <- tmt:::sim.rm(persons,items,1111)
 datna <- dat
-datna[sample(1:length(datna),50,replace = FALSE)] <- NA
+datna[sample(seq_len(length(datna)),50,replace = FALSE)] <- NA
 datrm_1 <- tmt_rm(dat, optimization="optim")
 
 
 names(items) <- c(paste0("i",1:30))
-set.seed(1111)
 dat_mst <- tmt_sim(mstdesign = mstdesign,
 			items = items,
 			persons = persons,
-			mean = 0,
-			sd = 1)
+			seed = 1111)
 datrm_1p <- tmt_rm(dat, optimization="optim")
 datrm_2p <- tmt_rm(dat_mst$data,mstdesign=mstdesign, optimization="optim")
 
@@ -64,7 +59,7 @@ test_that("print functions raschmodel nmst", {
   expect_that(datrm_3p.out[6], equals(c("Results of Rasch model (nmst) estimation: ")))
   expect_that(datrm_3p.out[8], equals(c("Difficulty parameters: ")))
   expect_that(datrm_5p.out[8], equals(c("Difficulty parameters: ")))
-  expect_that(grep("Std. Error", datrm_4p.out[14]), equals(1))
+  expect_that(grep("Std. Error", datrm_4p.out[11]), equals(1))
 })
 
 test_that("print functions raschmodel mst", {
@@ -72,7 +67,7 @@ test_that("print functions raschmodel mst", {
   expect_that(datrm_2p.out[8], equals(c("Difficulty parameters: ")))
   expect_that(datrm_4p.out[6], equals(c("Results of Rasch model (mst) estimation: ")))
   expect_that(datrm_6p.out[9], equals(c("Difficulty parameters: ")))
-  expect_that(grep("Std. Error", datrm_2p.out[14]), equals(1))
+  expect_that(grep("Std. Error", datrm_2p.out[11]), equals(1))
 })
 
 

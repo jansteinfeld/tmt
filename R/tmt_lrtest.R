@@ -1,6 +1,6 @@
 #' Computation of Andersen's Likelihood-Ratio Test
 #'
-#' This function applies the Likelihood Ratio Test of Andersen. Note that all persons with raw score equal to "median" are assigned to lower group. Is is also allowed to split after "mean" or submit any dichotomous vector.
+#' This function applies the Likelihood Ratio Test of Andersen. Note that all persons with raw score equal to "median" are assigned to the lower group in cases of a median split. Is is also allowed to split after "mean" or submit any dichotomous vector as split criteria.
 #' 
 #' @param object it is necessary to submit an object of the function \code{mst} or \code{nmst}
 #' @param split  default is the split criteria "median" of the raw score, optional are "mean" or any dichotomous vector
