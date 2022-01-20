@@ -431,7 +431,7 @@ context("test-helperfunctions tmt_mstdesign")
                   tmtd = tmtd,
                   n.branches = n.branches)
     expect_that(mod_small_v3,equals(mod_small_v4))
-    expect_that(mod_small_v4_design[1,"probability"], equals(c("0.9,0.1,0.1;1,1,1,1,1,1")))
+    expect_that(as.character(mod_small_v4_design[1,"probability"]), equals(as.character(c("0.9,0.1,0.1;1,1,1,1,1,1"))))
   })
 
 test_that("hfun_simulation probs cum", {
