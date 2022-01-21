@@ -2,24 +2,28 @@
 
 <!-- README.md is generated from README.Rmd-->
 
-[![Build
-Status](https://app.travis-ci.com/jansteinfeld/tmt.svg?branch=master)](https://app.travis-ci.com/jansteinfeld/tmt)
-[![codecov](https://codecov.io/gh/jansteinfeld/tmt/branch/master/graph/badge.svg?token=11lw4stBoI)](https://app.codecov.io/gh/jansteinfeld/tmt)
-[![License: GPL
-v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://opensource.org/licenses/GPL-3.0/)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://github.com/jansteinfeld/tmt/commits)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2019--05--07-yellowgreen.svg)](/commits/master)
+[![R-CMD-check](https://github.com/jansteinfeld/tmt/actions/workflows/check-full.yaml/badge.svg)](https://github.com/jansteinfeld/tmt/actions/workflows/check-full.yaml)
+[![GitHub
+test-coverage](https://github.com/jansteinfeld/tmt/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/jansteinfeld/tmt/actions/workflows/test-coverage.yaml)
+[![GitHub
+pages-build](https://github.com/jansteinfeld/tmt/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/jansteinfeld/tmt/actions/workflows/pages/pages-build-deployment)
+[![GitHub
+version](https://img.shields.io/github/r-package/v/jansteinfeld/tmt?label=version&logo=github)](https://github.com/jansteinfeld/tmt/)
+[![GitHub
+release](https://img.shields.io/github/v/release/jansteinfeld/tmt?label=release&logo=github)](https://github.com/jansteinfeld/tmt/)
 [![GitHub pull
-requests](https://img.shields.io/github/issues-pr/jansteinfeld/tmt.svg)](https://github.com/jansteinfeld/tmt/pulls)
+requests](https://img.shields.io/github/issues-pr/jansteinfeld/tmt?label=pull%20requests&logo=github)](https://github.com/jansteinfeld/tmt/pulls)
 [![GitHub
-issues](https://img.shields.io/github/issues-raw/jansteinfeld/tmt.svg)](https://github.com/jansteinfeld/tmt/issues)
-[![GitHub
-version](https://img.shields.io/badge/github%20version-0.2.1--0-orange.svg)](https://github.com/jansteinfeld/tmt)
+issues](https://img.shields.io/github/issues-raw/jansteinfeld/tmt?label=issues&logo=github)](https://github.com/jansteinfeld/tmt/issues)
+[![codecov](https://codecov.io/gh/jansteinfeld/tmt/branch/master/graph/badge.svg?token=11lw4stBoI)](https://app.codecov.io/gh/jansteinfeld/tmt)
 [![CRAN
-version](https://www.r-pkg.org/badges/version/tmt)](https://cran.r-project.org/package=tmt)
+version](https://img.shields.io/cran/v/tmt?label=CRAN%20version)](https://cran.r-project.org/package=tmt)
 [![CRAN
 checks](https://cranchecks.info/badges/summary/tmt)](https://cran.r-project.org/web/checks/check_results_tmt.html)
-[![Dependencies](https://tinyverse.netlify.com/badge/tmt)](https://cran.r-project.org/package=tmt)
+[![package
+dependencies](https://tinyverse.netlify.com/badge/tmt)](https://cran.r-project.org/package=tmt)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://github.com/jansteinfeld/tmt)
+[![License](https://img.shields.io/cran/l/tmt)](https://opensource.org/licenses/GPL-3.0/)
 
 The *tmt* Package provides conditional maximum likelihood (CML) item
 parameter estimation of sequential as well as cumulative deterministic
@@ -113,21 +117,9 @@ summary(mod1)
 #> Results of Rasch model (mst) estimation: 
 #> 
 #> Difficulty parameters: 
-#>              est.b_i1   est.b_i2   est.b_i3  est.b_i4   est.b_i5  est.b_i6
-#> Estimate   -1.8723315 -2.0958741 -1.6615261 -1.713300 -1.8186340 -1.158071
-#> Std. Error  0.2491036  0.2565554  0.2440581  0.245125  0.2476405  0.150556
-#>              est.b_i7   est.b_i8   est.b_i9  est.b_i10  est.b_i11  est.b_i12
-#> Estimate   -0.9886683 -0.8420062 -0.9228962 -0.7308394 -0.6285880 -0.2757812
-#> Std. Error  0.1479676  0.1460532  0.1470717  0.1448089  0.1332405  0.1294712
-#>             est.b_i13   est.b_i14  est.b_i15  est.b_i16 est.b_i17 est.b_i18
-#> Estimate   -0.3722209 -0.08624961 0.07430272 0.01757996 0.2588665 0.2297421
-#> Std. Error  0.1302474  0.12848723 0.12820874 0.11110163 0.1117521 0.1116458
-#>            est.b_i19 est.b_i20 est.b_i21 est.b_i22 est.b_i23 est.b_i24
-#> Estimate   0.5151070 0.5050877 0.7641251 0.8298368 1.1410283 1.1865533
-#> Std. Error 0.1129994 0.1129397 0.1709856 0.1713395 0.1740409 0.1745734
-#>            est.b_i25 est.b_i26 est.b_i27 est.b_i28 est.b_i29 est.b_i30
-#> Estimate   1.1865533 1.9094270 1.5464586 1.5464586 1.5464586 1.9094009
-#> Std. Error 0.1745734 0.2681366 0.2600917 0.2600917 0.2600917 0.2681357
+#>              est.b_i1   est.b_i2   est.b_i3  est.b_i4   est.b_i5  est.b_i6   est.b_i7   est.b_i8   est.b_i9  est.b_i10  est.b_i11  est.b_i12  est.b_i13   est.b_i14  est.b_i15  est.b_i16 est.b_i17 est.b_i18 est.b_i19 est.b_i20 est.b_i21 est.b_i22 est.b_i23 est.b_i24 est.b_i25 est.b_i26 est.b_i27 est.b_i28 est.b_i29 est.b_i30
+#> Estimate   -1.8723315 -2.0958741 -1.6615261 -1.713300 -1.8186340 -1.158071 -0.9886683 -0.8420062 -0.9228962 -0.7308394 -0.6285880 -0.2757812 -0.3722209 -0.08624961 0.07430272 0.01757996 0.2588665 0.2297421 0.5151070 0.5050877 0.7641251 0.8298368 1.1410283 1.1865533 1.1865533 1.9094270 1.5464586 1.5464586 1.5464586 1.9094009
+#> Std. Error  0.2491036  0.2565554  0.2440581  0.245125  0.2476405  0.150556  0.1479676  0.1460532  0.1470717  0.1448089  0.1332405  0.1294712  0.1302474  0.12848723 0.12820874 0.11110163 0.1117521 0.1116458 0.1129994 0.1129397 0.1709856 0.1713395 0.1740409 0.1745734 0.1745734 0.2681366 0.2600917 0.2600917 0.2600917 0.2681357
 #> 
 #> CLL: -3219.822 
 #> Number of iterations: 44 

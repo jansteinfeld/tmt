@@ -1,13 +1,34 @@
-title: tmt
+url: https://jansteinfeld.github.io/tmt/
+home:
+  title: tmt
+authors: 
+  Jan Steinfeld:
+    href: https://jansteinfeld.com
+  Alexander Robitzsch:
+    href: https://sites.google.com/site/alexanderrobitzsch2/
+
 template:
   params:
     bootswatch: flatly
     docsearch:
       api_key: cc39db1658f617f09fb24d30d4ddc270
       index_name: tmt
+includes:
+  in_header:
+    <script defer data-domain="jansteinfeld.github.io/tmt/" src="https://plausible.io/js/plausible.js"></script>
+
+development:
+  mode: auto
+
+articles:
+- title: Introduction
+  navbar: ~
+  desc: Some applications of tmt
+  contents:
+  - introduction_to_tmt
+
+
 pandoc: 1.12.3
 pkgdown: 1.4.1
 pkgdown_sha: ~
-articles:
-  introduction_to_tmt: introduction_to_tmt.html
-url: https://jansteinfeld.github.io/tmt/
+

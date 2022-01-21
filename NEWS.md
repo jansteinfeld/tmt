@@ -1,4 +1,4 @@
-# tmt 0.3.0-19
+# tmt 0.3.0-20
 * added the feature of item parameter estimation of probabilistic MST designs
 * fixed tmt_sim function which ignored seed, when theta and or b where > 1
 * improved the performance of the package

@@ -1,7 +1,8 @@
 ---
 title: "Introduction for the tmt package"
 author: "Jan Steinfeld & Alexander Robitzsch"
-date: January 19, 2022
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+
 
 output:
   prettydoc::html_pretty:
