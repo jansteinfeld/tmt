@@ -26,9 +26,3 @@ articles:
   desc: Some applications of tmt
   contents:
   - introduction_to_tmt
-
-
-pandoc: 1.12.3
-pkgdown: 1.4.1
-pkgdown_sha: ~
-
