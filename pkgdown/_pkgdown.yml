@@ -17,8 +17,9 @@ includes:
   in_header:
     <script defer data-domain="jansteinfeld.github.io/tmt/" src="https://plausible.io/js/plausible.js"></script>
 
-development:
-  mode: auto
+# creates docs/dev
+# development:
+#   mode: auto
 
 articles:
 - title: Introduction
