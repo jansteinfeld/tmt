@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tmt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0-20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1-2</span>
       </span>
     </div>
 
@@ -52,7 +52,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -93,15 +93,26 @@
       </header><div class="row">
   <div class="contents col-md-9">
 <div class="section level1">
-<div class="page-header"><h1 id="tmt-">tmt <img src="reference/figures/tmt.png" width="120" align="right" alt=""><a class="anchor" aria-label="anchor" href="#tmt-"></a>
+<div class="page-header"><h1 id="tmt-">tmt
+<img src="reference/figures/tmt.png" width="120" align="right" alt=""><a class="anchor" aria-label="anchor" href="#tmt-"></a>
 </h1></div>
 <!-- README.md is generated from README.Rmd-->
 
-<p>The <em>tmt</em> Package provides conditional maximum likelihood (CML) item parameter estimation of sequential as well as cumulative deterministic multistage (MST) designs (Zwitser &amp; Maris, 2015, <a href="https://doi.org/10.1007/s11336-013-9369-6" class="external-link">&lt;10.1007/s11336-013-9369-6&gt;</a>) as well as probabilistic sequential and cumulative multistage designs (Steinfeld &amp; Robitzsch, 2021, <a href="https://doi.org/10.31234/osf.io/ew27f" class="external-link">&lt;10.31234/osf.io/ew27f&gt;</a>). Supports CML item parameter estimation of conventional linear designs and additional functions for the likelihood ratio test (Andersen, 1973, <a href="https://doi.org/10.1007/BF02291180" class="external-link">&lt;10.1007/BF02291180&gt;</a>) as well as functions for the simulation of several kinds of multistage designs.</p>
+<p>The <em>tmt</em> Package provides conditional maximum likelihood
+(CML) item parameter estimation of sequential as well as cumulative
+deterministic multistage (MST) designs (Zwitser &amp; Maris, 2015, <a href="https://doi.org/10.1007/s11336-013-9369-6" class="external-link">&lt;10.1007/s11336-013-9369-6&gt;</a>)
+as well as probabilistic sequential and cumulative multistage designs
+(Steinfeld &amp; Robitzsch, 2021, <a href="https://doi.org/10.31234/osf.io/ew27f" class="external-link">&lt;10.31234/osf.io/ew27f&gt;</a>).
+Supports CML item parameter estimation of conventional linear designs
+and additional functions for the likelihood ratio test (Andersen, 1973,
+<a href="https://doi.org/10.1007/BF02291180" class="external-link">&lt;10.1007/BF02291180&gt;</a>)
+as well as functions for the simulation of several kinds of multistage
+designs.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>To install the latest (development) version of the <em>tmt</em> package, please copy the following commands in your R console:</p>
+<p>To install the latest (development) version of the <em>tmt</em>
+package, please copy the following commands in your R console:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Install release version from CRAN</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tmt"</span><span class="op">)</span>
@@ -111,8 +122,29 @@
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
-<p>The application of the package <em>tmt</em> is illustrated below. Further, examples of different MST designs can be found in the associated vignette of the package. For the application of the package and the CML method, it is necessary first to specify the MST design. For this purpose, a model language was developed, which is illustrated in the first section of the example. First, each module of the design must be specified. The following deterministic sequential MST design consists of six modules, four paths’ and three stages. In the first part, the modules of the MST designs are defined (basically the allocation of items). Here different methods are available, the user can apply either the R function <em>paste</em>, but also address the items manually by hand as vector. It is important that the names of the specified items in the modules match those in the data. For the application illustration, some data is subsequently simulated on the basis of the specified MST design. In this example, a seed was set so that the results are easier to compare and to follow this example. For the actual estimation of the item parameters, the function <em>tmt_rm</em> is available. If data has been created with the <em>tmt_sim</em> function, it would be enough to hand over the data generated with this function as part of the export is also the MST design. If the data has not been synthetically generated with this function, it is necessary to specify the MST design.</p>
-<p>You will find a detailed description of the package in the vignette (like sequential cumulative as well as probabilistic MST designs).</p>
+<p>The application of the package <em>tmt</em> is illustrated below.
+Further, examples of different MST designs can be found in the
+associated vignette of the package. For the application of the package
+and the CML method, it is necessary first to specify the MST design. For
+this purpose, a model language was developed, which is illustrated in
+the first section of the example. First, each module of the design must
+be specified. The following deterministic sequential MST design consists
+of six modules, four paths’ and three stages. In the first part, the
+modules of the MST designs are defined (basically the allocation of
+items). Here different methods are available, the user can apply either
+the R function <em>paste</em>, but also address the items manually by
+hand as vector. It is important that the names of the specified items in
+the modules match those in the data. For the application illustration,
+some data is subsequently simulated on the basis of the specified MST
+design. In this example, a seed was set so that the results are easier
+to compare and to follow this example. For the actual estimation of the
+item parameters, the function <em>tmt_rm</em> is available. If data has
+been created with the <em>tmt_sim</em> function, it would be enough to
+hand over the data generated with this function as part of the export is
+also the MST design. If the data has not been synthetically generated
+with this function, it is necessary to specify the MST design.</p>
+<p>You will find a detailed description of the package in the vignette
+(like sequential cumulative as well as probabilistic MST designs).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jansteinfeld.github.io/tmt/">tmt</a></span><span class="op">)</span>
 
@@ -154,9 +186,21 @@
 <span class="co">#&gt; Results of Rasch model (mst) estimation: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Difficulty parameters: </span>
-<span class="co">#&gt;              est.b_i1   est.b_i2   est.b_i3  est.b_i4   est.b_i5  est.b_i6   est.b_i7   est.b_i8   est.b_i9  est.b_i10  est.b_i11  est.b_i12  est.b_i13   est.b_i14  est.b_i15  est.b_i16 est.b_i17 est.b_i18 est.b_i19 est.b_i20 est.b_i21 est.b_i22 est.b_i23 est.b_i24 est.b_i25 est.b_i26 est.b_i27 est.b_i28 est.b_i29 est.b_i30</span>
-<span class="co">#&gt; Estimate   -1.8723315 -2.0958741 -1.6615261 -1.713300 -1.8186340 -1.158071 -0.9886683 -0.8420062 -0.9228962 -0.7308394 -0.6285880 -0.2757812 -0.3722209 -0.08624961 0.07430272 0.01757996 0.2588665 0.2297421 0.5151070 0.5050877 0.7641251 0.8298368 1.1410283 1.1865533 1.1865533 1.9094270 1.5464586 1.5464586 1.5464586 1.9094009</span>
-<span class="co">#&gt; Std. Error  0.2491036  0.2565554  0.2440581  0.245125  0.2476405  0.150556  0.1479676  0.1460532  0.1470717  0.1448089  0.1332405  0.1294712  0.1302474  0.12848723 0.12820874 0.11110163 0.1117521 0.1116458 0.1129994 0.1129397 0.1709856 0.1713395 0.1740409 0.1745734 0.1745734 0.2681366 0.2600917 0.2600917 0.2600917 0.2681357</span>
+<span class="co">#&gt;              est.b_i1   est.b_i2   est.b_i3  est.b_i4   est.b_i5  est.b_i6</span>
+<span class="co">#&gt; Estimate   -1.8723315 -2.0958741 -1.6615261 -1.713300 -1.8186340 -1.158071</span>
+<span class="co">#&gt; Std. Error  0.2491036  0.2565554  0.2440581  0.245125  0.2476405  0.150556</span>
+<span class="co">#&gt;              est.b_i7   est.b_i8   est.b_i9  est.b_i10  est.b_i11  est.b_i12</span>
+<span class="co">#&gt; Estimate   -0.9886683 -0.8420062 -0.9228962 -0.7308394 -0.6285880 -0.2757812</span>
+<span class="co">#&gt; Std. Error  0.1479676  0.1460532  0.1470717  0.1448089  0.1332405  0.1294712</span>
+<span class="co">#&gt;             est.b_i13   est.b_i14  est.b_i15  est.b_i16 est.b_i17 est.b_i18</span>
+<span class="co">#&gt; Estimate   -0.3722209 -0.08624961 0.07430272 0.01757996 0.2588665 0.2297421</span>
+<span class="co">#&gt; Std. Error  0.1302474  0.12848723 0.12820874 0.11110163 0.1117521 0.1116458</span>
+<span class="co">#&gt;            est.b_i19 est.b_i20 est.b_i21 est.b_i22 est.b_i23 est.b_i24</span>
+<span class="co">#&gt; Estimate   0.5151070 0.5050877 0.7641251 0.8298368 1.1410283 1.1865533</span>
+<span class="co">#&gt; Std. Error 0.1129994 0.1129397 0.1709856 0.1713395 0.1740409 0.1745734</span>
+<span class="co">#&gt;            est.b_i25 est.b_i26 est.b_i27 est.b_i28 est.b_i29 est.b_i30</span>
+<span class="co">#&gt; Estimate   1.1865533 1.9094270 1.5464586 1.5464586 1.5464586 1.9094009</span>
+<span class="co">#&gt; Std. Error 0.1745734 0.2681366 0.2600917 0.2600917 0.2600917 0.2681357</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; CLL: -3219.822 </span>
 <span class="co">#&gt; Number of iterations: 44 </span>
@@ -177,9 +221,15 @@
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <ul>
-<li>Glas, C. A. W. (1988). The Rasch Model and Multistage Testing. <em>Journal of Educational Statistics</em>, 13(1), 45. doi: 10.2307/1164950</li>
-<li>Steinfeld, J., &amp; Robitzsch, A. (2021). Conditional maximum likelihood estimation in probability-branched multistage designs. <em>PsyArXiv</em>. 20 March 2021. doi: 10.31234/osf.io/ew27f</li>
-<li>Zwitser, R. J., &amp; Maris, G. (2013). Conditional statistical inference with multistage testing designs. <em>Psychometrika</em>, 80(1), 65–84. doi: 10.1007/s11336-013-9369-6</li>
+<li>Glas, C. A. W. (1988). The Rasch Model and Multistage Testing.
+<em>Journal of Educational Statistics</em>, 13(1), 45. doi:
+10.2307/1164950</li>
+<li>Steinfeld, J., &amp; Robitzsch, A. (2021). Conditional maximum
+likelihood estimation in probability-branched multistage designs.
+<em>PsyArXiv</em>. 20 March 2021. doi: 10.31234/osf.io/ew27f</li>
+<li>Zwitser, R. J., &amp; Maris, G. (2013). Conditional statistical
+inference with multistage testing designs. <em>Psychometrika</em>,
+80(1), 65–84. doi: 10.1007/s11336-013-9369-6</li>
 </ul>
 </div>
 </div>
@@ -245,12 +295,15 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://jansteinfeld.com" class="external-link">Jan Steinfeld</a>, <a href="https://sites.google.com/site/alexanderrobitzsch2/" class="external-link">Alexander Robitzsch</a>.</p>
+<p>Developed by <a href="https://jansteinfeld.com" class="external-link">Jan Steinfeld</a>,
+<a href="https://sites.google.com/site/alexanderrobitzsch2/" class="external-link">Alexander
+Robitzsch</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
       </footer>

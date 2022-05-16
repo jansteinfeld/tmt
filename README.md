@@ -28,13 +28,13 @@ dependencies](https://tinyverse.netlify.com/badge/tmt)](https://cran.r-project.o
 The *tmt* Package provides conditional maximum likelihood (CML) item
 parameter estimation of sequential as well as cumulative deterministic
 multistage (MST) designs (Zwitser & Maris, 2015,
-[\<10.1007/s11336-013-9369-6>](https://doi.org/10.1007/s11336-013-9369-6))
+[\<10.1007/s11336-013-9369-6\>](https://doi.org/10.1007/s11336-013-9369-6))
 as well as probabilistic sequential and cumulative multistage designs
 (Steinfeld & Robitzsch, 2021,
-[\<10.31234/osf.io/ew27f>](https://doi.org/10.31234/osf.io/ew27f)).
+[\<10.31234/osf.io/ew27f\>](https://doi.org/10.31234/osf.io/ew27f)).
 Supports CML item parameter estimation of conventional linear designs
 and additional functions for the likelihood ratio test (Andersen, 1973,
-[\<10.1007/BF02291180>](https://doi.org/10.1007/BF02291180)) as well as
+[\<10.1007/BF02291180\>](https://doi.org/10.1007/BF02291180)) as well as
 functions for the simulation of several kinds of multistage designs.
 
 ## Installation
@@ -117,9 +117,21 @@ summary(mod1)
 #> Results of Rasch model (mst) estimation: 
 #> 
 #> Difficulty parameters: 
-#>              est.b_i1   est.b_i2   est.b_i3  est.b_i4   est.b_i5  est.b_i6   est.b_i7   est.b_i8   est.b_i9  est.b_i10  est.b_i11  est.b_i12  est.b_i13   est.b_i14  est.b_i15  est.b_i16 est.b_i17 est.b_i18 est.b_i19 est.b_i20 est.b_i21 est.b_i22 est.b_i23 est.b_i24 est.b_i25 est.b_i26 est.b_i27 est.b_i28 est.b_i29 est.b_i30
-#> Estimate   -1.8723315 -2.0958741 -1.6615261 -1.713300 -1.8186340 -1.158071 -0.9886683 -0.8420062 -0.9228962 -0.7308394 -0.6285880 -0.2757812 -0.3722209 -0.08624961 0.07430272 0.01757996 0.2588665 0.2297421 0.5151070 0.5050877 0.7641251 0.8298368 1.1410283 1.1865533 1.1865533 1.9094270 1.5464586 1.5464586 1.5464586 1.9094009
-#> Std. Error  0.2491036  0.2565554  0.2440581  0.245125  0.2476405  0.150556  0.1479676  0.1460532  0.1470717  0.1448089  0.1332405  0.1294712  0.1302474  0.12848723 0.12820874 0.11110163 0.1117521 0.1116458 0.1129994 0.1129397 0.1709856 0.1713395 0.1740409 0.1745734 0.1745734 0.2681366 0.2600917 0.2600917 0.2600917 0.2681357
+#>              est.b_i1   est.b_i2   est.b_i3  est.b_i4   est.b_i5  est.b_i6
+#> Estimate   -1.8723315 -2.0958741 -1.6615261 -1.713300 -1.8186340 -1.158071
+#> Std. Error  0.2491036  0.2565554  0.2440581  0.245125  0.2476405  0.150556
+#>              est.b_i7   est.b_i8   est.b_i9  est.b_i10  est.b_i11  est.b_i12
+#> Estimate   -0.9886683 -0.8420062 -0.9228962 -0.7308394 -0.6285880 -0.2757812
+#> Std. Error  0.1479676  0.1460532  0.1470717  0.1448089  0.1332405  0.1294712
+#>             est.b_i13   est.b_i14  est.b_i15  est.b_i16 est.b_i17 est.b_i18
+#> Estimate   -0.3722209 -0.08624961 0.07430272 0.01757996 0.2588665 0.2297421
+#> Std. Error  0.1302474  0.12848723 0.12820874 0.11110163 0.1117521 0.1116458
+#>            est.b_i19 est.b_i20 est.b_i21 est.b_i22 est.b_i23 est.b_i24
+#> Estimate   0.5151070 0.5050877 0.7641251 0.8298368 1.1410283 1.1865533
+#> Std. Error 0.1129994 0.1129397 0.1709856 0.1713395 0.1740409 0.1745734
+#>            est.b_i25 est.b_i26 est.b_i27 est.b_i28 est.b_i29 est.b_i30
+#> Estimate   1.1865533 1.9094270 1.5464586 1.5464586 1.5464586 1.9094009
+#> Std. Error 0.1745734 0.2681366 0.2600917 0.2600917 0.2600917 0.2681357
 #> 
 #> CLL: -3219.822 
 #> Number of iterations: 44 

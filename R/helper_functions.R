@@ -186,10 +186,10 @@ hfun.simulation <- function(modules, tmtd, preconditions){
             if (any(duplicated(routing[,"name"]))) {
               stop("The names for the routing rules are not unique. Please change the names and start the function again.")
             }
-            if (class(routing) == "prob_path") {
+            if (inherits(routing,"prob_path")) {
               input[,"probability"] <- routing[grep(c(":="), tmtd)%in%i,"criteria"] # here the probabilities are definied in path, therefore several different probabilities are available for the same module
               tohere <- sum(gregexpr(",",routing[grep(c(":="), tmtd)%in%i,"criteria"],fixed=TRUE)[[1]]>0) + minstart
-            } else if (class(routing) == "prob_rules"){
+            } else if (inherits(routing, "prob_rules")) {
               input[,"probability"] <- routing[routing[,"name"]%in%b1[2],"criteria"]
               tohere <- sum(gregexpr(",",routing[routing[,"name"]%in%b1[2],"criteria"],fixed=TRUE)[[1]]>0) + minstart
             }

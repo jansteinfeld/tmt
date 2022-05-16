@@ -38,7 +38,7 @@ List esf_mst_sum_vector(List parlist,
   * Start here
   * ----------------------------------------------
   */
-  if((order == 0) | (order == 1) | (order == 2)){
+  if((order == 0)  || (order == 1)  || (order == 2)){
 
     int npar = size.size();
     int m = eps.size();
@@ -77,7 +77,7 @@ List esf_mst_sum_vector(List parlist,
   * Start for first order here
   * ----------------------------------------------
   */
-  if((order == 1) | (order == 2)){
+  if((order == 1)  || (order == 2)){
     
     int m = eps.size();
     int k = 0; //helper index
@@ -359,7 +359,7 @@ List esf_mst_sum_vector(List parlist,
         
           for(int i = (helper_stages_1[v] + 1); i < m; i++){
         
-            if((helper_stages_1[v] != i) | (helper_stages_1[j] == helper_stages_1[v])) {
+            if((helper_stages_1[v] != i)  || (helper_stages_1[j] == helper_stages_1[v])) {
               probs_ll.erase(probs_h[i] - helperaseend[i-1] - helperaseendp);
               helperaseendp++;
             }
@@ -384,17 +384,17 @@ List esf_mst_sum_vector(List parlist,
                 helperase_par_ii++;
               } 
               
-          if ((helper_stages_1[v] == p) | ((j > 0) && (helper_stages_1[j-1] == p))) {
+          if ((helper_stages_1[v] == p)  || ((j > 0) && (helper_stages_1[j-1] == p))) {
             for (int i = 0; i < size_par_ii; i++) {
               
               if ((helper_stages_1[v] == p) && (v % size_par_ii == i)) {
                 
                 // order of conditions is important
                 for (int lp = p; lp < psize; lp++){
-                  if (((maxSolved_l[helper_stages_1[v]] >= 0) && (maxSolved_l[p] > 0)) | (cumulative[helper_stages_1[v]] && (maxSolved_design_l[lp]-1)>=0 )) {
+                  if (((maxSolved_l[helper_stages_1[v]] >= 0) && (maxSolved_l[p] > 0))  || (cumulative[helper_stages_1[v]] && (maxSolved_design_l[lp]-1)>=0 )) {
                     maxSolved_design_l[lp] -= 1;
                   }
-                  if ((minSolved_l[helper_stages_1[v]] > 0) | (cumulative[helper_stages_1[v]] && (minSolved_design_l[lp] -1)>=0 )) {
+                  if ((minSolved_l[helper_stages_1[v]] > 0)  || (cumulative[helper_stages_1[v]] && (minSolved_design_l[lp] -1)>=0 )) {
                     minSolved_design_l[lp] -= 1;
                   }
                 }
@@ -408,10 +408,10 @@ List esf_mst_sum_vector(List parlist,
               } else if((j > 0) && (helper_stages_1[j-1] == p) && ((j-1) % size_par_ii == i)){
 
                  for (int lp = p; lp < psize; lp++){
-                  if (((maxSolved_l[helper_stages_1[j-1]] >= 0) && (maxSolved_l[p] > 0)) | (cumulative[helper_stages_1[j-1]] && (maxSolved_design_l[lp]-1)>=0 )) {
+                  if (((maxSolved_l[helper_stages_1[j-1]] >= 0) && (maxSolved_l[p] > 0))  || (cumulative[helper_stages_1[j-1]] && (maxSolved_design_l[lp]-1)>=0 )) {
                     maxSolved_design_l[lp] -= 1;
                   }
-                  if ((minSolved_l[helper_stages_1[j-1]] > 0) | (cumulative[helper_stages_1[j-1]] && (minSolved_design_l[lp]-1)>=0 )) {
+                  if ((minSolved_l[helper_stages_1[j-1]] > 0)  || (cumulative[helper_stages_1[j-1]] && (minSolved_design_l[lp]-1)>=0 )) {
                     minSolved_design_l[lp] -= 1;
                   }
                 }               
@@ -459,7 +459,7 @@ List esf_mst_sum_vector(List parlist,
               out2[o] *= 0;
             } 
           } else {    
-            if ( (maxSolved[helper_stages_1[j-1]] > 0) && (maxSolved[helper_stages_1[v]] > 1) | (maxSolved[helper_stages_1[j-1]] > 1) && (maxSolved[helper_stages_1[v]] > 0)) {
+            if ( ((maxSolved[helper_stages_1[j-1]] > 0) && (maxSolved[helper_stages_1[v]] > 1))  || ((maxSolved[helper_stages_1[j-1]] > 1) && (maxSolved[helper_stages_1[v]] > 0))) {
               out2[o] *= (eps_vec[v] * eps_vec[j-1]);  
             } else {
               out2[o] *= 0;

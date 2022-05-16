@@ -1,3 +1,7 @@
+# tmt 0.3.1-2
+* fixed warning from CRAN
+
+
 # tmt 0.3.0-20
 * added the feature of item parameter estimation of probabilistic MST designs
 * fixed tmt_sim function which ignored seed, when theta and or b where > 1

@@ -246,7 +246,7 @@ tmt_sim <- function(mstdesign = NULL,
 
           probabilities <- do.call(rbind, sapply(probabilities, strsplit, ","))
           probabilities <- apply(probabilities, 2, as.numeric)
-          if (!all(colSums(probabilities) == 1)) warning("For each raw score, the probabilities do not add up to 1\n") # nolint
+          if (!all(colSums(probabilities)%%1 == 0)) warning("For each raw score, the probabilities do not add up to 1\n") # nolint
 
           groups_n <- rep(NA, length(rs_sl))
           seq_gg <- ifelse(min(minSolved) == 0, 1, 0)

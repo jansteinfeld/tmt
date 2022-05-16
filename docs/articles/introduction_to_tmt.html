@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmt</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.0-20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.1-2</span>
       </span>
     </div>
 
@@ -52,7 +52,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -94,9 +94,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction for the tmt package</h1>
-                        <h4 data-toc-skip class="author">Jan Steinfeld &amp; Alexander Robitzsch</h4>
+                        <h4 data-toc-skip class="author">Jan Steinfeld
+&amp; Alexander Robitzsch</h4>
             
-            <h4 data-toc-skip class="date">Januar 21, 2022</h4>
+            <h4 data-toc-skip class="date">Mai 16, 2022</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jansteinfeld/tmt/blob/HEAD/vignettes/introduction_to_tmt.Rmd" class="external-link"><code>vignettes/introduction_to_tmt.Rmd</code></a></small>
       <div class="hidden name"><code>introduction_to_tmt.Rmd</code></div>
@@ -108,17 +109,51 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>This package provides a collection of functions to simulate data, estimate item parameters and calculation of likelihood ratio test in multistage designs. In multistage tests, different groups of items (module) are presented to test persons depending on their response behavior to previous item groups. Multistage testing is thus a simple form of adaptive testing. If data are collected on the basis of such a multistage design and the items are estimated using the Conditional Maximum Likelihood (CML) method, <span class="citation">Glas (1988)</span> has shown, that the item parameters are biased. While <span class="citation">Eggen &amp; Verhelst (2011)</span> propose to avoid the bias using the marginal maximum likelihood (MML) method, <span class="citation">Zwitser &amp; Maris (2015)</span> showed in their work, that taking the applied multistage design in consideration and including it in the estimation of the item parameters, the estimation of item parameters is not biased using the CML method. In this package, the approach of <span class="citation">Zwitser &amp; Maris (2015)</span> is implemented. It was ensured that the necessary specification of the multistage design is as simple as possible and will be described in detail below. For the multistage design, the elementary symmetric function has to be calculated several times, so that this is as efficient as possible, the relevant functions have been written in Rcpp <span class="citation">(Eddelbuettel &amp; Balamuta, 2017)</span>. In addition to estimating the item parameters for multistage designs, it is also possible to estimate the item parameters for conventional designs. In order to further increase the efficiency, the algorithm of <span class="citation">Verhelst, Glas, &amp; Van der Sluis (1984)</span> was used for the elementary symmetry function.</p>
-<p>The package is well tested, but errors can still be exist. If you find a bug, please report it to us (with an working example) preferred via github: <a href="https://github.com/jansteinfeld/tmt/issues" class="external-link">issues</a></p>
+<p>This package provides a collection of functions to simulate data,
+estimate item parameters and calculation of likelihood ratio test in
+multistage designs. In multistage tests, different groups of items
+(module) are presented to test persons depending on their response
+behavior to previous item groups. Multistage testing is thus a simple
+form of adaptive testing. If data are collected on the basis of such a
+multistage design and the items are estimated using the Conditional
+Maximum Likelihood (CML) method, <span class="citation">Glas
+(1988)</span> has shown, that the item parameters are biased. While
+<span class="citation">Eggen &amp; Verhelst (2011)</span> propose to
+avoid the bias using the marginal maximum likelihood (MML) method, <span class="citation">Zwitser &amp; Maris (2015)</span> showed in their work,
+that taking the applied multistage design in consideration and including
+it in the estimation of the item parameters, the estimation of item
+parameters is not biased using the CML method. In this package, the
+approach of <span class="citation">Zwitser &amp; Maris (2015)</span> is
+implemented. It was ensured that the necessary specification of the
+multistage design is as simple as possible and will be described in
+detail below. For the multistage design, the elementary symmetric
+function has to be calculated several times, so that this is as
+efficient as possible, the relevant functions have been written in Rcpp
+<span class="citation">(Eddelbuettel &amp; Balamuta, 2017)</span>. In
+addition to estimating the item parameters for multistage designs, it is
+also possible to estimate the item parameters for conventional designs.
+In order to further increase the efficiency, the algorithm of <span class="citation">Verhelst, Glas, &amp; Van der Sluis (1984)</span> was
+used for the elementary symmetry function.</p>
+<p>The package is well tested, but errors can still be exist. If you
+find a bug, please report it to us (with an working example) preferred
+via github: <a href="https://github.com/jansteinfeld/tmt/issues" class="external-link">issues</a></p>
 </div>
 <div class="section level2">
 <h2 id="package">Package<a class="anchor" aria-label="anchor" href="#package"></a>
 </h2>
-<p>Below are a few sample applications of our package, which should provide information for the start:</p>
+<p>Below are a few sample applications of our package, which should
+provide information for the start:</p>
 <div class="section level3">
 <h3 id="rasch-model-without-multistage-design">Rasch model without multistage design<a class="anchor" aria-label="anchor" href="#rasch-model-without-multistage-design"></a>
 </h3>
-<p>For the estimation of item parameters of a simple 1-PL model, the function <tt>tmt_rm</tt> must be called. Here only the data set has to be passed (as matrix or data.frame) to estimate item parameters. Additional arguments allow to turn off the estimates of the standard errors (for example, for time reasons) or to switch from “nlminb” to “optim” (as in the example below). Per default the items are normalized to sum = 0 as recommended by <span class="citation">Glas (2016)</span>.</p>
+<p>For the estimation of item parameters of a simple 1-PL model, the
+function <tt>tmt_rm</tt> must be called. Here only the data set has to
+be passed (as matrix or data.frame) to estimate item parameters.
+Additional arguments allow to turn off the estimates of the standard
+errors (for example, for time reasons) or to switch from “nlminb” to
+“optim” (as in the example below). Per default the items are normalized
+to sum = 0 as recommended by <span class="citation">Glas
+(2016)</span>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R">   <span class="co"># simulate some data </span>
  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">tmt</span><span class="fu">:::</span><span class="fu">sim.rm</span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">100</span>,b <span class="op">=</span> <span class="fl">10</span>,seed <span class="op">=</span> <span class="fl">1111</span><span class="op">)</span>
@@ -150,9 +185,26 @@
 <div class="section level3">
 <h3 id="rasch-model-with-simple-multistage-design">Rasch model with simple multistage design<a class="anchor" aria-label="anchor" href="#rasch-model-with-simple-multistage-design"></a>
 </h3>
-<p>In order to estimate the item parameters in a multistage design, the corresponding design must first be specified. For the multistage design, it is necessary that each module is defined, as exemplified below with M1, M2, etc. The name of the module is arbitrary. The name of the module follows with “=~” the vector with the items of the respective path. If all modules have been defined, the start module(s) must be defined. The starting module(s) is/are described with a name and the sign “==” (double equal sign) followed by the particular module. Each path has a name followed by the “:=” character in the starting module and all other modules in that path. Each module must be followed in parentheses by the minimum (first number) and maximum (second number) of solved items in the respective module.</p>
-<p>Keeping the syntax is very important, otherwise the design can not be translated.</p>
+<p>In order to estimate the item parameters in a multistage design, the
+corresponding design must first be specified. For the multistage design,
+it is necessary that each module is defined, as exemplified below with
+M1, M2, etc. The name of the module is arbitrary. The name of the module
+follows with “=~” the vector with the items of the respective path. If
+all modules have been defined, the start module(s) must be defined. The
+starting module(s) is/are described with a name and the sign “==”
+(double equal sign) followed by the particular module. Each path has a
+name followed by the “:=” character in the starting module and all other
+modules in that path. Each module must be followed in parentheses by the
+minimum (first number) and maximum (second number) of solved items in
+the respective module.</p>
+<p>Keeping the syntax is very important, otherwise the design can not be
+translated.</p>
 <table class="table">
+<colgroup>
+<col width="19%">
+<col width="10%">
+<col width="70%">
+</colgroup>
 <thead><tr class="header">
 <th>component</th>
 <th align="center">syntax</th>
@@ -177,11 +229,16 @@
 <tr class="even">
 <td>stages</td>
 <td align="center">+= or ++</td>
-<td align="right">p1 := M2(minSolved,maxSolved) += M1(minSolved, maxSolved)</td>
+<td align="right">p1 := M2(minSolved,maxSolved) += M1(minSolved,
+maxSolved)</td>
 </tr>
 </tbody>
 </table>
-<p>To estimate the item parameters the function <tt>tmt_rm</tt> must be called with the additional information of the multistage design. Additional arguments allow to turn off the estimates of the standard errors (for example, for time reasons) or to switch from “nlminb” to “optim” (as in the example below).</p>
+<p>To estimate the item parameters the function <tt>tmt_rm</tt> must be
+called with the additional information of the multistage design.
+Additional arguments allow to turn off the estimates of the standard
+errors (for example, for time reasons) or to switch from “nlminb” to
+“optim” (as in the example below).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  <span class="co"># Example for multistage-design</span>
   <span class="va">mstdesign</span> <span class="op">&lt;-</span> <span class="st">"
@@ -233,9 +290,30 @@
 <div class="section level3">
 <h3 id="rasch-model-with-cumulative-multistage-design">Rasch model with cumulative multistage design<a class="anchor" aria-label="anchor" href="#rasch-model-with-cumulative-multistage-design"></a>
 </h3>
-<p>In order to estimate the item parameters in a cumulative multistage design, the corresponding design must first be specified. For the multistage design, it is necessary that each module is defined, as exemplified below with M1, M2, etc. The name of the module is arbitrary. The name of the module follows with “=~” the vector with the items of the respective module. If all modules have been defined, the start module(s) must be defined. The starting module(s) is/are described with a name and the sign “==” (double equal sign) followed by the particular module. Finally, all pathes must be defined. Each path has a name followed by the “:=” character in the starting module and all other modules (stages) in the path. Each module must be followed in parentheses by the minimum (first number) and maximum (second number) of solved items at that stage. For a cumulative design, the number of minimum and maximum solved items from the previous + the current module must be specified at the current stage. For this purpose the specifing character becomes “+=” instead of “+”.</p>
-<p>Keeping the syntax is very important, otherwise the design can not be translated.</p>
+<p>In order to estimate the item parameters in a cumulative multistage
+design, the corresponding design must first be specified. For the
+multistage design, it is necessary that each module is defined, as
+exemplified below with M1, M2, etc. The name of the module is arbitrary.
+The name of the module follows with “=~” the vector with the items of
+the respective module. If all modules have been defined, the start
+module(s) must be defined. The starting module(s) is/are described with
+a name and the sign “==” (double equal sign) followed by the particular
+module. Finally, all pathes must be defined. Each path has a name
+followed by the “:=” character in the starting module and all other
+modules (stages) in the path. Each module must be followed in
+parentheses by the minimum (first number) and maximum (second number) of
+solved items at that stage. For a cumulative design, the number of
+minimum and maximum solved items from the previous + the current module
+must be specified at the current stage. For this purpose the specifing
+character becomes “+=” instead of “+”.</p>
+<p>Keeping the syntax is very important, otherwise the design can not be
+translated.</p>
 <table class="table">
+<colgroup>
+<col width="19%">
+<col width="10%">
+<col width="70%">
+</colgroup>
 <thead><tr class="header">
 <th>component</th>
 <th align="center">syntax</th>
@@ -260,11 +338,16 @@
 <tr class="even">
 <td>stages</td>
 <td align="center">+= or ++</td>
-<td align="right">p1 := M2(minSolved,maxSolved) += M1(minSolved, maxSolved)</td>
+<td align="right">p1 := M2(minSolved,maxSolved) += M1(minSolved,
+maxSolved)</td>
 </tr>
 </tbody>
 </table>
-<p>To estimate the item parameters the function <tt>tmt_rm</tt> must be called with the additional information of the multistage design. Additional arguments allow to turn off the estimates of the standard errors (for example, for time reasons) or to switch from “nlminb” to “optim” (as in the example below).</p>
+<p>To estimate the item parameters the function <tt>tmt_rm</tt> must be
+called with the additional information of the multistage design.
+Additional arguments allow to turn off the estimates of the standard
+errors (for example, for time reasons) or to switch from “nlminb” to
+“optim” (as in the example below).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R">  <span class="co"># Example for multistage-design</span>
    <span class="va">mstdesign</span> <span class="op">&lt;-</span> <span class="st">"
@@ -345,7 +428,15 @@
 <div class="section level3">
 <h3 id="likelihood-ratio-test">Likelihood-ratio Test<a class="anchor" aria-label="anchor" href="#likelihood-ratio-test"></a>
 </h3>
-<p>The likelihood ratio test of Andersen <span class="citation">(Andersen, 1973)</span> is also implemented. The estimated item parameters either from an simple 1-PL model or from a 1-PL model with multistage design could be passed to the function <tt>tmt_lrtest</tt>. This function is also a generic function (like <tt>tmt_rm</tt>), which calls the specific function for data with/without multistage design. For the application on very large data sets it is possible to parallelize the <tt>tmt_lrtest</tt> function. For this purpose only the amount of cores has to be passed as additional argument (it is recommended to use three cores, if possible).</p>
+<p>The likelihood ratio test of Andersen <span class="citation">(Andersen, 1973)</span> is also implemented. The
+estimated item parameters either from an simple 1-PL model or from a
+1-PL model with multistage design could be passed to the function
+<tt>tmt_lrtest</tt>. This function is also a generic function (like
+<tt>tmt_rm</tt>), which calls the specific function for data
+with/without multistage design. For the application on very large data
+sets it is possible to parallelize the <tt>tmt_lrtest</tt> function. For
+this purpose only the amount of cores has to be passed as additional
+argument (it is recommended to use three cores, if possible).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R">    <span class="co"># simulate some data</span>
   <span class="va">dat_nmst</span> <span class="op">&lt;-</span> <span class="fu">tmt</span><span class="fu">:::</span><span class="fu">sim.rm</span><span class="op">(</span>theta <span class="op">=</span> <span class="fl">100</span>,b <span class="op">=</span> <span class="fl">10</span>,seed <span class="op">=</span> <span class="fl">1111</span><span class="op">)</span>
@@ -405,7 +496,10 @@
 <div class="section level3">
 <h3 id="graphical-model-check">Graphical model check<a class="anchor" aria-label="anchor" href="#graphical-model-check"></a>
 </h3>
-<p>For a graphical comparison of estimated item parameters for each sub group, we provide a so-called graphical model check. Several options are available for further specification of the plot (internally the package ggplot2 is used)</p>
+<p>For a graphical comparison of estimated item parameters for each sub
+group, we provide a so-called graphical model check. Several options are
+available for further specification of the plot (internally the package
+ggplot2 is used)</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R">    <span class="co"># example of multistage-design</span>
   <span class="va">items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">1</span>,length.out <span class="op">=</span> <span class="fl">30</span><span class="op">)</span>
@@ -439,25 +533,40 @@
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-andersen1973goodness" class="csl-entry">
-Andersen, E. B. (1973). <span class="nocase">A goodness of fit test for the Rasch model</span>. <em>Psychometrika</em>, <em>38</em>(1), 123–140. doi:<a href="https://doi.org/10.1007/BF02291180" class="external-link">10.1007/BF02291180</a>
+Andersen, E. B. (1973). <span class="nocase">A goodness of fit test for
+the Rasch model</span>. <em>Psychometrika</em>, <em>38</em>(1), 123–140.
+doi:<a href="https://doi.org/10.1007/BF02291180" class="external-link">10.1007/BF02291180</a>
 </div>
 <div id="ref-rcpp" class="csl-entry">
-Eddelbuettel, D., &amp; Balamuta, J. J. (2017). <span class="nocase">Extending extit<span>R</span> with extit<span>C++</span>: A Brief Introduction to extit<span>Rcpp</span></span>. <em>PeerJ Preprints</em>, <em>5</em>, e3188v1. doi:<a href="https://doi.org/10.7287/peerj.preprints.3188v1" class="external-link">10.7287/peerj.preprints.3188v1</a>
+Eddelbuettel, D., &amp; Balamuta, J. J. (2017). <span class="nocase">Extending extit<span>R</span> with extit<span>C++</span>:
+A Brief Introduction to extit<span>Rcpp</span></span>. <em>PeerJ
+Preprints</em>, <em>5</em>, e3188v1. doi:<a href="https://doi.org/10.7287/peerj.preprints.3188v1" class="external-link">10.7287/peerj.preprints.3188v1</a>
 </div>
 <div id="ref-eggen2011item" class="csl-entry">
-Eggen, T. J. H. M., &amp; Verhelst, N. D. (2011). <span class="nocase">Item Calibration in Incomplete Testing Designs.</span> <em>Psicologica: International Journal of Methodology and Experimental Psychology</em>, <em>32</em>(1), 107–132.
+Eggen, T. J. H. M., &amp; Verhelst, N. D. (2011). <span class="nocase">Item Calibration in Incomplete Testing Designs.</span>
+<em>Psicologica: International Journal of Methodology and Experimental
+Psychology</em>, <em>32</em>(1), 107–132.
 </div>
 <div id="ref-glas1988rasch" class="csl-entry">
-Glas, C. A. W. (1988). <span class="nocase">The Rasch model and multistage testing</span>. <em>Journal of Educational Statistics</em>, <em>13</em>(1), 45–52. doi:<a href="https://doi.org/10.3102/10769986013001045" class="external-link">10.3102/10769986013001045</a>
+Glas, C. A. W. (1988). <span class="nocase">The Rasch model and
+multistage testing</span>. <em>Journal of Educational Statistics</em>,
+<em>13</em>(1), 45–52. doi:<a href="https://doi.org/10.3102/10769986013001045" class="external-link">10.3102/10769986013001045</a>
 </div>
 <div id="ref-glas2016" class="csl-entry">
-Glas, C. A. W. (2016). Maximum-likelihood estimation. In W. J. van der Linden (Ed.), <em>Handbook of item response theory: Volume two: Statistical tools</em> (pp. 197–236). New York, NY: CRC Pres. doi:<a href="https://doi.org/10.1007/978-1-4612-4230-7_5" class="external-link">10.1007/978-1-4612-4230-7_5</a>
+Glas, C. A. W. (2016). Maximum-likelihood estimation. In W. J. van der
+Linden (Ed.), <em>Handbook of item response theory: Volume two:
+Statistical tools</em> (pp. 197–236). New York, NY: CRC Pres. doi:<a href="https://doi.org/10.1007/978-1-4612-4230-7_5" class="external-link">10.1007/978-1-4612-4230-7_5</a>
 </div>
 <div id="ref-verhelst1984estimation" class="csl-entry">
-Verhelst, N., Glas, C. A. W., &amp; Van der Sluis, A. (1984). Estimation problems in the rasch model: The basic symmetric functions. <em>Computational Statistics Quarterly</em>, <em>1</em>(3), 245–262. doi:<a href="https://doi.org/10.1177/014662169602000206" class="external-link">10.1177/014662169602000206</a>
+Verhelst, N., Glas, C. A. W., &amp; Van der Sluis, A. (1984). Estimation
+problems in the rasch model: The basic symmetric functions.
+<em>Computational Statistics Quarterly</em>, <em>1</em>(3), 245–262.
+doi:<a href="https://doi.org/10.1177/014662169602000206" class="external-link">10.1177/014662169602000206</a>
 </div>
 <div id="ref-zwitser2015conditional" class="csl-entry">
-Zwitser, R. J., &amp; Maris, G. (2015). <span class="nocase">Conditional statistical inference with multistage testing designs</span>. <em>Psychometrika</em>, <em>80</em>(1), 65–84. doi:<a href="https://doi.org/10.1007/s11336-013-9369-6" class="external-link">10.1007/s11336-013-9369-6</a>
+Zwitser, R. J., &amp; Maris, G. (2015). <span class="nocase">Conditional
+statistical inference with multistage testing designs</span>.
+<em>Psychometrika</em>, <em>80</em>(1), 65–84. doi:<a href="https://doi.org/10.1007/s11336-013-9369-6" class="external-link">10.1007/s11336-013-9369-6</a>
 </div>
 </div>
 </div>
@@ -475,12 +584,15 @@ Zwitser, R. J., &amp; Maris, G. (2015). <span class="nocase">Conditional statist
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://jansteinfeld.com" class="external-link">Jan Steinfeld</a>, <a href="https://sites.google.com/site/alexanderrobitzsch2/" class="external-link">Alexander Robitzsch</a>.</p>
+<p>Developed by <a href="https://jansteinfeld.com" class="external-link">Jan Steinfeld</a>,
+<a href="https://sites.google.com/site/alexanderrobitzsch2/" class="external-link">Alexander
+Robitzsch</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.</p>
 </div>
 
       </footer>

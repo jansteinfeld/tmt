@@ -51,7 +51,7 @@ Rcpp::NumericVector esf_mst_sum_vector_s2(
     rmax_b = (b + 1) * rmax;
 
     for (k = rmax_s; k < rmax_b; k++) {
-      if ((k < rcum[0]) & (k < minSolved[0])) {
+      if ((k < rcum[0]) && (k < minSolved[0])) {
         gamma0[k] = 0;
       } else if (((k % rmax) == 0) && (minSolved[b] == 0) && (b > 0)) {
         if (cumulative[b]) {
@@ -68,7 +68,7 @@ Rcpp::NumericVector esf_mst_sum_vector_s2(
     ocol = (ii - 1) * rmax;
     ncol = ii * rmax;
     for (rr = std::max<int>(minSolved[ii],minSolved_design[ii]); rr <= std::min<int>(rcum[ii],maxSolved_design[ii]); rr++) {
-      if ((std::min<int>(minSolved[ii], minSolved_design[ii]) == 0) & (rr <= (rcum[ii-1]))) {
+      if ((std::min<int>(minSolved[ii], minSolved_design[ii]) == 0) && (rr <= (rcum[ii-1]))) {
         if (cumulative[ii-1]) {
           gamma0[rr + ncol] = gamma0[rr + ocol];
         } else {
@@ -77,9 +77,9 @@ Rcpp::NumericVector esf_mst_sum_vector_s2(
       }
       for (kk = 0; kk < std::min<int>(maxSolved[ii], rr); kk++) {
 
-          if (((rr - (kk + 1) + ocol) <= 0) & (maxelement == 0) & (!cumulative[ii-1])) {
+          if (((rr - (kk + 1) + ocol) <= 0) && (maxelement == 0) && (!cumulative[ii-1])) {
           gamma0[rr + ncol] += eps[eps_position[ii] + kk] * probs[eps_position[ii] + ii + kk + 1] * probs[eps_position[ii-1] + ii - 1];
-        } else if ((minSolved_design[ii] == 0) | ((rr >= minSolved_design[ii]) & (kk >= minSolved[ii] - 1)) ) {
+        } else if ((minSolved_design[ii] == 0) || ((rr >= minSolved_design[ii]) && (kk >= minSolved[ii] - 1)) ) {
           gamma0[rr + ncol] += gamma0[rr - (kk + 1) + ocol] * eps[eps_position[ii] + kk];
         }
       }
