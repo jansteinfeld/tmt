@@ -30,8 +30,9 @@ class(plot_class) <- "mst"
 context("test-tmt_gmc")
 # -----------------------------------------------------------------
   test_that("tmt_gmc data structure", {
+    expected_length <- length(ggplot2::ggplot())
     expect_type(p,"list")
-    expect_that(length(p), equals(9))
+    expect_length(p, expected_length)
   })
   test_that("tmt_gmc class", {
        expect_is(
