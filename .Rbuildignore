@@ -28,3 +28,4 @@ tmt.sublime-project
 tmt.sublime-workspace
 vignettes/figure
 ^README\.Rmd$
+^\.github$
