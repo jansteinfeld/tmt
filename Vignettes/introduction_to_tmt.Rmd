@@ -3,7 +3,6 @@ title: "Introduction for the tmt package"
 author: "Jan Steinfeld & Alexander Robitzsch"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 
-
 output:
   prettydoc::html_pretty:
     smart: false
@@ -37,11 +36,13 @@ csl: apa.csl
   library(tmt)
 ```
 # Introduction
-This package provides a collection of functions to simulate data, estimate item parameters and calculation of likelihood ratio test in multistage designs. 
+This package <tt>tmt</tt> provides a collection of functions to simulate data, estimate item parameters and calculation of likelihood ratio test in multistage designs [see, e.g., @steinfeld2023_vignette; @psych2021steinfeld; @steinfeld2021conditional]. 
 In multistage tests, different groups of items (module) are presented to test persons depending on their response behavior to previous item groups. Multistage testing is thus a simple form of adaptive testing. If data are collected on the basis of such a multistage design and the items are estimated using the Conditional Maximum Likelihood (CML) method, @glas1988rasch has shown, that the item parameters are biased. 
 While @eggen2011item propose to avoid the bias using the marginal maximum likelihood (MML) method, @zwitser2015conditional showed in their work, that taking the applied multistage design in consideration and including it in the estimation of the item parameters, the estimation of item parameters is not biased using the CML method.
 In this package, the approach of @zwitser2015conditional is implemented. It was ensured that the necessary specification of the multistage design is as simple as possible and will be described in detail below. For the multistage design, the elementary symmetric function has to be calculated several times, so that this is as efficient as possible, the relevant functions have been written in Rcpp [@rcpp].
 In addition to estimating the item parameters for multistage designs, it is also possible to estimate the item parameters for conventional designs. In order to further increase the efficiency, the algorithm of @verhelst1984estimation was used for the elementary symmetry function.
+
+
 
 The package is well tested, but errors can still be exist. If you find a bug, please report it to us (with an working example) preferred via github: [issues](https://github.com/jansteinfeld/tmt/issues)
 
@@ -53,7 +54,7 @@ For the estimation of item parameters of a simple 1-PL model, the function <tt>t
 
 ```{r, rm_nmst, warning=FALSE}
    # simulate some data 
- dat <- tmt:::sim.rm(theta = 100,b = 10,seed = 1111)
+ dat <- tmt:::sim.rm(theta = 100,b = 10,seed = c(1111,1112))
 
   # estimate item parameters
  dat.rm <- tmt_rm(dat = dat, optimization = "optim")
@@ -156,7 +157,7 @@ The likelihood ratio test of Andersen [@andersen1973goodness] is also implemente
 
 ```{r, rm_lrtest, warning=FALSE}
     # simulate some data
-  dat_nmst <- tmt:::sim.rm(theta = 100,b = 10,seed = 1111)
+  dat_nmst <- tmt:::sim.rm(theta = 100,b = 10,seed = c(1111,1112))
 
     # estimate item parameters
   dat_nmst_rm <- tmt_rm(dat = dat_nmst, optimization = "optim")
@@ -211,7 +212,7 @@ For a graphical comparison of estimated item parameters for each sub group, we p
   persons = 100
   mean = 0
   sd = 1
-  dat <- tmt:::sim.rm(theta = persons, b = items, 1111)
+  dat <- tmt:::sim.rm(theta = persons, b = items, c(1111,1112))
   
   dat.rm <- tmt_rm(dat, optimization = "optim")
   dat.lrt <- tmt_lrtest(dat.rm, split = "median", optimization = "optim")

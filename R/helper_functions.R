@@ -110,7 +110,7 @@ hfun.simulation <- function(modules, tmtd, preconditions){
   # set values for the first module(s)
   input <- matrix(0,nrow = length(unique(branches[,"module_1"])), ncol = 4)
   colnames(input) <- c("from","to","items_from","items_to")
-  input[,c("from")] <- input[,c("to")] <- unique(branches[,"module_1"])
+  input[,c("from")] <- input[,c("to")] <- paste0("^",unique(branches[,"module_1"]),"$")
   input[,c("items_from")] <- input[,c("items_to")] <- modules[match(unique(branches[,"module_1"]),modules[,"from"]),"items"]
   simulation[["start"]] <- input
 
@@ -156,7 +156,7 @@ hfun.simulation <- function(modules, tmtd, preconditions){
           b0.branches <- unlist(strsplit(b0.branches,"+", fixed = TRUE))
           sim_class <- "sequential"  
         }
-      } else  if (grepl("\\+[^=]",b0[2])) {
+      } else  if (grepl("\\+[^=]",b0[2])) { # nicht als else if, da die Konbination aus kumulativer precondition und sequentiellem Rest sonst nicht geht
         b0.branches <- strsplit(b0[2],"+", fixed = TRUE)[[1]]  
         sim_class <- "sequential"
       } 
@@ -166,8 +166,14 @@ hfun.simulation <- function(modules, tmtd, preconditions){
       }
 
       for (ii in 2:(length(b0.branches))) {
-        b1 <- strsplit(b0.branches[ii-1],"\\(|\\)")[[1]]
-        b1.names <- b1[1]
+        
+        b1.names <- unlist(lapply(strsplit(b0.branches[1:ii-1],"\\(|\\)"),`[[`,1))
+        b1 <- strsplit(b0.branches[ii-1],"\\(|\\)")[[1]] # for the probabilities
+        # b1 <- strsplit(b0.branches[ii-1],"\\(|\\)")[[1]]
+        # b1.names <- b1[1]
+        
+        # b1 <- strsplit(b0.branches[ii-1],"\\(|\\)")[[1]]
+        # b1.names <- b1[1]
         # b1.names <- paste0("^",b1.names,"$",collapse="")
         if (!is.null(routing) & !is.null(routing_class)) {
           if (routing_class == "deterministic") {
@@ -191,15 +197,18 @@ hfun.simulation <- function(modules, tmtd, preconditions){
               tohere <- sum(gregexpr(",",routing[grep(c(":="), tmtd)%in%i,"criteria"],fixed=TRUE)[[1]]>0) + minstart
             } else if (inherits(routing, "prob_rules")) {
               input[,"probability"] <- routing[routing[,"name"]%in%b1[2],"criteria"]
+              #! Hier anpassen, wenn minstart 0 ist, dann hat der Wahrscheinlichkeitsvektor 0 als score, daher wird hier bei max eines zuviel berechnet
               tohere <- sum(gregexpr(",",routing[routing[,"name"]%in%b1[2],"criteria"],fixed=TRUE)[[1]]>0) + minstart
             }
              
+              # tohere <- ifelse(fromhere==0,tohere-1,tohere)
+
             b1[2] <- paste0(fromhere,",", tohere)
           } 
         } 
 
         b1.minmax <- strsplit(b1[2],",",fixed = TRUE)[[1]]
-        b1.items <- modules[grep(paste0("^",b1.names,"$",collapse=""),modules[,"from"]),"items"]
+        b1.items <- modules[grep(paste0("^",b1.names[ii-1],"$",collapse=""),modules[,"from"]),"items"]
         # b1.items <- gsub("c|\\(|\\)","",b1.items) # 2020-04-24 moved gsub to top
 
         b2.names <- strsplit(b0.branches[ii],"\\(|\\)")[[1]][1]
@@ -207,8 +216,9 @@ hfun.simulation <- function(modules, tmtd, preconditions){
         # b2.items <- gsub("c|\\(|\\)","",b2.items) # 2020-04-24 moved gsub to top
 
         input[,c("minSolved","maxSolved")] <- b1.minmax
-        input[,"from"] <- b1.names
-        input[,"to"] <- b2.names
+        input[,"from"] <- paste0("^",paste0(b1.names,collapse=";"),"$",collapse="") #b1.names
+        # input[,"to"] <- b2.names
+        input[,"to"] <- paste0("^",paste0(unlist(lapply(strsplit(b0.branches[1:ii],"\\(|\\)"),`[[`,1)),collapse=";"),"$",collapse="")
         # input[,"items"] <- paste0(b1.items,";",b2.items)
 
         if (sim_class == "sequential" | ii == 2) {
@@ -217,7 +227,8 @@ hfun.simulation <- function(modules, tmtd, preconditions){
           # if (!is.null(preconditions)) {
             # input[,"items_from"] <- paste0(paste0(preconditions$name,","), simulation[[ii-1]][,"items_from"][simulation[[ii-1]][,"to"] %in% b1.names][1],",",b1.items)
           # } else {
-            input[,"items_from"] <- paste0(simulation[[ii-1]][,"items_from"][simulation[[ii-1]][,"to"] %in% b1.names][1],",",b1.items)
+            input[,"items_from"] <- paste0(simulation[[ii-1]][,"items_from"][simulation[[ii-1]][,"to"] %in% paste0("^",paste0(b1.names,collapse=";"),"$",collapse="")][1],",",b1.items)
+            
           # }
         }
 
@@ -293,6 +304,7 @@ hfun.design <- function(modules, tmtd, n.branches){
     routing_class <- "deterministic"
   }
 
+  #! todo design muss für kumulative Verzweigungen angepasst werden. Hier muss je Rohscore evaluiert werden
   design <- matrix(0, ncol = 7, nrow = n.branches)
   colnames(design) <- c("mst","minSolved","maxSolved","items","minSolved_stage","maxSolved_stage","probability")
 
@@ -405,6 +417,11 @@ hfun.design <- function(modules, tmtd, n.branches){
     items <- paste0(items,collapse = ";")
 
 
+    # if (length(length(gregexpr( "(?<=\\().+?(?=\\))", items, perl = TRUE)))>1){
+    #   items <- unlist(regmatches(items, gregexpr( "(?<=\\().+?(?=\\))", items, perl = TRUE)))
+    # }
+
+
     # check if minSolved and maxSolved in last module is specified, otherwise it is specified here:
     if (all(is.na(check_numeric))) {
       if (design_class == "sequential") {
@@ -416,6 +433,8 @@ hfun.design <- function(modules, tmtd, n.branches){
       }
       if (design_class == "cumulative") {
        minmax[nrow(minmax),] <- c(minmax[nrow(minmax)-1,1], as.character(as.numeric(minmax[nrow(minmax)-1,2]) + length(strsplit(items_vec[nrow(minmax)],",")[[1]]))) 
+       # if (routing_class=="probabilistic") probabilities[nrow(minmax)] <- paste0(rep("1",length = as.numeric(minmax[nrow(minmax)-1,2]) + length(strsplit(items[nrow(minmax)],",")[[1]])+1),collapse=",")
+      #  if (routing_class=="probabilistic") probabilities[nrow(minmax)] <- paste0(rep("1",length = length(strsplit(items[nrow(minmax)],",")[[1]])+1),collapse=",")
       # 2020-05-21 fixed issue: for cumulative-probabilistic designs the weights for the last module has to be extended 
       if (routing_class=="probabilistic") probabilities[nrow(minmax)] <- paste0(rep("1",length = length(unlist(strsplit(items,","))) + length(stages)),collapse=",")
       }
@@ -430,6 +449,10 @@ hfun.design <- function(modules, tmtd, n.branches){
       items_n <- strsplit(items, ";")[[1]]
       # items_n <- lengths(regmatches(items_n, gregexpr(",", items_n))) + 1 # for first Item
       items_n <- lengths(sapply(items_n,strsplit,","))
+      # microbenchmark::microbenchmark(
+      # "versiona" = lengths(sapply(items_n,strsplit,",")) ,
+      # "versionb" = lengths(regmatches(items_n, gregexpr(",", items_n))) + 1 # for first Item
+      # )
       
       for(iii in 2:nrow(minmax_tmp)){
         # correct minSolved
@@ -679,7 +702,10 @@ hfun.preconditions <- function(tmtd, preconditions, modules){
   }
   
   routing_new <- NULL
-  
+  # Klammern auflösen: gsub("[\\(\\)]", "", regmatches(branch_eval[,i+1], gregexpr("\\(.*?\\)", branch_eval[,i+1]))[[1]])
+  # strsplit(gsub("age\\([^()]*\\)([~+=]+)|xcat\\([^()]*\\)([~+=]+)|xcat\\([^()]*\\)([~+=]+)","\\1 \\2 \\3","age(1)~xcat(3:6)~xcat(r1a)+=B7(r2b)+B8(r4)+B9"),"\\s")
+
+
   # ------------------------------------------------------------------------------
   # Now check the elements and evaluate at  += the conditions must be adapted in the remaining categories !!
   if (any(unlist(precondition_operator) %in% c("+=","++"))) {
@@ -718,6 +744,7 @@ hfun.preconditions <- function(tmtd, preconditions, modules){
     
     # probabilistic
     if (routing_class == "probabilistic") { 
+        #! !! DENKFEHLER !! der Output muss immer gleich lang sein, weil die scores bei der probabilistischen-kumulativen Verzweigung ja immer alle möglich sind in den domainspezifischen Modulen.
         max_module_path <- data.frame("module" = unlist(branches_expand[,paste0("module_",seq(rules_n))]),
                   "rule" = unlist(branches_expand[,paste0("rule_",seq(rules_n))]),
                   "max_items" = c(path_sums),row.names=seq(nrow(branches_expand)*length(rules_n)),
@@ -731,7 +758,7 @@ hfun.preconditions <- function(tmtd, preconditions, modules){
         
         min_change <- tapply(routing_new[,"precondition_sum"],rep(seq_len(length(change_name)),change_name),min)
         min_change <- rep(min_change,change_name)
-        
+        # muss aber nach old names angepasst werden
         min_precondition <- min_precondition - min_change + 1
 
         for(i in seq(nrow(routing_new))) {
@@ -793,6 +820,7 @@ hfun.preconditions <- function(tmtd, preconditions, modules){
             # Reduce(function(...) paste(...,sep = "\r"), out_mat)
             branches_expand[cases,paste0("rule_",i)] <- apply(out_rows[cases,],1,paste,collapse=",")
 
+            # fälle, wo es nicht zutrifft, einfach übernehmen
             if (any(!cases) ) {
               out_rows[!cases,1] <- out_rows[!cases,1] #minSolved
               out_rows[!cases,2] <- out_rows[!cases,2] #maxSolved         
@@ -829,7 +857,8 @@ hfun.preconditions <- function(tmtd, preconditions, modules){
       tmtd_routing <- ""
     }
     tmtd_modules <- apply(modules,1,paste0,collapse="=~")
-    
+    # tmtd_path <- apply(branches_new,1,function(x) paste0(x,collapse=""))
+    # tmtd_path <- Reduce(function(...) paste0(...), branches_new)
     tmtd_path <- do.call(paste0,branches_new)
 
     tmtd_new <- c(tmtd_modules,
@@ -840,7 +869,8 @@ hfun.preconditions <- function(tmtd, preconditions, modules){
   tmtd_out$tmtd <- tmtd_new
   # tmtd_out$tmtd <- apply(branches_new,1,function(x) paste0(x,collapse=""))
   tmtd_out$modules <- modules
-  
+  # tmtd_out$preconditions <- cbind(branches_expand[,"path"],apply(precondition_new,1,function(x) paste0(x,collapse="")))
+  #! !! Achtung, den Eintrag für die preconditions anpassen, sodass hier eine Matrix mit Anzahl an Zeilen wie Anzahl an Startblöcken und dann min und max Werte  
   mst_name <- apply(branches_expand[,grep("module",colnames(branches_expand))],1,function(x) paste0("^",x,"$",collapse="-"))
   preconditions_out <- cbind("path" = mst_name,"Start" = branches_expand[,"module_1"],precondition_new[,grep("precondition|value",colnames(precondition_new))])
   tmtd_out$preconditions <- preconditions_out
@@ -1025,6 +1055,13 @@ add_letters <- function(n) {
 # function to split variables after split criteria with option to keep cols and add new names
 # ------------------------------------------------------------------------------
 
+# variable = branches
+# split = c("~","+=","+")
+# cols = "path_original"
+# new_names = c("module","operator")
+# fixed = TRUE
+# store_operator = TRUE
+
 strsplit_storing <- function(variable, split, cols = NULL, new_names = NULL, fixed = TRUE, store_operator = TRUE) {
   if (!fixed) {
     split_inner <- gsub("\\[|\\]","",split)
@@ -1149,6 +1186,22 @@ convert <- function(input){
   return(out)  
 }
 
+
+# n=1000
+
+# rho=.70
+
+# Var1=sample(c(0,1,2),n,replace=T,prob=c(1/3,1/3,1/3))
+
+# index=sample(c(0,1),n,replace=T,prob=c(1-rho,rho))
+# index<-index==1
+# Var2=sample(c(0,1,2),n,replace=T,prob=c(1/3,1/3,1/3))
+
+# Var2[index]<-Var1[index]
+
+#   cor(Var1,Var2)
+
+#! Probleme mit dem Seed bei precon...müssen mehrere sein, sonst funktionioert das ja nicht
 precon_gen <- function(perspar, precon_conv, seed) {
   out <- list()
   
@@ -1231,6 +1284,11 @@ precon_gen <- function(perspar, precon_conv, seed) {
 # ------------------------------------------------------------------------------
 # function to generate person parameter and if desired also (correlated) sum scores for pre-conditions 
 
+
+#! HIER MUSS EINE LISTE BZW: MEHRERE SEEDS ANGELEGT WERDEN; SONST GEHT DAS MIT DEN PRECONDITIONS NICHT
+
+
+
 precon_sim <- function(ppar, precon = NULL,...){
   
   additional_arguments <- list(...)
@@ -1306,6 +1364,7 @@ precon_sim <- function(ppar, precon = NULL,...){
           stop("Please check the provided 'min' and 'max' in precon.\nOnly integers are allowed")
         }
 
+        # beides überprüfen: Entweder precon_conv kleiner perspar, oder perspar kleiner precon_conv
         if (nrow(precon_conv) < length(perspar)) {
           warning("The same precon definition is repeated to match the number of specified groups\n")
           precon_conv <- precon_conv[rep(seq_len(nrow(precon_conv)),length.out = length(perspar)),]
@@ -1359,6 +1418,21 @@ hfun.preconditionoperator <- function(tmtd, preconditions){
   branches <- strsplit_storing(branches,":=")
   colnames(branches) <- c("path","operator_0", "path_original")
 
+
+
+  if (any(grep("[^:=+~]=[^~=]",tmtd))) {
+    routing <- grep("[^:+=~]=[^~=]",tmtd,value=TRUE)
+    routing <- gsub("\\s\\\"", "", routing)
+    routing <- gsub("c\\(|\\(|\\)","",routing) 
+    routing <- do.call(rbind,sapply(routing,strsplit,"="))
+    colnames(routing) <- c("name","criteria")
+    rownames(routing) <- NULL
+    if (length(grep("^[[:alnum:]]$",routing[,"name"],value=TRUE))!=0) {
+      stop("The names of the routing criteria must be alphanumeric (e.g. 'r1')\n")
+    }
+  }
+  
+
   # 2020-04- 17 added new feature to enable splitting with several splitcriteria
   branches <- strsplit_storing(variable = branches,
                                split = c("~","+=","+","++"),
@@ -1367,19 +1441,23 @@ hfun.preconditionoperator <- function(tmtd, preconditions){
                                new_names = c("module","operator"), 
                                store_operator = TRUE
                                )
-    precondition_cols <- colnames(branches)[unique(c(apply(branches,1,function(x) grep(paste0(preconditions$name,collapse="|"),x))))]
+  precondition_cols <- colnames(branches)[unique(c(apply(branches,1,function(x) grep(paste0(preconditions$name,collapse="|"),x))))]
 
   i <- 1
   for (m in precondition_cols){
     branches <- strsplit_storing(branches,"\\(|\\)",m, fixed = FALSE, new_names = paste0(c("precondition_","value_"),i), store_operator = FALSE)
+    if (any(grep("[^:=+~]=[^~=]",tmtd))) {
+      branches[,paste0("value_",i)] <- routing[match(branches[,paste0("value_",i)],routing[,"name"]),"criteria"]  
+    }
     i <- i + 1
   }
   
-  checkdata <- sapply((gregexpr("_", colnames(branches), fixed=TRUE)), function(i) sum(i > 1))
 
-  if (any(checkdata>1)) {
-      stop("The routing type for the preconditions is unknown, please change it to either '+', '++' or '+=' and start again.")
-    } 
+  # checkdata <- sapply((gregexpr("_", colnames(branches), fixed=TRUE)), function(i) sum(i > 1))
+
+  # if (any(checkdata>1)) {
+  #     stop("The routing type for the preconditions is unknown, please change it to either '+', '++' or '+=' and start again.")
+  #   } 
   
   precondition_val <- gsub("value_","",grep("value",colnames(branches), value = TRUE))
   precondition_operator <- unique(branches[,paste0("operator_",precondition_val),drop = FALSE])
@@ -1387,6 +1465,9 @@ hfun.preconditionoperator <- function(tmtd, preconditions){
   
   branches[,precondition_values] <- apply(branches[,precondition_values, drop = FALSE],2,function(x) gsub(",",":",x))
   
+
+
+
 
   preconvalues <- unlist(sapply(branches[,precondition_values, drop = FALSE], function(x) eval(parse(text = x))))
 
@@ -1404,3 +1485,5 @@ hfun.preconditionoperator <- function(tmtd, preconditions){
     out
   )
 }
+
+# chunk2 <- function(x,n) split(x, cut(seq_along(x), n, labels = FALSE)) 

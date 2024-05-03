@@ -13,7 +13,7 @@ mstdesign <- "
     b4 := B4(3,5) + B5(3,5) + B6(0,5)
   "
 
-dat <- tmt:::sim.rm(250,5,1111)
+dat <- tmt:::sim.rm(250,5,c(1111,1112))
 datna <- dat
 datna[sample(seq_len(length(datna)),50,replace = FALSE)] <- NA
 datrm_1 <- tmt_rm(dat, optimization="optim")
@@ -23,7 +23,7 @@ names(items) <- c(paste0("i",1:30))
 set.seed(1111)
 dat_mst <- tmt_sim(mstdesign = mstdesign,
 			items = items,
-			persons = 500, seed = 1111)
+			persons = 500, seed = c(1112))
 datrm_1 <- tmt_rm(dat, optimization="optim")
 datrm_1na <- tmt_rm(datna, optimization="optim")
 datrm_2 <- tmt_rm(dat_mst$data,mstdesign=mstdesign, optimization="optim")

@@ -1,21 +1,46 @@
+if(!exists("meta") || is.null(meta)) meta <- packageDescription("tmt")
 year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date, perl = TRUE)
 vers <- paste("R package version", meta$Version)
-
+if (length(year) == 0) year = format(Sys.Date(), '%Y')
 pkg <- meta$Package
-pkg_title <- "Estimation of the Rasch Model for Multistage Tests"
+pkg_title <- "{E}stimation of the Rasch Model for Multistage Tests"
 
-citHeader( paste0( "To cite the '", pkg , "' package in publications use:") )
+# citHeader( paste0( "To cite the '", pkg , "' package in publications please use:") )
 
-citEntry(entry="Manual",
-         title = paste0( pkg , ": " , pkg_title ) ,
-         author = personList(c(as.person("Jan Steinfeld"),as.person("Alexander Robitzsch"))),
-         year = year,
-         note = vers,
-         url =  paste0( "https://CRAN.R-project.org/package=", pkg) ,
-         textVersion =
+bibentry(bibtype = "Manual",
+        title = paste0( pkg , ": " , pkg_title ) ,
+        author = c(
+          person(given = "Jan", 
+                 family = "Steinfeld"),
+          person(given = "Alexander", 
+                 family = "Robitzsch")),
+        year = year,
+        note = vers, 
+        textVersion =
          paste0("Steinfeld, J. and Robitzsch, A. (",
                year,
                "). " , pkg , ": " , pkg_title , ". ",
-               vers, paste0( ". https://CRAN.R-project.org/package=", pkg) )
+               vers, paste0( "https://CRAN.R-project.org/package=", pkg) ),
+        url =  paste0( "https://CRAN.R-project.org/package=", pkg),
+        header  = "To cite tmt in publications use"
     )
     
+
+bibentry(
+  key          = 'steinfeld2023estimating',
+  bibtype      = 'Article',
+  title        = 'Estimating item parameters in multistage designs with the tmt package in {R}',
+  author       = 'Steinfeld, Jan and Robitzsch, Alexander',
+  year         = '2023',
+  journal      = 'Quantitative and Computational Methods in Behavioral Science',
+  volume       = '3',
+  number       = 'e10087',
+  doi          = '10.5964/qcmb.10087',
+  textVersion  =
+  paste(" Steinfeld, J., & Robitzsch, A. (2023).",
+        "Estimating item parameters in multistage designs with the tmt package in {R}",
+        "Quantitative and Computational Methods in Behavioral Science, 3, e10087",
+        "doi:10.5964/qcmb.10087"
+        ),
+  header  = "To cite tmt in publications also consider the following article:"
+)

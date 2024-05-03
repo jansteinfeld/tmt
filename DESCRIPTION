@@ -1,8 +1,8 @@
 Package: tmt
 Type: Package
 Title: Estimation of the Rasch Model for Multistage Tests
-Version: 0.3.1-2
-Date: 2022-05-16
+Version: 0.3.4-0
+Date: 2024-05-02
 Authors@R: c(
   person(given = "Jan", 
          family = "Steinfeld", 
@@ -12,7 +12,7 @@ Authors@R: c(
          ), 
   person(given = "Alexander", 
          family = "Robitzsch", 
-         email = "robitzsch@ipn.uni-kiel.de", 
+         email = "robitzsch@leibniz-ipn.de", 
          role = c("aut"),
          comment = c(ORCID = "0000-0002-8226-3132")
          )
@@ -22,7 +22,7 @@ Author: Jan Steinfeld [cre, aut] (<https://orcid.org/0000-0001-9853-8260>),
 Maintainer: Jan Steinfeld <jan.d.steinfeld@gmail.com>
 URL: https://jansteinfeld.github.io/tmt/, https://github.com/jansteinfeld/tmt
 BugReports: https://github.com/jansteinfeld/tmt/issues
-Description: Provides conditional maximum likelihood (CML) item parameter estimation of sequential as well as cumulative deterministic multistage designs (Zwitser & Maris, 2015, <doi:10.1007/s11336-013-9369-6>) as well as probabilistic sequential and cumulative multistage designs (Steinfeld & Robitzsch, 2021, <doi:10.31234/osf.io/ew27f>). Supports CML item parameter estimation of conventional linear designs and additional functions for the likelihood ratio test (Andersen, 1973, <doi:10.1007/BF02291180>) as well as functions for the simulation of several kinds of multistage designs. 
+Description: Provides conditional maximum likelihood (CML) item parameter estimation of both sequential and cumulative deterministic multistage designs (Zwitser & Maris, 2015, <doi:10.1007/s11336-013-9369-6>) and probabilistic sequential and cumulative multistage designs (Steinfeld & Robitzsch, 2021, <doi:10.31234/osf.io/ew27f>). Supports CML item parameter estimation of conventional linear designs and additional functions for the likelihood ratio test (Andersen, 1973, <doi:10.1007/BF02291180>) as well as functions for simulating various types of multistage designs.
 License: GPL-3
 LazyLoad: yes
 VignetteBuilder: knitr
@@ -43,7 +43,8 @@ Imports:
   parallel,
   ggplot2,
   Rcpp (>= 0.12.0),
-  stats
+  stats,
+  rlang
 LinkingTo: Rcpp
-RoxygenNote: 7.2.0
+RoxygenNote: 7.3.1
 Language: en-US

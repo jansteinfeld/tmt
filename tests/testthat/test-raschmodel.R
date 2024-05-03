@@ -13,8 +13,8 @@ mstdesign <- "
     b3 := B4(3,5) + B5(0,2) + B3(0,5)
     b4 := B4(3,5) + B5(3,5) + B6(0,5)
   "
-
-dat <- tmt:::sim.rm(100, 5, 1111)
+# Vorbereitung
+dat <- tmt:::sim.rm(100, 5, c(1111,1112))
 colnames(dat) <- paste0("i",seq_len(ncol(dat)))
 datna <- dat
 datna[sample(seq_len(length(datna)),50,replace = FALSE)] <- NA
@@ -102,3 +102,18 @@ context("test-raschmodel check errors")
     expect_that(suppressWarnings(tmt_rm(dat_mst_4)), throws_error())
     expect_that(suppressWarnings(tmt_rm(dat_mst_5)), throws_error())
   })
+
+# Checks einbauen
+# Abfrage der Parameter, die geschätzt werden
+# Abfrage der Struktur
+# Checks checken
+
+# expect_equal() is equal within small numerical tolerance?
+# expect_identical() is exactly equal?
+# expect_match() matches specified string or regular expression? expect_output() prints specified output?
+# expect_message() displays specified message?
+# expect_warning() displays specified warning?
+# expect_error() throws specified error?
+# expect_is() output inherits from certain class?
+# expect_false() returns FALSE?
+# expect_true() returns TRUE?

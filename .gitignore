@@ -39,6 +39,9 @@ tmt.Rcheck/
 *.dll
 *.csv
 /doc/
+/docs/
+/reports/
 /Meta/
 *.DS_Store
 *.JPG
+docs/

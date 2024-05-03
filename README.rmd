@@ -24,12 +24,13 @@ knitr::opts_chunk$set(
 [![GitHub release](https://img.shields.io/github/v/release/jansteinfeld/tmt?label=release&logo=github)](https://github.com/jansteinfeld/tmt/)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/jansteinfeld/tmt?label=pull%20requests&logo=github)](https://github.com/jansteinfeld/tmt/pulls)
 [![GitHub issues](https://img.shields.io/github/issues-raw/jansteinfeld/tmt?label=issues&logo=github)](https://github.com/jansteinfeld/tmt/issues)
+
 [![codecov](https://codecov.io/gh/jansteinfeld/tmt/branch/master/graph/badge.svg?token=11lw4stBoI)](https://app.codecov.io/gh/jansteinfeld/tmt)
 [![CRAN version](https://img.shields.io/cran/v/tmt?label=CRAN%20version)](https://cran.r-project.org/package=tmt)
-[![CRAN checks](https://cranchecks.info/badges/summary/tmt)](https://cran.r-project.org/web/checks/check_results_tmt.html)
-[![package dependencies](https://tinyverse.netlify.com/badge/tmt)](https://cran.r-project.org/package=tmt)
+[![CRAN checks](https://badges.cranchecks.info/summary/tmt.svg)](https://cran.r-project.org/web/checks/check_results_tmt.html)
+[![downloads](http://cranlogs.r-pkg.org/badges/last-month/tmt?color=blue)](https://cran.r-project.org/package=tmt)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://github.com/jansteinfeld/tmt)
-[![License](https://img.shields.io/cran/l/tmt)](https://opensource.org/licenses/GPL-3.0/)
+[![License](https://img.shields.io/cran/l/tmt)](https://opensource.org/license/GPL-3.0)
 
 The *tmt* Package provides conditional maximum likelihood (CML) item parameter estimation of sequential as well as cumulative deterministic multistage (MST) designs (Zwitser & Maris, 2015, [<10.1007/s11336-013-9369-6>](https://doi.org/10.1007/s11336-013-9369-6)) as well as probabilistic sequential and cumulative multistage designs (Steinfeld & Robitzsch, 2021, [<10.31234/osf.io/ew27f>](https://doi.org/10.31234/osf.io/ew27f)). Supports CML item parameter estimation of conventional linear designs and additional functions for the likelihood ratio test (Andersen, 1973, [<10.1007/BF02291180>](https://doi.org/10.1007/BF02291180)) as well as functions for the simulation of several kinds of multistage designs. 
 
@@ -45,10 +46,10 @@ devtools::install_github("jansteinfeld/tmt")
 ```
 
 ## Usage
-The application of the package *tmt* is illustrated below. Further, examples of different MST designs can be found in the associated vignette of the package.
-For the application of the package and the CML method, it is necessary first to specify the MST design. For this purpose, a model language was developed, which is illustrated in the first section of the example. First, each module of the design must be specified. The following deterministic sequential MST design consists of six modules, four paths' and three stages. In the first part, the modules of the MST designs are defined (basically the allocation of items). Here different methods are available, the user can apply either the R function *paste*, but also address the items manually by hand as vector. It is important that the names of the specified items in the modules match those in the data. For the application illustration, some data is subsequently simulated on the basis of the specified MST design. In this example, a seed was set so that the results are easier to compare and to follow this example. For the actual estimation of the item parameters, the function *tmt_rm* is available. If data has been created with the *tmt_sim* function, it would be enough to hand over the data generated with this function as part of the export is also the MST design. If the data has not been synthetically generated with this function, it is necessary to specify the MST design.
+The application of the *tmt* package is illustrated below. Further examples of different MST designs can be found in the associated vignette of the package. To apply the package and the CML method, it is first necessary to specify the MST design. For this purpose, a model language has been developed, which is illustrated in the first part of the example below. First, each module of the design needs to be specified. The following deterministic sequential MST design consists of six modules, four paths and three stages. In the first part, the modules of the MST design are defined (basically the allocation of items). Different methods are available, the user can either use the R function *paste*, but also address the elements manually as vectors. It is important that the names of the specified elements in the modules match those in the data. To illustrate the application, some data is then simulated based on the specified MST design. In this example, a seed has been set to make the results easier to compare and follow. The *tmt_rm* function is available for the actual estimation of the item parameters. If the data has been generated with the *tmt_sim* function, it would be sufficient to export the data generated with this function as part of the MST design. If the data has not been generated synthetically with this function, it is necessary to specify the MST design.
 
-You will find a detailed description of the package in the vignette (like sequential cumulative as well as probabilistic MST designs). 
+A detailed description of the package (such as sequential cumulative and probabilistic MST designs) can be found in the vignette.
+
 
 
 ```{r usage}
@@ -95,6 +96,8 @@ The following features are planned for future releases:
 * plots of the multistage design
 
 ## References
-* Glas, C. A. W. (1988). The Rasch Model and Multistage Testing. *Journal of Educational Statistics*, 13(1), 45. doi: 10.2307/1164950
-* Steinfeld, J., & Robitzsch, A. (2021). Conditional maximum likelihood estimation in probability-branched multistage designs. *PsyArXiv*. 20 March 2021. doi: 10.31234/osf.io/ew27f
-* Zwitser, R. J., & Maris, G. (2013). Conditional statistical inference with multistage testing designs. *Psychometrika*, 80(1), 65–84. doi: 10.1007/s11336-013-9369-6
+* Glas, C. A. W. (1988). The Rasch Model and Multistage Testing. *Journal of Educational Statistics, 13*(1), 45. doi: 10.2307/1164950
+* Steinfeld, J., & Robitzsch, A. (accepted). Conditional maximum likelihood estimation in probability-based multistage designs. *Behaviormetrika, xx*(x), xxx-xxx.
+* Steinfeld, J., Robitzsch, A. (2023). Estimating item parameters in multistage designs with the tmt package in R. *Quantitative and Computational Methods in Behavioral Science, 3*, e10087. https://doi.org/10.5964/qcmb.10087
+* Steinfeld, J., & Robitzsch, A. (2021). Item parameter estimation in multistage designs: A comparison of different estimation approaches for the Rasch model. *Psych, 3*(3), 279-307. https://doi.org/10.3390/psych3030022
+* Zwitser, R. J., & Maris, G. (2013). Conditional statistical inference with multistage testing designs. *Psychometrika, 80*(1), 65-84. doi: 10.1007/s11336-013-9369-6

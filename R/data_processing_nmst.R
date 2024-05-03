@@ -10,7 +10,13 @@ data_processing_nmst <- function(dat, weights){
     ## parse NA pattern
     na_level_i <- as.character(na_pattern_levels[nai])
     wi_i[[nai]] <- as.integer(strsplit(na_level_i, "\r")[[1]])
-    wi2_i[[nai]] <- ifelse(length(wi_i[[nai]]) < 1, 1:i , (1:i)[-wi_i[[nai]]])
+    # wi2_i[[nai]] <- ifelse(length(wi_i[[nai]]) < 1, 1:i , (1:i)[-wi_i[[nai]]])
+    # fixed bug 2022-12-12
+    if (length(wi_i[[nai]]) < 1) {
+      wi2_i[[nai]] <- 1:i
+    } else {
+      wi2_i[[nai]] <- (1:i)[-wi_i[[nai]]]
+    }
     k_i[[nai]] <- length(wi2_i[[nai]])
 
     ## select subset

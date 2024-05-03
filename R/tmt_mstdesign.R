@@ -32,18 +32,11 @@ tmt_mstdesign <- function(mstdesign, options = c("design", "simulation", "module
   # some possible misspecification
   checinput <- strsplit(mstdesign,"\n")[[1]]
   checkinput <- gsub("\\s","",checinput)
-  # misspecified <- c("\\=[^:]|\\=[^~~]|[^~~=]|~=|~~|~|<~|\\*")
   # 2020-03-27 updated list
   misspecified <- "=:|=~~|~~=|~=|~~|<~|\\*|"
   
   checlocation <- gregexpr(misspecified,checkinput, perl = TRUE)
   result_misspecified <- checkinput[unlist(lapply(checlocation,function(x) any(attr(x,"match.length")>0)))]
-
-  
-  # 2020-03-27 fixed loop
-    # for(m in 1:length(misspecified)){
-    #   miss_list[[m]] <- grep(misspecified[m], checkinput, value = TRUE, perl = TRUE)
-    # }
 
   if (length(result_misspecified)>0) {
     stop("The submitted mstdesign is misspecified, please correct the following expression/s:\n",
@@ -51,7 +44,7 @@ tmt_mstdesign <- function(mstdesign, options = c("design", "simulation", "module
     )
   }
 
-# ...................................................................................................
+  # ...................................................................................................
 
   # clean mstdesign input:
   tmt.syntax <- mstdesign
@@ -72,15 +65,11 @@ tmt_mstdesign <- function(mstdesign, options = c("design", "simulation", "module
   # create list for the simulation function
   # -----------------------------------
   # number of modules & branches
-
+  
   n.modules <- length(grep("=~",tmtd, fixed = TRUE))
-  # n.start <- length(grep("==",tmtd, fixed = TRUE))
   n.branches <- length(grep(":=",tmtd, fixed = TRUE))
- 
-  # l.stages <- nchar(as.character(tmtd[grepl(":=",tmtd, fixed = TRUE)])) -
-  #               nchar( gsub("\\+", "", tmtd[grepl(":=",tmtd, perl = TRUE)]))
-  # n.stages <- max(l.stages)
   n.preconditions <- length(grep("==",tmtd)) # grep only '~'
+
   if (n.preconditions != 0) {
     c.preconditions <- grep("==",tmtd, value = TRUE)
     c.preconditions <- strsplit(c.preconditions,"==")
@@ -93,7 +82,6 @@ tmt_mstdesign <- function(mstdesign, options = c("design", "simulation", "module
   
   # ---------------------------
   preconditions_sim <- preconditions <- start <- simulation <- design <- items <- NULL
-
 
   modules <- hfun.modules(tmtd = tmtd, 
                             n.branches = n.branches, 
@@ -117,10 +105,10 @@ tmt_mstdesign <- function(mstdesign, options = c("design", "simulation", "module
       tmtd <- preconditions$tmtd
       n.branches <- nrow(preconditions$paths)
       preconditions_sim <- preconditions$precondition_matrix
-      # n.stages <- length(grep("module",colnames(preconditions$paths)))
     } 
 
   }
+
 
   if ("simulation" %in% options) simulation <- hfun.simulation(modules = modules,
                                                               tmtd = tmtd_sim,

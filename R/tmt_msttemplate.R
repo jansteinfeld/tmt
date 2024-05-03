@@ -43,6 +43,7 @@ tmt_msttemplate <- function(formula = NULL, full = TRUE, eval = TRUE) {
     # --------------------
     if (full) {
         modulesout <- list()
+        # zunächst die '+' und '+=' heraussuchen.
         if (any(elements%in%c("+","+="))) {
             # +1 for laste entry
             for (i in seq_len(length(elements))+1) {
@@ -77,11 +78,14 @@ tmt_msttemplate <- function(formula = NULL, full = TRUE, eval = TRUE) {
     }
     out[[1]] <- modules
     # ------------------------------------------------------------------------------------
-        path <- c("\n#--------------------",
-        "\n# rules",
-        "\n#--------------------",
-        "\nPlease fill here the specific rules\n",
-        "\n")
+    # --------------------
+    # rules (probs, deterministc)
+    # --------------------
+      path <- c("\n#--------------------",
+      "\n# rules",
+      "\n#--------------------",
+      "\nPlease fill here the specific rules\n",
+      "\n")
     out[[length(out) + 1]] <- path
     # ------------------------------------------------------------------------------------
     # --------------------
@@ -89,9 +93,9 @@ tmt_msttemplate <- function(formula = NULL, full = TRUE, eval = TRUE) {
     # -------------------- 
     if (length(grep("\\(|\\)",frmsplit))!=0) {
         frmpreout <- sapply(frmsplit,strsplit,"\\(|,|\\)")
-
         frmout <- list()
         evalcrit <- c((elements%in%c("+","+="))[1],elements%in%c("+","+="))
+        
         for (i in seq(evalcrit)) {
             if (evalcrit[i]) {
                 if (length(grep("\\:",frmpreout[i]))>0 && eval) {

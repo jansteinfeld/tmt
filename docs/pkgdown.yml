@@ -1,9 +1,9 @@
-pandoc: 2.17.1.1
-pkgdown: 2.0.2
+pandoc: 3.1.13
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   introduction_to_tmt: introduction_to_tmt.html
-last_built: 2022-05-16T19:53Z
+last_built: 2024-05-02T15:17Z
 urls:
   reference: https://jansteinfeld.github.io/tmt/reference
   article: https://jansteinfeld.github.io/tmt/articles

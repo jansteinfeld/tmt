@@ -16,7 +16,7 @@ mstdesign <- "
 items <- seq(-2,2,length.out=30)
 persons <- 500
 
-dat <- tmt:::sim.rm(persons,items,1111)
+dat <- tmt:::sim.rm(persons,items,c(1111,1112))
 datna <- dat
 datna[sample(seq_len(length(datna)),50,replace = FALSE)] <- NA
 datrm_1 <- tmt_rm(dat, optimization="optim")
@@ -27,7 +27,7 @@ names(items) <- c(paste0("i",1:30))
 dat_mst <- tmt_sim(mstdesign = mstdesign,
 			items = items,
 			persons = persons,
-			seed = 1111)
+			seed = c(1111,1112))
 datrm_1p <- tmt_rm(dat, optimization="optim")
 datrm_2p <- tmt_rm(dat_mst$data,mstdesign=mstdesign, optimization="optim")
 

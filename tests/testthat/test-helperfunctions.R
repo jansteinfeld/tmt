@@ -516,6 +516,9 @@ test_that("hfun_simulation probs cum", {
                             preconditions = av.preconditions, 
                             modules = modules),throws_error())
 
+    expect_that(hfun.preconditionoperator(tmtd = gsub("r1=","1=",tmtd), 
+                            preconditions = av.preconditions),throws_error())
+
     preconditions <- preconditions$precondition_matrix
 
     expect_s3_class(tmt:::hfun.simulation(modules = modules,
@@ -662,7 +665,7 @@ test_that("hfun_simulation probs precon cum error", {
 # -----------------------------------------------------------------
 context("test-helperfunctions check data")
 # -----------------------------------------------------------------
-dat <- tmt:::sim.rm(100,10,1111)
+dat <- tmt:::sim.rm(100,10,c(1111,1112))
 dat2 <- dat
 dat2[,1] <- 0
 dat6 <- dat
@@ -881,6 +884,12 @@ test_that("test function precon_sim",{
                                             "max" = c(10,10), 
                                             "r" = c(0.8,0.6)
                                           ))
+  test5 <- precon_sim(ppar = c("N1" = 500, "N2" = 500), precon = list(
+                                            "min" = c(0,0), 
+                                            "max" = c(10,10), 
+                                            "r" = c(0.8,0.6)
+                                          ),
+                                          seed = 1111)
   
   expect_that(sum(lengths(test0)),equals(4))
   expect_that(c(min(test1$preconpar[[1]]),max(test1$preconpar[[1]])),equals(c(0,5)))
@@ -891,6 +900,9 @@ test_that("test function precon_sim",{
   expect_that(c(min(test3$preconpar[[2]]),max(test3$preconpar[[2]])),equals(c(0,10)))
   expect_that(c(min(test4$preconpar[[1]]),max(test4$preconpar[[1]])),equals(c(0,10)))
   expect_that(c(min(test4$preconpar[[2]]),max(test4$preconpar[[2]])),equals(c(0,10)))
+  expect_that(c(min(test5$preconpar[[1]]),max(test5$preconpar[[1]])),equals(c(0,10)))
+  expect_that(c(min(test5$preconpar[[2]]),max(test5$preconpar[[2]])),equals(c(0,10)))
+  
   
   # test for correlation
   expect_equal(cor(test1$perspar[[1]],test1$preconpar[[1]]),0.8,tolerance=0.1)

@@ -48,6 +48,29 @@ mstdesign_max <- "
     b8 := B5(3,5) + B5(3,5) + B6(0,5)
 "
 
+ mstdesign_start_prob <- "
+    B1 =~ c(i1, i2, i3, i4, i5)
+    B2 =~ c(i6, i7, i8, i9, i10)
+    B3 =~ c(i11, i12, i13, i14, i15)
+    B4 =~ c(i16, i17, i18, i19, i20)
+    B5 =~ c(i21, i22, i23, i24, i25)
+    B6 =~ c(i26, i27, i28, i29, i30)
+
+    # define routing criteria
+    r1 = c(0.9,0.9,0.7,0.5,0.2,0.1)
+    r2 = c(0.1,0.1,0.3,0.5,0.8,0.9)
+
+    # define branches
+    p1 := B4(r1) + B2(r1) + B1
+    p2 := B4(r1) + B2(r2) + B3
+    p3 := B4(r2) + B5(r1) + B3
+    p4 := B4(r2) + B5(r2) + B6
+    p5 := B5(r1) + B2(r1) + B1
+    p6 := B5(r1) + B2(r2) + B3
+    p7 := B5(r2) + B4(r1) + B3
+    p8 := B5(r2) + B4(r2) + B6
+"
+
 mstdesign_precon <- "
   B1 =~ paste0('i', 1:10)
   B2 =~ paste0('i',11:20)
@@ -163,8 +186,8 @@ context("test-tmt_sim")
       tmp <- tmt_sim(mstdesign = mstdesign,
               items = items,
               persons = 500,
-              seed = 1111,
               seed = 1111)
+
       tmp2 <- tmt_sim(mstdesign = mstdesign,
               items = items,
               persons = persons,
@@ -180,6 +203,10 @@ context("test-tmt_sim")
       tmp5 <- tmt_sim(mstdesign = mstdesign_max_v3,
               items = items_3,
               persons = 10000,
+              seed = 1111)
+      tmp6 <- tmt_sim(mstdesign = mstdesign_start_prob,
+              items = items,
+              persons = list(persons,persons),
               seed = 1111)
 
     expect_is(tmp,"list")
@@ -203,6 +230,19 @@ context("test-tmt_sim")
     expect_named(tmp4, c("data", "data_mst", "persons", "mstdesign","preconditions", "preconpar"))
     expect_s3_class(tmp4,"mstdesign") 
     expect_that(sum(rowSums(tmp4$data_mst[tmp4$data_mst$branching=="B4-B2-B1",paste0('i',11:20)]) ),equals(0))
+
+    expect_is(tmp5,"list")
+    expect_that(length(tmp5), equals(6))
+    expect_named(tmp5, c("data", "data_mst", "persons", "mstdesign","preconditions", "preconpar"))
+    expect_s3_class(tmp5,"mstdesign") 
+    expect_that(sum(rowSums(tmp5$data_mst[tmp5$data_mst$branching=="B4-B2-B1",paste0('i',11:20)]) ),equals(0))
+
+    expect_is(tmp6,"list")
+    expect_that(length(tmp6), equals(6))
+    expect_named(tmp6, c("data", "data_mst", "persons", "mstdesign","preconditions", "preconpar"))
+    expect_s3_class(tmp6,"mstdesign") 
+    expect_that(sum(rowSums(tmp6$data_mst[tmp6$data_mst$branching=="B4-B2-B1",paste0('i',11:20)]) ),equals(0))
+
   })
 
 # -----------------------------------------------------------------
@@ -277,8 +317,6 @@ expect_that(tmt_sim(mstdesign=mstdesign,
   expect_that(tmt_sim(mstdesign = mstdesign_probcum,
       items = items,
       persons = 500), gives_warning())
-  
-  
 })
 # -----------------------------------------------------------------
 context("test-tmt_sim warnings")
@@ -315,6 +353,13 @@ context("test-tmt_sim warnings")
     items = items,
     preconditions = 0.3,
     persons = 500), gives_warning())
+
+  # tmp <- capture_warnings(tmt_sim(mstdesign = mstdesign_precon2,
+  #   items = items_precon,
+  #   preconditions = 0.3,
+  #   persons = 500))
+  # expect_match(tmp, c("Bedingung hat Länge > 1 und nur das erste Element wird benutzt",
+  #                     "Bedingung hat Länge > 1 und nur das erste Element wird benutzt"                 "The specified correlation in 'preconditions' was used for all starting groups."))
 
   expect_that(tmt_sim(mstdesign = mstdesign_precon2,
       items = items_precon,

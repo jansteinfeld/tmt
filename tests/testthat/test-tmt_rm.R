@@ -87,7 +87,7 @@ mstdesign_small_v3 <- "
 
 # Vorbereitung
 
-dat <- tmt:::sim.rm(theta = 100, b = 5, 1111)
+dat <- tmt:::sim.rm(theta = 100, b = 5, c(1111,1112))
 datna <- dat
 datna[sample(seq_len(length(datna)),10,replace = FALSE)] <- NA
 

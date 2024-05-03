@@ -12,11 +12,11 @@ mstdesign <- "
     b3 := B4(3,5) + B5(0,2) + B3(0,5)
     b4 := B4(3,5) + B5(3,5) + B6(0,5)
   "
-
+# Vorbereitung
 items <- seq(-2,2,length.out=30)
 persons <- 1000
 
-dat <- tmt:::sim.rm(persons,items,1111)
+dat <- tmt:::sim.rm(persons,items,c(1111,1112))
 datna <- dat
 datna[sample(seq_len(length(datna)),50,replace = FALSE)] <- NA
 datrm_1 <- tmt_rm(dat, optimization="optim")

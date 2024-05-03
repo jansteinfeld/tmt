@@ -3,7 +3,7 @@ names(items) <- paste0("i",1:30)
 persons <- 500
 mean <- 0
 sd <- 1
-dat <- tmt:::sim.rm(persons, items,1111)
+dat <- tmt:::sim.rm(persons, items,c(1111,1112))
 invisible(dat.rm <- tmt_rm(dat, optimization = "optim"))
 suppressWarnings(dat.lrt <- tmt_lrtest(dat.rm, 
 	split = "median", optimization = "optim"))
@@ -30,9 +30,8 @@ class(plot_class) <- "mst"
 context("test-tmt_gmc")
 # -----------------------------------------------------------------
   test_that("tmt_gmc data structure", {
-    expected_length <- length(ggplot2::ggplot())
     expect_type(p,"list")
-    expect_length(p, expected_length)
+    expect_that(length(p), equals(11))
   })
   test_that("tmt_gmc class", {
        expect_is(

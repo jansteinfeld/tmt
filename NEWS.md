@@ -1,8 +1,13 @@
-# tmt 0.3.1-2
-* fixed warning from CRAN
+# tmt 0.3.4-0
+* now cumulative designs are supported also for probabilistic MST designs
 
+# tmt 0.3.1-10
+* fixed 'Note' from CRAN submission (thanks UL) 
 
-# tmt 0.3.0-20
+# tmt 0.3.1-8
+* fixed testthat error caused by ggplot2
+
+# tmt 0.3.0-2
 * added the feature of item parameter estimation of probabilistic MST designs
 * fixed tmt_sim function which ignored seed, when theta and or b where > 1
 * improved the performance of the package
@@ -10,7 +15,6 @@
 * changed the definition of cumulative MST designs from += to ++ (respectively both are working)
 * added possibility to specify further conditions 'preconditions' in the MST design
 * fixed bug in determining the se at small MST designs
-
 
 # tmt 0.2.2-0
 * fixed some typos

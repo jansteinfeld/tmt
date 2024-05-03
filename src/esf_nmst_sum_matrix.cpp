@@ -28,7 +28,7 @@ List esf_nmst_sum_matrix(NumericVector epsi, int order=0){
   // ---------------------------
 
   // START
-  if((order == 0) || (order == 1) || (order == 2)){ // condition for first order
+  if((order == 0) | (order == 1) | (order == 2)){ // condition for first order
 
     // faster solution for sugar-version of cumsum
     NumericVector epsiSum(epsi_k.size());
@@ -43,7 +43,7 @@ List esf_nmst_sum_matrix(NumericVector epsi, int order=0){
 
   }
 
-  if((order == 1) || (order == 2)){ // condition for first order
+  if((order == 1) | (order == 2)){ // condition for first order
     // Initialize output vector only once 2018-01-06
     NumericVector epsi_ki( size_mat );
     NumericMatrix g_mat2( size_mat+1, size_mat );
@@ -94,7 +94,7 @@ List esf_nmst_sum_matrix(NumericVector epsi, int order=0){
         int ii = 1;
         epsi_ki2[0] = 0.0;
         for (int k = 0; k < epsi_k2.size()-1; k++) {
-          if((i!=k) && (j!=k)){
+          if((i!=k) & (j!=k)){
             epsi_ki2[ii] = epsi_k2[k+1];
             ii++;
           }

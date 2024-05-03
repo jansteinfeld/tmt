@@ -27,12 +27,14 @@ URL:
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 -------------------------------------------------------------
-VERSIONS tmt 0.3.1-2  |  2022-05-16  |  Last: tmt 0.3.0-20
+VERSIONS tmt 0.3.3-0  |  2024-03-15  |  Last: tmt 0.3.2-1
 -------------------------------------------------------------
-* fixed warning from CRAN
+* fixed testthat error caused by ggplot2
+* NOTE * fixed a bug in ifelse (thanks to Tobias Alfers & Philipp Gewessler)
+
 
 -------------------------------------------------------------
-VERSIONS tmt 0.3.0-20  |  2022-01-19  |  Last: tmt 0.2.1-0
+VERSIONS tmt 0.3.2-1  |  2024-03-12  |  Last: tmt 0.3.1-10
 -------------------------------------------------------------
 * added the feature of item parameter estimation of probabilistic MST designs
 * fixed tmt_sim function which ignored seed, when theta and or b where > 1
@@ -41,6 +43,17 @@ VERSIONS tmt 0.3.0-20  |  2022-01-19  |  Last: tmt 0.2.1-0
 * changed the definition of cumulative MST designs from += to ++ (respectively both are working)
 * added possibility to specify further conditions 'preconditions' in the MST design
 * fixed bug in determining the se at small MST designs
+
+-------------------------------------------------------------
+VERSIONS tmt 0.3.1-10  |  2024-03-11  |  Last: tmt 0.2.1-0
+-------------------------------------------------------------
+# tmt 0.3.1-10
+* fixed 'Note' from CRAN submission (thanks UL) 
+
+-------------------------------------------------------------
+VERSIONS tmt 0.3.1-8  |  2024-03-10  |  Last: tmt 0.2.1-0
+-------------------------------------------------------------
+* fixed testthat error caused by ggplot2
 
 -------------------------------------------------------------
 VERSIONS tmt 0.2.1-0  |  2019-07-05  |  Last: tmt 0.1.9-3

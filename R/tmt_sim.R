@@ -28,22 +28,24 @@
 #' @example ./R/.example_designsim.R
 #'
 #' @export
-#' 
+
 tmt_sim <- function(mstdesign = NULL,
                     items = NULL, persons = NULL, preconditions = NULL, ...) {
 
-  # check for manual seed
   additional_arguments <- list(...)
-  seed <- NULL
-  if (!is.null(additional_arguments$seed)) seed <- additional_arguments$seed
+  
   if (!is.null(additional_arguments$mean)) warning("argument 'mean' is deprecated")
   if (!is.null(additional_arguments$sd)) warning("argument 'sd' is deprecated")
-
+  if (!is.null(additional_arguments$seed)) {
+    seed <- additional_arguments$seed
+    set.seed(seed)
+  } else {
+    seed <- NULL
+  }
+  
   # sanitary checks
-  # are there a start module, stages and maxSolved module
   if (is.null(mstdesign)) stop("mstdesign needs to be specified! \n")
   if (is.null(items)) stop("vector of difficulty parameter is required")
-  # if (is.null(persons)) stop("integer of persons for each starting module is required")
 
   input <- tmt_mstdesign(mstdesign = mstdesign, options = c("simulation", "items"))
   design <- input$simulation
@@ -53,9 +55,8 @@ tmt_sim <- function(mstdesign = NULL,
 
 
   # Update 2020-04-28 preconditions
+
   if (!is.null(input$preconditions)) {
-    # precon_d <- input$preconditions$rules
-    # precon_b <- input$preconditions$paths
     precon_start <- input$preconditions$preconditions
   }
 
@@ -82,9 +83,7 @@ tmt_sim <- function(mstdesign = NULL,
     precon_corr <- rep(precon_corr, length.out = nrow(input$preconditions$precondition_matrix))
   }
   
-  # precon_start muss noch aufbereitet werden...
   precon_values <- grep("value", colnames(precon_start))
-
   precon_start[, precon_values] <- apply(precon_start[, precon_values, drop = FALSE], 2, function(x) as.numeric(gsub("\\(|\\)", "", x)))
   precon_n <- grep("precondition", colnames(precon_start))
 
@@ -110,9 +109,9 @@ tmt_sim <- function(mstdesign = NULL,
       stop("Please specify a unique number of desired persons for the data simulation. A vector with different amounts of persons is currently only supported for several start groups.")
     }
   }
-  
+
   # generate person parameter and if desired also sum score for preconditions
-  personinfo <- precon_sim(ppar = persons, precon = preconditions, seed = seed)
+  personinfo <- precon_sim(ppar = persons, precon = preconditions)
   persons <- personinfo$perspar
   precon <- personinfo$preconpar
 
@@ -129,19 +128,11 @@ tmt_sim <- function(mstdesign = NULL,
     stop("The number of specified items in 'items' does not match the MST design.")
   } 
 
-  # # 2019-03-14
-  # # check input values
-  # if(length(persons) < nrow(start_b)){
-  #   warning("The submitted amount of persons is used for each starting module")
-  #   persons <- rep(persons,nrow(start_b))
-  # }
-
   if (length(persons) < nrow(start_b)) {
     stop("Please specify as many groups of person parameters as start blocks are defined")
   }
 
   n <- sum(lengths(persons))
-  # n_n <- sapply(persons,length)
   n_n <- lengths(persons)
   p_pos_start <- c(1, cumsum(n_n)[-length(n_n)] + 1)
   p_pos_end <- cumsum(n_n)
@@ -172,15 +163,13 @@ tmt_sim <- function(mstdesign = NULL,
         items_i <- unlist(strsplit(items_i, ","))
         mat[p_pos_start[ss]:p_pos_end[ss], items_i] <- sim.rm(
           theta = ppar[[ss]],
-          b = items[names(items) %in% items_i],
-          seed = seed
+          b = items[names(items) %in% items_i]
         )
         helper_stages[p_pos_start[ss]:p_pos_end[ss]] <- sb
       }
       ppar <- unlist(ppar, use.names = FALSE)
       # 2020-05-13 the preconditions are always added but only taken into account if the design is cumulative. 
       # If so they appear in the 'from' column in the submitted and processed design information
-      # if(is.list(preconpar)) preconpar <- unlist(preconpar, use.names = FALSE)
     } else { # start with 2 because in first entry are the starting values
       # get information from last stage and store this information
       stage_last <- helper_stages
@@ -192,9 +181,7 @@ tmt_sim <- function(mstdesign = NULL,
         items_i <- unique(design[[s]][design[[s]][, "from"] == sl, "items_from"])
         items_i <- unlist(strsplit(items_i, ","))
         # sums of stage before
-
-
-        # calculate the sum score. If there are preconditions, then this has to be adjusted here
+        
         probabilities <- design[[s]][design[[s]][, "from"] == sl, "probability"]
         probabilities <- as.numeric(unlist(sapply(probabilities, strsplit, ",")))
         maxSolved <- as.numeric(design[[s]][design[[s]][, "from"] == sl, "maxSolved"])
@@ -203,77 +190,75 @@ tmt_sim <- function(mstdesign = NULL,
         if (is.null(preconpar) & (any(max(maxSolved) > length(items_i)))) {
           stop("Within the design matrix an divergent amount of maxSolved items are specified\n") # nolint
         }
-
         rs_sl <- rowSums(mat[persn_sl, items_i])
-        # if(!is.null(preconpar) & !all(probabilities == 1)) rs_sl <- rs_sl + preconpar[persn_sl] # nolint
+          
+          if (all(probabilities == 1)) {
+            # 2021-12-19 added, for cases with two or lower amounts of items in one module
+            if ( any(maxSolved - minSolved == 0) ) {
+                if(maxSolved[maxSolved - minSolved == 0] == 0){
+                  groups_n <- rep(NA,length(rs_sl))
+                  minequalmax <- maxSolved[maxSolved-minSolved==0]
+                  groups_n[rs_sl %in% minequalmax] <- seq_along(minequalmax)
+                  newcat <- c(0, maxSolved)[!c(0, maxSolved) %in% minequalmax]
+                  groups_n <- factor(groups_n, levels = seq_along(c(newcat,length(minequalmax))))
+                  groups_n[!rs_sl %in% minequalmax] <- cut(rs_sl[!rs_sl %in% minequalmax], sort(c(0,newcat)), include.lowest = TRUE, labels = seq_along(newcat) + length(minequalmax)) # nolint  
+                } else {
+                  groups_n <- cut(rs_sl, sort(c(0, maxSolved)), include.lowest = TRUE, labels = seq_along(maxSolved)) # nolint  
+                }
+            } else {
+              groups_n <- cut(rs_sl, sort(c(0, maxSolved)), include.lowest = TRUE, labels = seq_along(maxSolved)) # nolint  
+            }
+            # groups_n <- cut(rs_sl, sort(c(0, maxSolved)), include.lowest = TRUE, labels = seq_along(maxSolved)) # nolint
+            for (g in sort(unique(groups_n))) {
+              item_g <- design[[s]][design[[s]][, "from"] == sl &
+                design[[s]][, "maxSolved"] == sort(maxSolved)[as.numeric(g)], "items_to"] # nolint
+              item_g <- as.character(unlist(strsplit(item_g, ",")))
+              to <- design[[s]][design[[s]][, "from"] == sl & design[[s]][, "maxSolved"] == sort(maxSolved)[as.numeric(g)], "to"] # nolint
+              mat[persn_sl, "branching"][groups_n %in% g] <- paste0(mat[persn_sl, "branching"][groups_n %in% g], "-", to) # nolint
+              helper_stages[persn_sl][groups_n %in% g] <- to
+              # simulate again, based on existing person parameters
+              mat[persn_sl, item_g][groups_n %in% g, ] <- sim.rm(
+                theta = ppar[persn_sl][groups_n %in% g], # nolint
+                b = items[item_g]
+              )
+            }
+          } else { # probability based routing
+            # 2019-11-15 added feature for probabilistic routing
+            probabilities <- design[[s]][design[[s]][, "from"] == sl, "probability"] # nolint
 
-        # now get information from and to based on solved items
-        # groups are the position of the next module within the design file
-        if (all(probabilities == 1)) {
-          # 2021-12-19 added, for cases with two or lower amounts of items in one module
-          if ( any(maxSolved - minSolved == 0) ) {
-              if(maxSolved[maxSolved - minSolved == 0] == 0){
-                groups_n <- rep(NA,length(rs_sl))
-                minequalmax <- maxSolved[maxSolved-minSolved==0]
-                groups_n[rs_sl %in% minequalmax] <- seq_along(minequalmax)
-                newcat <- c(0, maxSolved)[!c(0, maxSolved) %in% minequalmax]
-                groups_n <- factor(groups_n, levels = seq_along(c(newcat,length(minequalmax))))
-                groups_n[!rs_sl %in% minequalmax] <- cut(rs_sl[!rs_sl %in% minequalmax], sort(c(0,newcat)), include.lowest = TRUE, labels = seq_along(newcat) + length(minequalmax)) # nolint  
-              } else {
-                groups_n <- cut(rs_sl, sort(c(0, maxSolved)), include.lowest = TRUE, labels = seq_along(maxSolved)) # nolint  
+            probabilities <- do.call(rbind, sapply(probabilities, strsplit, ","))
+            probabilities <- apply(probabilities, 2, as.numeric)
+            if (!all(colSums(probabilities)%%1 == 0)) warning("For each raw score, the probabilities do not add up to 1\n") # nolint
+
+            groups_n <- rep(NA, length(rs_sl))
+            seq_gg <- ifelse(min(minSolved) == 0, 1, 0)
+
+            for (gg in seq(min(minSolved), max(maxSolved))) {
+              if(any(rs_sl %in% gg)){
+                  groups_n[rs_sl %in% gg] <- sample(design[[s]][design[[s]][, "from"] == sl, "to"], size = sum(rs_sl %in% gg), prob = probabilities[, gg + seq_gg], replace = TRUE) # nolint   
               }
-          } else {
-            groups_n <- cut(rs_sl, sort(c(0, maxSolved)), include.lowest = TRUE, labels = seq_along(maxSolved)) # nolint  
+            }
+            for (ggg in sort(unique(groups_n))) {
+              item_g <- design[[s]][design[[s]][, "from"] == sl &
+                design[[s]][, "to"] == ggg, "items_to"]
+                # 2024-01-26 auskommentiert if ( length(item_g)>1 & length(unique(item_g)) ) item_g <- item_g[1]
+              item_g <- as.character(unlist(strsplit(item_g, ",")))
+              mat[persn_sl, "branching"][groups_n %in% ggg] <- paste0(mat[persn_sl, "branching"][groups_n %in% ggg], "-", ggg) # nolint
+              helper_stages[persn_sl][groups_n %in% ggg] <- ggg
+              # simulate again, based on existing person parameters
+              mat[persn_sl, item_g][groups_n %in% ggg, ] <- sim.rm(
+                theta = ppar[persn_sl][groups_n %in% ggg], # nolint
+                b = items[item_g]
+              ) # nolint
+            }
           }
-          # groups_n <- cut(rs_sl, sort(c(0, maxSolved)), include.lowest = TRUE, labels = seq_along(maxSolved)) # nolint
-          for (g in sort(unique(groups_n))) {
-            item_g <- design[[s]][design[[s]][, "from"] == sl &
-              design[[s]][, "maxSolved"] == sort(maxSolved)[as.numeric(g)], "items_to"] # nolint
-            item_g <- as.character(unlist(strsplit(item_g, ",")))
-            to <- design[[s]][design[[s]][, "from"] == sl & design[[s]][, "maxSolved"] == sort(maxSolved)[as.numeric(g)], "to"] # nolint
-            mat[persn_sl, "branching"][groups_n %in% g] <- paste0(mat[persn_sl, "branching"][groups_n %in% g], "-", to) # nolint
-            helper_stages[persn_sl][groups_n %in% g] <- to
-            # simulate again, based on existing person parameters
-            mat[persn_sl, item_g][groups_n %in% g, ] <- sim.rm(
-              theta = ppar[persn_sl][groups_n %in% g], # nolint
-              b = items[item_g], # nolint
-              seed = seed
-            )
-          }
-        } else { # probability based routing
-          # 2019-11-15 added feature for probabilistic routing
-          probabilities <- design[[s]][design[[s]][, "from"] == sl, "probability"] # nolint
-
-          probabilities <- do.call(rbind, sapply(probabilities, strsplit, ","))
-          probabilities <- apply(probabilities, 2, as.numeric)
-          if (!all(colSums(probabilities)%%1 == 0)) warning("For each raw score, the probabilities do not add up to 1\n") # nolint
-
-          groups_n <- rep(NA, length(rs_sl))
-          seq_gg <- ifelse(min(minSolved) == 0, 1, 0)
-
-          for (gg in seq(min(minSolved), max(maxSolved))) {
-            groups_n[rs_sl == gg] <- sample(design[[s]][design[[s]][, "from"] == sl, "to"], size = sum(rs_sl == gg), prob = probabilities[, gg + seq_gg], replace = TRUE) # nolint
-          }
-          for (ggg in sort(unique(groups_n))) {
-            item_g <- design[[s]][design[[s]][, "from"] == sl &
-              design[[s]][, "to"] == ggg, "items_to"]
-            item_g <- as.character(unlist(strsplit(item_g, ",")))
-            # to <- design[[s]][design[[s]][,"from"] == sl & design[[s]][,"to"] == ggg, "to"] # nolint
-            mat[persn_sl, "branching"][groups_n %in% ggg] <- paste0(mat[persn_sl, "branching"][groups_n %in% ggg], "-", ggg) # nolint
-            helper_stages[persn_sl][groups_n %in% ggg] <- ggg
-            # simulate again, based on existing person parameters
-            mat[persn_sl, item_g][groups_n %in% ggg, ] <- sim.rm(
-              theta = ppar[persn_sl][groups_n %in% ggg], # nolint
-              b = items[item_g], # nolint
-              seed = seed
-            ) # nolint
-          }
-        }
+        # }
       }
     } # end else
   } # end for (s in 1:length(design)) {
   mat_mst <- mat
   mat <- apply(mat[, -1], 2, as.numeric)
+# cat("\nseed end: ",additional_arguments$seed)
 
   out <- list(
     data = mat,
@@ -286,4 +271,5 @@ tmt_sim <- function(mstdesign = NULL,
 
   class(out) <- append(class(out), "mstdesign")
   return(out)
+
 }
