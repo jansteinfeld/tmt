@@ -58,8 +58,8 @@
 #' \item Glas, C.A.W. (2016). Maximum-Likelihood Estimation. In van der Linden, W.J. (Ed.), \emph{Handbook of Item Response Theory: Volume two: Statistical tools.} (pp. 197 - 236). New York: CRC Press.
 #' \item Rasch, G. (1960). \emph{Probabalistic models for some intelligence and attainment tests.} Danmarks
 #'    paedagogiske institut.
-#' \item Steinfeld, J., & Robitzsch, A. (accepted). Conditional maximum likelihood estimation in probability-based multistage designs. 
-#'    \emph{Behaviormetrika, xx}(x), xxx-xxx. 
+#' \item Steinfeld, J., & Robitzsch, A. (2024). Conditional maximum likelihood estimation in probability-based multistage designs. 
+#'    \emph{Behaviormetrika, 51}(2), 617-634. 
 #' \item Steinfeld, J., Robitzsch, A. (2023). Estimating item parameters in multistage designs with the tmt package in R. 
 #'    \emph{Quantitative and Computational Methods in Behavioral Science, 3}, e10087. https://doi.org/10.5964/qcmb.10087
 #' \item Steinfeld, J., & Robitzsch, A. (2021). Item parameter estimation in multistage designs: A comparison of different estimation approaches for the Rasch model. 
@@ -72,6 +72,10 @@
 #' 
 #' 
 ## References
+
+
+
+
 #' 
 #' @seealso \link{tmt_lrtest}
 #' 

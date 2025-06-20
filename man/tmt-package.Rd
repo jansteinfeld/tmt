@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Provides conditional maximum likelihood (CML) item parameter estimation of both sequential and cumulative deterministic multistage designs (Zwitser & Maris, 2015, \doi{10.1007/s11336-013-9369-6}) and probabilistic sequential and cumulative multistage designs (Steinfeld & Robitzsch, 2021, \doi{10.31234/osf.io/ew27f}). Supports CML item parameter estimation of conventional linear designs and additional functions for the likelihood ratio test (Andersen, 1973, \doi{10.1007/BF02291180}) as well as functions for simulating various types of multistage designs.
+Provides conditional maximum likelihood (CML) item parameter estimation of both sequential and cumulative deterministic multistage designs (Zwitser & Maris, 2015, \doi{10.1007/s11336-013-9369-6}) and probabilistic sequential and cumulative multistage designs (Steinfeld & Robitzsch, 2024, \doi{10.1007/s41237-024-00228-3}). Supports CML item parameter estimation of conventional linear designs and additional functions for the likelihood ratio test (Andersen, 1973, \doi{10.1007/BF02291180}) as well as functions for simulating various types of multistage designs.
 }
 \details{
 In multistage tests different groups of items (modules) are presented to persons depending on their response behavior to previous item groups. Multistage testing is thus a simple form of adaptive testing. If data is collected on the basis of such a multistage design and the items are estimated using the Conditional Maximum Likelihood (CML) method, Glas (1989) <doi:10.3102/10769986013001045> has shown, that the item parameters are biased. Zwitser and Maris (2015) <doi:10.1007/s11336-013-9369-6> showed in their work, that taking the applied multistage design in consideration and including it in the estimation of the item parameters, the estimation of item parameters is not biased using the CML method. Their proposed solution is implemented in our package. MST designs with a probabilistic instead of a deterministic routing rule (see, e.g. Chen, Yamamoto, & von Davier, 2014 <doi:10.1201/b16858>) are not estimated with this method, therefore the proposed solouting is again modified by Steinfeld and Robitzsch (2021) <doi:10.31234/osf.io/ew27f> which is also integrated into this package.
@@ -47,8 +47,8 @@ tmt:::tmt_ascii()
    Volume two: Statistical tools.} (pp. 197 - 236). New York: CRC Press.
 \item Rasch, G. (1960). \emph{Probabalistic models for some intelligence and attainment tests.} Danmarks
    paedagogiske institut.
-\item Steinfeld, J., & Robitzsch, A. (accepted). Conditional maximum likelihood estimation in probability-based multistage designs. 
-   \emph{Behaviormetrika, xx}(x), xxx-xxx. 
+\item Steinfeld, J., & Robitzsch, A. (2024). Conditional maximum likelihood estimation in probability-based multistage designs. 
+   \emph{Behaviormetrika, 51}(2), 617-634. 
 \item Steinfeld, J., Robitzsch, A. (2023). Estimating item parameters in multistage designs with the tmt package in R. 
    \emph{Quantitative and Computational Methods in Behavioral Science, 3}, e10087. https://doi.org/10.5964/qcmb.10087
 \item Steinfeld, J., & Robitzsch, A. (2021). Item parameter estimation in multistage designs: A comparison of different estimation approaches for the Rasch model. 

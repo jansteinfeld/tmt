@@ -1,5 +1,18 @@
-# tmt 0.3.4-0
-* now cumulative designs are supported also for probabilistic MST designs
+# tmt 0.3.6-0
+* fixed testthat error caused by ggplot2
+* removed suggestion of dexterMST (Package 'dexterMST' was removed from the CRAN repository.)
+ 
+# tmt 0.3.3-0
+* NOTE * fixed a bug in ifelse (thanks to Tobias Alfers & Philipp Gewessler)
+
+# tmt 0.3.2-1
+* added the feature of item parameter estimation of probabilistic MST designs
+* fixed tmt_sim function which ignored seed, when theta and or b where > 1
+* improved the performance of the package
+* added seed to the simulation function
+* changed the definition of cumulative MST designs from += to ++ (respectively both are working)
+* added possibility to specify further conditions 'preconditions' in the MST design
+* fixed bug in determining the se at small MST designs
 
 # tmt 0.3.1-10
 * fixed 'Note' from CRAN submission (thanks UL) 

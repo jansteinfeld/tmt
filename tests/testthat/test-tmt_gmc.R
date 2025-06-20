@@ -29,9 +29,13 @@ class(plot_class) <- "mst"
 # -----------------------------------------------------------------
 context("test-tmt_gmc")
 # -----------------------------------------------------------------
+  # test_that("tmt_gmc data structure", {
+  #   expect_type(p,"list")
+  #   expect_that(length(p), equals(11))
+  # })
+  # 2025-20-06 - changed due to new S7 classes, used in upcooming ggplot2 release
   test_that("tmt_gmc data structure", {
-    expect_type(p,"list")
-    expect_that(length(p), equals(11))
+    expect_true(ggplot2::is_ggplot(p))
   })
   test_that("tmt_gmc class", {
        expect_is(
