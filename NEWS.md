@@ -1,3 +1,6 @@
+# tmt 0.3.6-1
+* fixed testthat error 
+
 # tmt 0.3.6-0
 * fixed testthat error caused by ggplot2
 * removed suggestion of dexterMST (Package 'dexterMST' was removed from the CRAN repository.)

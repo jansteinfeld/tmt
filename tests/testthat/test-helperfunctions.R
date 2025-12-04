@@ -292,7 +292,7 @@ mstdesign_small_v4 <- "
   asciiart <- capture.output(tmt_ascii())
   # clean mstdesign input:
   tmt.syntax <- mstdesign
-  tmt.syntax <- gsub("[#!].*(?=\n)","", tmt.syntax, perl = TRUE)
+  tmt.syntax <- gsub("[#].*(?=\n)","", tmt.syntax, perl = TRUE)
   tmt.syntax <- gsub(";", "\n", tmt.syntax, fixed = TRUE)
   tmt.syntax <- gsub("[ \t]+", "", tmt.syntax, perl = TRUE)
   tmt.syntax <- gsub("\n{2,}", "\n", tmt.syntax, perl = TRUE)
@@ -318,7 +318,7 @@ mstdesign_small_v4 <- "
                   n.modules = n.modules)
 # cumulative version
   tmt.syntax <- mstdesign_kumulativ
-  tmt.syntax <- gsub("[#!].*(?=\n)","", tmt.syntax, perl = TRUE)
+  tmt.syntax <- gsub("[#].*(?=\n)","", tmt.syntax, perl = TRUE)
   tmt.syntax <- gsub(";", "\n", tmt.syntax, fixed = TRUE)
   tmt.syntax <- gsub("[ \t]+", "", tmt.syntax, perl = TRUE)
   tmt.syntax <- gsub("\n{2,}", "\n", tmt.syntax, perl = TRUE)
@@ -372,7 +372,7 @@ context("test-helperfunctions tmt_mstdesign")
 
   test_that("hfun_simulation probs", {
     tmt.syntax <- mstdesign_prob
-    tmt.syntax <- gsub("[#!].*(?=\n)","", tmt.syntax, perl = TRUE)
+    tmt.syntax <- gsub("[#].*(?=\n)","", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub(";", "\n", tmt.syntax, fixed = TRUE)
     tmt.syntax <- gsub("[ \t]+", "", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub("\n{2,}", "\n", tmt.syntax, perl = TRUE)
@@ -393,7 +393,7 @@ context("test-helperfunctions tmt_mstdesign")
 
 
     tmt.syntax <- mstdesign_small_v3
-    tmt.syntax <- gsub("[#!].*(?=\n)","", tmt.syntax, perl = TRUE)
+    tmt.syntax <- gsub("[#].*(?=\n)","", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub(";", "\n", tmt.syntax, fixed = TRUE)
     tmt.syntax <- gsub("[ \t]+", "", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub("\n{2,}", "\n", tmt.syntax, perl = TRUE)
@@ -411,7 +411,7 @@ context("test-helperfunctions tmt_mstdesign")
                   preconditions = NULL)
 
     tmt.syntax <- mstdesign_small_v4
-    tmt.syntax <- gsub("[#!].*(?=\n)","", tmt.syntax, perl = TRUE)
+    tmt.syntax <- gsub("[#].*(?=\n)","", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub(";", "\n", tmt.syntax, fixed = TRUE)
     tmt.syntax <- gsub("[ \t]+", "", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub("\n{2,}", "\n", tmt.syntax, perl = TRUE)
@@ -436,7 +436,7 @@ context("test-helperfunctions tmt_mstdesign")
 
 test_that("hfun_simulation probs cum", {
     tmt.syntax <- mstdesign_prob_cum
-    tmt.syntax <- gsub("[#!].*(?=\n)","", tmt.syntax, perl = TRUE)
+    tmt.syntax <- gsub("[#].*(?=\n)","", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub(";", "\n", tmt.syntax, fixed = TRUE)
     tmt.syntax <- gsub("[ \t]+", "", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub("\n{2,}", "\n", tmt.syntax, perl = TRUE)
@@ -457,7 +457,7 @@ test_that("hfun_simulation probs cum", {
 
   test_that("hfun_simulation probs precon cum", {
     tmt.syntax <- mod_preconditions1
-    tmt.syntax <- gsub("[#!].*(?=\n)","", tmt.syntax, perl = TRUE)
+    tmt.syntax <- gsub("[#].*(?=\n)","", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub(";", "\n", tmt.syntax, fixed = TRUE)
     tmt.syntax <- gsub("[ \t]+", "", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub("\n{2,}", "\n", tmt.syntax, perl = TRUE)
@@ -489,7 +489,7 @@ test_that("hfun_simulation probs cum", {
 
  test_that("hfun_simulation probs precon cum error", {
     tmt.syntax <- mod_preconditions3
-    tmt.syntax <- gsub("[#!].*(?=\n)","", tmt.syntax, perl = TRUE)
+    tmt.syntax <- gsub("[#].*(?=\n)","", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub(";", "\n", tmt.syntax, fixed = TRUE)
     tmt.syntax <- gsub("[ \t]+", "", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub("\n{2,}", "\n", tmt.syntax, perl = TRUE)
@@ -528,7 +528,7 @@ test_that("hfun_simulation probs cum", {
 
 test_that("hfun_simulation probs precon cum error", {
     tmt.syntax <- mod_preconditions4
-    tmt.syntax <- gsub("[#!].*(?=\n)","", tmt.syntax, perl = TRUE)
+    tmt.syntax <- gsub("[#].*(?=\n)","", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub(";", "\n", tmt.syntax, fixed = TRUE)
     tmt.syntax <- gsub("[ \t]+", "", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub("\n{2,}", "\n", tmt.syntax, perl = TRUE)
@@ -577,7 +577,7 @@ test_that("hfun_simulation probs precon cum error", {
     expect_named(tmp, c("mst","minSolved","maxSolved","items","minSolved_stage","maxSolved_stage","probability"))
 
     tmt.syntax <- mstdesign_small_v1
-    tmt.syntax <- gsub("[#!].*(?=\n)","", tmt.syntax, perl = TRUE)
+    tmt.syntax <- gsub("[#].*(?=\n)","", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub(";", "\n", tmt.syntax, fixed = TRUE)
     tmt.syntax <- gsub("[ \t]+", "", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub("\n{2,}", "\n", tmt.syntax, perl = TRUE)
@@ -594,7 +594,7 @@ test_that("hfun_simulation probs precon cum error", {
                     n.branches = n.branches)
     
     tmt.syntax <- mstdesign_small_v2
-    tmt.syntax <- gsub("[#!].*(?=\n)","", tmt.syntax, perl = TRUE)
+    tmt.syntax <- gsub("[#].*(?=\n)","", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub(";", "\n", tmt.syntax, fixed = TRUE)
     tmt.syntax <- gsub("[ \t]+", "", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub("\n{2,}", "\n", tmt.syntax, perl = TRUE)
@@ -616,7 +616,7 @@ test_that("hfun_simulation probs precon cum error", {
 
 
     tmt.syntax <- mod_preconditions2
-    tmt.syntax <- gsub("[#!].*(?=\n)","", tmt.syntax, perl = TRUE)
+    tmt.syntax <- gsub("[#].*(?=\n)","", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub(";", "\n", tmt.syntax, fixed = TRUE)
     tmt.syntax <- gsub("[ \t]+", "", tmt.syntax, perl = TRUE)
     tmt.syntax <- gsub("\n{2,}", "\n", tmt.syntax, perl = TRUE)
