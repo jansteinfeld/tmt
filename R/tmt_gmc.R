@@ -44,7 +44,13 @@ tmt_gmc <- function (object,
     if (is.null(yaxis)) {
       yaxis <- paste("item parameter for group: ", names(object$betapars_subgroup)[2], sep = "")
     }
+    #if (!is.null(drop) & !all(drop%in%colnames(object$fitob[[1]]$data))) {
+    #    stop("Only names in the vector 'drop' are permitted which are also in the data.")
+    #}
     if(!is.null(info)) info <- info[!names(info)%in%drop]
+    #if (!is.null(info) & !all(names(info) %in% colnames(object$data))) {
+    #    stop("Only names in the vector 'drop' are permitted which are also in the data.")
+    #}
  # ------------------------------------------------------
     subgroup_1 <- object$betapars_subgroup[[1]]
     subgroup_2 <- object$betapars_subgroup[[2]]

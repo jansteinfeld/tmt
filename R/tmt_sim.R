@@ -28,12 +28,24 @@
 #' @example ./R/.example_designsim.R
 #'
 #' @export
-
+#'
+#'
+# 2020-05-10 Aufgaben für die Simulationsfunktion
+# - input muss hier überarbeitet werden, ähnlich wie bei der Simulationsfunktion precon
+# - precon muss mit aufgenommen werden
+# - theoretisch könnte es auch so bleiben!
 tmt_sim <- function(mstdesign = NULL,
                     items = NULL, persons = NULL, preconditions = NULL, ...) {
 
+  # !! ACHTUNG: Wie geht es, dass man bspw. zwei Startgruppen hat, die aber unterschiedliche preconditions haben?
+
+  # !! ACHTUNG wenn alle Bedingungen kumulativ sind und die preconditions dabei sind, dann müssen die natürlich jedesmal dazugerechnet werden!!
+  # !! muss noch getestet werden
+
+  # check for manual seed
   additional_arguments <- list(...)
   
+  # if (!is.null(additional_arguments$seed)) seed <- additional_arguments$seed
   if (!is.null(additional_arguments$mean)) warning("argument 'mean' is deprecated")
   if (!is.null(additional_arguments$sd)) warning("argument 'sd' is deprecated")
   if (!is.null(additional_arguments$seed)) {
@@ -43,9 +55,12 @@ tmt_sim <- function(mstdesign = NULL,
     seed <- NULL
   }
   
+  # cat("seed start: ",additional_arguments$seed)
   # sanitary checks
+  # are there a start module, stages and maxSolved module
   if (is.null(mstdesign)) stop("mstdesign needs to be specified! \n")
   if (is.null(items)) stop("vector of difficulty parameter is required")
+  # if (is.null(persons)) stop("integer of persons for each starting module is required")
 
   input <- tmt_mstdesign(mstdesign = mstdesign, options = c("simulation", "items"))
   design <- input$simulation
@@ -55,9 +70,15 @@ tmt_sim <- function(mstdesign = NULL,
 
 
   # Update 2020-04-28 preconditions
+  # !! für die Beschreibung: wenn es preconditions gibt und einen Vector bei den Personen bzw. mean und sd, dann werden diese für die preconditions und nicht für die module verwendet!!
 
   if (!is.null(input$preconditions)) {
+    # precon_d <- input$preconditions$rules
+    # precon_b <- input$preconditions$paths
     precon_start <- input$preconditions$preconditions
+    # hier die preconditions heraussuchen und dann schauen, wie das module aussieht
+    # die Ausprägungen der preconditions in Abhängigkeit von dem personenparameter simulieren
+    # !! es müsste spezifiziert werden, zu welchem Grad die Preconditions mit der domäne korreliert sind!!
   }
 
   if (!is.null(preconditions) & is.null(input$preconditions)) {
@@ -83,8 +104,12 @@ tmt_sim <- function(mstdesign = NULL,
     precon_corr <- rep(precon_corr, length.out = nrow(input$preconditions$precondition_matrix))
   }
   
+  # precon_start muss noch aufbereitet werden...
   precon_values <- grep("value", colnames(precon_start))
+
+  # umwandeln in numeric
   precon_start[, precon_values] <- apply(precon_start[, precon_values, drop = FALSE], 2, function(x) as.numeric(gsub("\\(|\\)", "", x)))
+  # nun min und max herausfinden je Startvector
   precon_n <- grep("precondition", colnames(precon_start))
 
     preconditions <- list()
@@ -109,6 +134,11 @@ tmt_sim <- function(mstdesign = NULL,
       stop("Please specify a unique number of desired persons for the data simulation. A vector with different amounts of persons is currently only supported for several start groups.")
     }
   }
+  
+  # muss noch angepasst werden..mehrere Startgruppen und mehrere Preconditions
+  # if(nrow(start_b)>1) {
+  # }
+
 
   # generate person parameter and if desired also sum score for preconditions
   personinfo <- precon_sim(ppar = persons, precon = preconditions)
@@ -128,11 +158,62 @@ tmt_sim <- function(mstdesign = NULL,
     stop("The number of specified items in 'items' does not match the MST design.")
   } 
 
+  # # 2019-03-14
+  # # check input values
+  # if(length(persons) < nrow(start_b)){
+  #   warning("The submitted amount of persons is used for each starting module")
+  #   persons <- rep(persons,nrow(start_b))
+  # }
+
+  # check input for persons: either integer or specified thetas
+  # if (!is.list(persons) & length(persons) == nrow(start_b)) {
+  # changed 2020-05-10
+  # if (length(mean) < nrow(start_b)) {
+  #   warning("The submitted value for 'mean' is used for all persons")
+  #   mean <- rep(mean,nrow(start_b))
+  # }
+  # if (length(sd) < nrow(start_b)) {
+  #   warning("The submitted value for 'sd' is used for all persons")
+  #   sd <- rep(sd,nrow(start_b))
+  # }
+  #   n <- sum(persons)
+  #   n_n <- persons
+  #   if(!is.null(seed)){
+  #     set.seed(seed)
+  #     ppar <- sapply(persons, FUN = function(x) stats::rnorm(x, mean, sd), simplify = FALSE, USE.NAMES = FALSE)
+  #   } else {
+  #     ppar <- sapply(persons, FUN = function(x) stats::rnorm(x, mean, sd), simplify = FALSE, USE.NAMES = FALSE)
+  #   }
+  #   ppar <- as.list(ppar)
+  #   # mapply(":",c(1,persons[-length(persons)]+1),cumsum(persons), simplify = FALSE)
+  #   p_pos_start <- c(1,persons[-length(persons)]+1)
+  #   p_pos_end <- cumsum(persons)
+  # } else if (!is.list(persons) & length(persons) > nrow(start_b) & !all(unlist(persons)%%1==0)) {
+  #   n_n <- n <- length(persons)
+  #   ppar <- list(persons)
+  #   p_pos_start <- c(1)
+  #   p_pos_end <- n
+  # } else if (is.list(persons) & !all(unlist(persons)%%1==0)) {
+  # n <- length(unlist(persons))
+
+  # if ((length(persons) > nrow(start_b)) & (is.null(input$preconditions))) {
+  #   warning("More groups of person parameters were defined than start modules are defined. \nFor further analysis, the groups of person parameters are combined.")
+  #   listdevider <- chunks(seq_along(persons), nrow(start_b))
+  #   persons <- lapply(listdevider, function(x) unlist(persons[x]))
+  # }
+  # if ((length(persons) > nrow(start_b)) & (!is.null(input$preconditions)) & (length(persons) != length(precon))) {
+  #     precon <- lapply(listdevider, function(x) unlist(precon[x]))
+  # }
   if (length(persons) < nrow(start_b)) {
     stop("Please specify as many groups of person parameters as start blocks are defined")
   }
 
+  # if ((length(persons) > nrow(start_b)) & (!is.null(input$preconditions))) {
+  #   listdevider <- chunks(seq_along(persons), nrow(start_b))
+  #   persons <- lapply(listdevider, function(x) unlist(persons[x]))
+  # }
   n <- sum(lengths(persons))
+  # n_n <- sapply(persons,length)
   n_n <- lengths(persons)
   p_pos_start <- c(1, cumsum(n_n)[-length(n_n)] + 1)
   p_pos_end <- cumsum(n_n)
@@ -150,7 +231,12 @@ tmt_sim <- function(mstdesign = NULL,
     mat <- data.frame(matrix(NA, nrow = n, ncol = length(items) + 1))
     colnames(mat) <- c("branching", items_d)
   }
+  # if (length(unique(design[["start"]][, "from"])) == length(n_n)) {
   mat[, "branching"] <- rep(unique(design[["start"]][, "from"]), times = n_n)
+  # } else {
+    # mat[, "branching"] <- rep(unique(design[["start"]][, "from"]), times = sum(n_n))
+  # }
+  # mat[,"branching"] <- rep(unique(design[["start"]][,"from"]), times = n_n)
   helper_stages <- vector(mode = "character", length = nrow(mat))
 
   for (s in seq_len(length(design))) {
@@ -170,6 +256,7 @@ tmt_sim <- function(mstdesign = NULL,
       ppar <- unlist(ppar, use.names = FALSE)
       # 2020-05-13 the preconditions are always added but only taken into account if the design is cumulative. 
       # If so they appear in the 'from' column in the submitted and processed design information
+      # if(is.list(preconpar)) preconpar <- unlist(preconpar, use.names = FALSE)
     } else { # start with 2 because in first entry are the starting values
       # get information from last stage and store this information
       stage_last <- helper_stages
@@ -182,16 +269,47 @@ tmt_sim <- function(mstdesign = NULL,
         items_i <- unlist(strsplit(items_i, ","))
         # sums of stage before
         
-        probabilities <- design[[s]][design[[s]][, "from"] == sl, "probability"]
-        probabilities <- as.numeric(unlist(sapply(probabilities, strsplit, ",")))
-        maxSolved <- as.numeric(design[[s]][design[[s]][, "from"] == sl, "maxSolved"])
-        minSolved <- as.numeric(design[[s]][design[[s]][, "from"] == sl, "minSolved"])
+        # from_modules <- sort(unique(design[[s]][design[[s]][, "from"] == sl, "to"]))
+        # for (nr in from_modules) {
+          #! Achtung 2022-01-28 bei kumulativen Fällen und komplexen Designs kann es natürlich passieren, dass die maxSolved sich  je nach Herkunft unterscheiden
+              # - theoretisch muss nun ja mehr als nur der letzte Pfad ermittelt werden, weil sonst eine Zuweisung nicht eindeutig ist!
+              # derzeit ist es nicht vorgesheen, dass unteschiedliche Startblöcke dann den gleichen nachfolgednen Pfad audweisen
+              # RC2 --> R12H --> R23H
+              # RC6 --> R12H --> R23H
+              # --> damit also Parallelformen, die miteinander verlinkt sind. Daazu müssen die Personen entsprechend aufgeteilt werden
 
-        if (is.null(preconpar) & (any(max(maxSolved) > length(items_i)))) {
-          stop("Within the design matrix an divergent amount of maxSolved items are specified\n") # nolint
-        }
-        rs_sl <- rowSums(mat[persn_sl, items_i])
+
+
+
+
+          # Das bedeutet also, dass der gesamte vorhergehende Pfad aufgezeignet werden muss, sonst ist es nicht eindeutig!
+
+          # derzeitiger Lösungsansatz wäre es das gesamte simulationsdesign anzupasen und immer in dem Teil from den gesamten eindeutigen pfad zu speichern, so wie es auch bei dem design für die eigentliche anwendung ist
+
+
+          # calculate the sum score. If there are preconditions, then this has to be adjusted here
           
+          # probabilities <- design[[s]][design[[s]][, "from"] == sl & design[[s]][, "to"] == nr, "probability"]
+          # probabilities <- as.numeric(unlist(sapply(probabilities, strsplit, ",")))
+          # maxSolved <- as.numeric(design[[s]][design[[s]][, "from"] == sl & design[[s]][, "to"] == nr, "maxSolved"])
+          # minSolved <- as.numeric(design[[s]][design[[s]][, "from"] == sl & design[[s]][, "to"] == nr, "minSolved"])
+
+          probabilities <- design[[s]][design[[s]][, "from"] == sl, "probability"]
+          probabilities <- as.numeric(unlist(sapply(probabilities, strsplit, ",")))
+          maxSolved <- as.numeric(design[[s]][design[[s]][, "from"] == sl, "maxSolved"])
+          minSolved <- as.numeric(design[[s]][design[[s]][, "from"] == sl, "minSolved"])
+
+          if (is.null(preconpar) & (any(max(maxSolved) > length(items_i)))) {
+            stop("Within the design matrix an divergent amount of maxSolved items are specified\n") # nolint
+          }
+          #! ab hier dann aufteilen in die Gruppen -- derzeit wohl nur persn_sl notwendig
+          rs_sl <- rowSums(mat[persn_sl, items_i])
+          
+          # factor(rs_sl,levels= 0:length(items_i))
+
+          # if(!is.null(preconpar) & !all(probabilities == 1)) rs_sl <- rs_sl + preconpar[persn_sl] # nolint
+          # now get information from and to based on solved items
+          # groups are the position of the next module within the design file
           if (all(probabilities == 1)) {
             # 2021-12-19 added, for cases with two or lower amounts of items in one module
             if ( any(maxSolved - minSolved == 0) ) {
@@ -235,7 +353,27 @@ tmt_sim <- function(mstdesign = NULL,
 
             for (gg in seq(min(minSolved), max(maxSolved))) {
               if(any(rs_sl %in% gg)){
-                  groups_n[rs_sl %in% gg] <- sample(design[[s]][design[[s]][, "from"] == sl, "to"], size = sum(rs_sl %in% gg), prob = probabilities[, gg + seq_gg], replace = TRUE) # nolint   
+                # if (nrow(probabilities)>2) {
+                #   # HIER MUSS NOCH ANGEPASST WERDEN
+                #   # jeweils zweier Paar bestimmen
+                #   split_p <- chunk2(seq(nrow(probabilities)), 2) 
+                #   # split_g <- chunks(groups_n[rs_sl %in% gg],2) 
+                #   split_g <- sample(seq(nrow(probabilities)), sum(rs_sl %in% gg),replace=TRUE)
+
+                #   groups_n[rs_sl %in% gg] <- unlist(sapply(seq(nrow(probabilities)/2),function(x){
+                #     sample(
+                #       design[[s]][design[[s]][, "from"] == sl, "to"][split_p[[x]]], 
+                #       size = sum(split_g%in%split_p[[x]]), 
+                #       prob = probabilities[, gg + seq_gg][split_p[[x]]], 
+                #       replace = TRUE) # nolint
+                #   }))
+                #   # vapply(LETTERS[1:3], function(x) {x == "B"}, logical(1)) # F, T, F
+
+                  
+                # } else {
+                  groups_n[rs_sl %in% gg] <- sample(design[[s]][design[[s]][, "from"] == sl, "to"], size = sum(rs_sl %in% gg), prob = probabilities[, gg + seq_gg], replace = TRUE) # nolint
+                # }
+                
               }
             }
             for (ggg in sort(unique(groups_n))) {
@@ -243,6 +381,7 @@ tmt_sim <- function(mstdesign = NULL,
                 design[[s]][, "to"] == ggg, "items_to"]
                 # 2024-01-26 auskommentiert if ( length(item_g)>1 & length(unique(item_g)) ) item_g <- item_g[1]
               item_g <- as.character(unlist(strsplit(item_g, ",")))
+              # to <- design[[s]][design[[s]][,"from"] == sl & design[[s]][,"to"] == ggg, "to"] # nolint
               mat[persn_sl, "branching"][groups_n %in% ggg] <- paste0(mat[persn_sl, "branching"][groups_n %in% ggg], "-", ggg) # nolint
               helper_stages[persn_sl][groups_n %in% ggg] <- ggg
               # simulate again, based on existing person parameters

@@ -68,7 +68,7 @@ List esf_mst_sum_vector(List parlist,
       rcum(i) = rcum(i-1) + ojlist_m.size();
       eps_position(i) = eps_position(i-1) + ojlist_i.size();
     }
-
+    // Rcpp::Rcout << "probs: " << probs << std::endl;
     esf_mst["0"] = esf_mst_sum_vector_s2(outvector, m, rcum, eps_position, minSolved, maxSolved, minSolved_design, maxSolved_design, probs, cumulative); 
   }
 
@@ -131,12 +131,15 @@ List esf_mst_sum_vector(List parlist,
       }
       
       NumericVector eps_vec(sum(size));
+      
 
       for(int v = 0; v < m; v++){
         NumericVector el = eps[v];
         std::copy(el.begin(), el.end(), eps_vec.begin() + index);
         index += el.size();
       }
+
+      
 
       if(maxSolved[l] > 0) {
         maxSolved_l[l] = maxSolved[l]-1;
@@ -157,6 +160,7 @@ List esf_mst_sum_vector(List parlist,
         eps_position[l] = eps_position[l] + 1;
       }
 
+      // hier ist die Reihenfolge wichtig, fuer die Sonderfaelle mit minSolved und maxSolved von 0 bei nicht kumulativen Faellen
       for(int ld = 0; ld < m; ld++){
 
         maxSolved_design_l[ld] = maxSolved_design[ld];
@@ -176,6 +180,7 @@ List esf_mst_sum_vector(List parlist,
 
       for(int i = l; i < m; i++){
         // ----------------------------------------------------------------------
+        // Version, bei der immer das Gewicht für Score 0 gelöscht wird (wie bei der nicht kumulativen Verzweigung) und die nicht kumulative Verzweigung berücksichtigt
         if (cumulative[i]) {
           probs_l.erase(probs_h[i]-helperase);
           helperase++;
@@ -207,7 +212,15 @@ List esf_mst_sum_vector(List parlist,
             par = eps[p];
             oj = ojlist[p];
           }
+          // special condition with modules of two items
+          // if((par.size() == 0) || (minSolved_l[p]==0 && maxSolved_l[p]==0 && par.size()==1)){
+          //   par = 1.0;
+          //   oj = 1;
+          // }
           
+          // Rcpp::Rcout << "par: " << par << std::endl;
+          // Rcpp::Rcout << "oj: " << oj << std::endl;
+
           NumericVector out = par.size();
           out = esf_mst_sum_vector_s1(par, oj); 
           std::copy(out.begin(), out.end(), outvector.begin() + sizeV);
@@ -217,9 +230,34 @@ List esf_mst_sum_vector(List parlist,
 
         NumericVector out(dim);
         
+        // Rcpp::Rcout << "-------------------------" << std::endl;
+        // Rcpp::Rcout << "return used values first order MST" << std::endl;
+        // Rcpp::Rcout << "-------------------------" << std::endl;
+        // Rcpp::Rcout << "The value of outvector is: " << outvector << std::endl;
+        // Rcpp::Rcout << "The value of m is: " << m << std::endl;
+        // Rcpp::Rcout << "The value of rcum is: " << rcum << std::endl;
+        // Rcpp::Rcout << "The value of probs_h is: " << probs_h << std::endl;
+        // Rcpp::Rcout << "The value of probs_l is: " << probs_l << std::endl;
+        // Rcpp::Rcout << "The value of minSolved_l is: " << minSolved_l << std::endl;
+        // Rcpp::Rcout << "The value of maxSolved_l is: " << maxSolved_l << std::endl;
+        // Rcpp::Rcout << "The value of minSolved_design_l is: " << minSolved_design_l << std::endl;
+        // Rcpp::Rcout << "The value of maxSolved_design_l is: " << maxSolved_design_l << std::endl;
+        // Rcpp::Rcout << "The value of eps_position is: " << eps_position << std::endl;
+        
+
+        // Rcpp::Rcout << "v: " << v << " outvector: " << outvector << " m: " << m << " rcum: " << rcum << " eps_position: " << eps_position << " minSolved_l: " << minSolved_l << " maxSolved_l: " << maxSolved_l << " minSolved_design_l: " << minSolved_design_l << " maxSolved_design_l: " << maxSolved_design_l << " probs_l: " << probs_l << " cumulative: " << cumulative << std::endl;  
+        
+        // Rcpp::Rcout << " l: " << l << " v: " << v << " outvector: " << outvector <<  " rcum: " << rcum << " eps_position: " << eps_position << " minSolved_l: " << minSolved_l << " maxSolved_l: " << maxSolved_l << " minSolved_design_l: " << minSolved_design_l << " maxSolved_design_l: " << maxSolved_design_l << " probs_l: " << probs_l << " cumulative: " << cumulative << std::endl;  
+        
         out = esf_mst_sum_vector_s2(outvector, m, rcum, eps_position, minSolved_l, maxSolved_l, minSolved_design_l, maxSolved_design_l, probs_l, cumulative);
         out.erase(dim);
         
+        // Rcpp::Rcout << "maxSolved[l]: " << maxSolved[l] << std::endl;  
+
+        // for(int o = 0; o < out.size(); o++){
+        //   out[o] =  out[o] * eps_vec[k];
+        //   Rcpp::Rcout << "eps_vec[k]: " << eps_vec[k] << std::endl;  
+        // }
         for(int r = 0; r < out.size(); r++){
           if (maxSolved[l] > 0) {
             esf_mat(r + 1, k) = out[r] *= eps_vec[k];
@@ -231,7 +269,7 @@ List esf_mst_sum_vector(List parlist,
       }
     }
     esf_mst["1"] = esf_mat;
-
+    // Rcpp::Rcout << "\n\n" << std::endl;  
   }
 
   // --------------------------------------------------------------------------------------------------------------------
@@ -265,9 +303,10 @@ List esf_mst_sum_vector(List parlist,
     rcum[0] = ojlist_i.size();
     probs_h[0] = 0;
     helper_stages_2[0] = 0;
-
+    // Rcpp::Rcout << "eps_vec: " << eps_vec << std::endl;
     for(int i = 0; i < m; i++) {
       NumericVector eps_i = eps[i];
+      // Rcpp::Rcout << "eps_i: " << eps_i << std::endl;
 
       for(int ii = 0; ii < eps_i.size(); ii++){
         helper_stages_1[k] = i;
@@ -287,6 +326,9 @@ List esf_mst_sum_vector(List parlist,
         }    
       }
     }
+          // Rcpp::Rcout << "helper_stages_1: " << helper_stages_1 << std::endl;
+          // Rcpp::Rcout << "eps_vec: " << eps_vec << std::endl;
+
 
     std::copy(helper_stages_1.begin(), helper_stages_1.end(), helper_stages_2.begin() + 1);
     
@@ -314,12 +356,24 @@ List esf_mst_sum_vector(List parlist,
         std::copy(minSolved.begin(), minSolved.end(), minSolved_l.begin());
         std::copy(maxSolved_design.begin(), maxSolved_design.end(), maxSolved_design_l.begin());
         std::copy(minSolved_design.begin(), minSolved_design.end(), minSolved_design_l.begin());
+        // std::copy(size.begin(), size.end(), size_i.begin());
+
 
         int helperase = 1;
         int helperaseendp = 0;
         int size_ii = 0;
         int sizeV = 0;
         int pp = 0;
+        
+
+        
+        // for (int i = 0; i < psize; i++){
+        //   maxSolved_l[i] = maxSolved[i];
+        //   minSolved_l[i] = minSolved[i];
+        //   maxSolved_design_l[i] = maxSolved_design[i];
+        //   minSolved_design_l[i] = minSolved_design[i];
+        //   size_i[i] = size[i];
+        // }
         
         for(int i = helper_stages_2[j]; i < m; i++){
           
@@ -359,6 +413,7 @@ List esf_mst_sum_vector(List parlist,
           helperaseend[i] = helperase;
         }
         
+
         if ((j > 0) && cumulative[helper_stages_1[j]]){
         
           for(int i = (helper_stages_1[v] + 1); i < m; i++){
@@ -378,6 +433,24 @@ List esf_mst_sum_vector(List parlist,
           int size_par_ii = par_ii.size();
           int helperase_par_ii = 0;
 
+          // if (helper_stages_1[v] == p) {
+          //   size_par_i -= 1.0;
+          // } 
+          
+          // if ((j > 0) && (helper_stages_1[j-1] == p)) {
+          //   size_par_i -= 1.0;
+          // }           
+          
+          // NumericVector par_i(size_par_i);
+          // NumericVector oj_i(size_par_i);          
+          // int ii = 0;
+          // Rcpp::Rcout << "\np: " << p << std::endl;
+          // Rcpp::Rcout << "size_par_i: " << size_par_i << std::endl;    
+          // Rcpp::Rcout << "size_par_ii: " << size_par_ii << std::endl;    
+          // Rcpp::Rcout << "helper_stages_1: " << helper_stages_1 << std::endl;
+          // Rcpp::Rcout << "helper_stages_1[v]: " << helper_stages_1[v] << std::endl;
+          // Rcpp::Rcout << "par_ii_position: " << par_ii_position << std::endl;
+          // Rcpp::Rcout << "helperase_par_ii: " << helperase_par_ii << std::endl;
             if (helper_stages_1[v] == p) {
                 
                 par_ii.erase(par_ii_position[v] - helperase_par_ii);
@@ -385,16 +458,20 @@ List esf_mst_sum_vector(List parlist,
                 // Rcpp::Rcout << "a) par_ii: " << par_ii << std::endl;    
                 helperase_par_ii++;
               } 
-
             if((j > 0) && (helper_stages_1[j-1] == p)){
-
+                // par_ii.erase(par_ii_position[j] - helperase_par_ii - helper_stages_1[j-1]);
+                // oj_ii.erase(par_ii_position[j] - helperase_par_ii - helper_stages_1[j-1]);
                 par_ii.erase(par_ii_position[j-1]);
                 oj_ii.erase(par_ii_position[j-1]);
+                // Rcpp::Rcout << "b) par_ii: " << par_ii << std::endl;    
                 helperase_par_ii++;
               } 
               
           if ((helper_stages_1[v] == p) || ((j > 0) && (helper_stages_1[j-1] == p))) {
             for (int i = 0; i < size_par_ii; i++) {
+              
+             
+              
 
               if ((helper_stages_1[v] == p) && (v % size_par_ii == i)) {
                 
@@ -416,6 +493,18 @@ List esf_mst_sum_vector(List parlist,
                 if (minSolved_l[p] > 0) {
                   minSolved_l[p] -= 1;
                 } 
+                
+                // for (int lp = p; lp < psize; lp++){
+                  
+                //   if ((maxSolved_design_l[lp] > 0) & (maxSolved_l[p] > 0)) {
+                //     maxSolved_design_l[lp] -= 1;
+                //   }
+                  
+                //   if((minSolved_design_l[lp] > 0) && (minSolved_l[p] > 0)){
+                //     minSolved_design_l[lp] -= 1;
+                //   }
+                // }
+
               } else if((j > 0) && (helper_stages_1[j-1] == p) && ((j-1) % size_par_ii == i)){
 
                 // order of conditions is important
@@ -436,15 +525,57 @@ List esf_mst_sum_vector(List parlist,
                 if (minSolved_l[p] > 0) {
                   minSolved_l[p] -= 1;
                 }
+
+                // for (int lp = p; lp < psize; lp++){
+                //   if ((maxSolved_design_l[lp] > 0) && (maxSolved_l[p] > 0)) {
+                //     maxSolved_design_l[lp] -= 1;
+                //   }
+                //   if((minSolved_design_l[lp] > 0) && (minSolved_l[p] > 0)){
+                //     minSolved_design_l[lp] -= 1;
+                //   }
+                // }
               } 
+              // else {
+              //   par_i[ii] = par_ii[i];
+              //   oj_i[ii] = oj[i];
+              //   ii++;
+              // }
+
+              // for (int lp = 0; lp < psize; lp++){
+              //   if((helper_stages_1[v] == p) && (v % par_ii.size() == i)){
+              //     if ((maxSolved_l[p] >= 0) && (maxSolved_design_l[lp] > 0)) {
+              //       maxSolved_design_l[lp] -= 1;
+              //     }
+                  
+              //     if ((minSolved_l[p] >= 0) && (minSolved_design_l[lp] > 0)) {
+              //       minSolved_design_l[lp] -= 1;
+              //     }
+              //   } else if ((j > 0) && (helper_stages_1[j-1] == p) && ((j-1) % par_ii.size() == i)) {
+              //     if ((maxSolved_l[p] >= 0) && (maxSolved_design_l[lp] > 0)) {
+              //       maxSolved_design_l[lp] -= 1;
+              //     }
+                  
+              //     if((minSolved_l[p] >= 0) && (minSolved_design_l[lp] > 0)) {
+              //       minSolved_design_l[lp] -= 1;
+              //     }
+              //   }
+              // }
             }
           } 
+          // else { // for the remaining modules
+          //   par_i = par_ii;
+          //   oj_i = oj;
+          // }
+          
+          
             
             minSolved_ll[pp] = minSolved_l[p];
             maxSolved_ll[pp] = maxSolved_l[p];
             minSolved_design_ll[pp] = minSolved_design_l[p];
             maxSolved_design_ll[pp] = maxSolved_design_l[p];
             size_ii++;
+            
+            // Rcpp::Rcout << "par_ii: " << par_ii << std::endl;    
            
             if(pp == 0){
               rcum[pp] = par_ii.size();
@@ -455,27 +586,68 @@ List esf_mst_sum_vector(List parlist,
             }
             pp++;
 
+            // special condition with modules of two items needs to stay here
+          //  if(par_ii.size() == 0){
+          //    par_ii = 1.0;
+          //    oj_ii = 1;
+          //    eps_position[p] += 1; 
+          //    rcum[p] += 1; 
+          //  }
+            
+
+            // Rcpp::Rcout << "par_ii: " << par_ii << std::endl;    
+            // Rcpp::Rcout << "oj_i: " << oj_i << std::endl;    
+            // Rcpp::Rcout << "helper_stages_1: " << helper_stages_1 << std::endl;    
           if(par_ii.size() != 0){
             Rcpp::NumericVector out = par_ii.size();
-            out = esf_mst_sum_vector_s1(par_ii, oj_ii);
+            out = esf_mst_sum_vector_s1(par_ii, oj_ii); // erste Funktion anwenden
             std::copy(out.begin(), out.end(), outvector.begin() + sizeV);
             sizeV += out.size();
           } 
+          // else {
+            // condition with very small module sizes of two items or less
+            // Rcpp::NumericVector out = 1;
+            // std::copy(out.begin(), out.end(), outvector.begin() + sizeV);
+            // sizeV += out.size();
+          // }
+          // }
         } //end p
+      //  Rcpp::Rcout << "maxSolved_ll: " << maxSolved_ll << std::endl;
+      //  Rcpp::Rcout << "maxSolved_l: " << maxSolved_l << std::endl;
+      //  Rcpp::Rcout << "minSolved_ll: " << minSolved_ll << std::endl;
+      //  Rcpp::Rcout << "minSolved_l: " << minSolved_l << std::endl;
+      //  Rcpp::Rcout << "maxSolved_design_ll: " << maxSolved_design_ll << std::endl;
+      //  Rcpp::Rcout << "maxSolved_design_l: " << maxSolved_design_l << std::endl;
+      //  Rcpp::Rcout << "minSolved_design_ll: " << minSolved_design_ll << std::endl;
+      //  Rcpp::Rcout << "minSolved_design_l: " << minSolved_design_l << std::endl;
+
+      //  Rcpp::Rcout << "\n\n" << std::endl;  
+
+      //  Rcpp::Rcout << "j: " << j << " v: " << v << " outvector: " << outvector << " m: " << size_ii << " rcum: " << rcum << " eps_position: " << eps_position << " minSolved_ll: " << minSolved_ll << " maxSolved_ll: " << maxSolved_ll << " minSolved_design_ll: " << minSolved_design_ll << " maxSolved_design_ll: " << maxSolved_design_ll << " probs_ll: " << probs_ll << " cumulative: " << cumulative << std::endl;  
+      //  Rcpp::Rcout << "\n\n" << std::endl;  
 
         out2 = esf_mst_sum_vector_s2(outvector, size_ii, rcum, eps_position, minSolved_ll, maxSolved_ll, minSolved_design_ll, maxSolved_design_ll, probs_ll, cumulative); 
         
+        // Rcpp::Rcout << "out2: " << out2 << std::endl;  
+        // Rcpp::Rcout << "j: " << j << " v: " << v << " outvector: " << outvector << " maxSolved: " << maxSolved << " helper_stages_1: " << helper_stages_1 << " eps_vec: " << eps_vec << " eps_position: " << eps_position << std::endl;
+        // Rcpp::Rcout << "j: " << j << " v: " << v << " maxSolved[helper_stages_1[v]]   : " << maxSolved[helper_stages_1[v]] << std::endl;
+        // Rcpp::Rcout << "j: " << j << " v: " << v << " maxSolved_ll[helper_stages_1[v]]: " << maxSolved_ll[helper_stages_1[v]] << std::endl;
+        // Rcpp::Rcout << "j: " << j << " v: " << v << " maxSolved[helper_stages_1[j-1]] : " << maxSolved[helper_stages_1[j-1]] << std::endl;  
+        // Rcpp::Rcout << "\n" << std::endl;  
+
+
         for(int o = 0; o < out2.size(); o++){
           
           if(j == 0){
             // out2[o] *= eps_vec[v];
+            // Rcpp::Rcout << "maxSolved[helper_stages_1[v]]: " << maxSolved[helper_stages_1[v]] << std::endl;  
             if ( maxSolved[helper_stages_1[v]] > 0 ) {
               // if ( (maxSolved[helper_stages_1[v]] > 0) && (maxSolved_ll[helper_stages_1[v]] != 0) ) {
               out2[o] *= eps_vec[v];
             } else {
               out2[o] *= 0;
             } 
-
+            // Rcpp::Rcout << "eps_vec[v]: " << eps_vec[v] << std::endl;  
           } else {    
             // if ((maxSolved[helper_stages_1[v]] != 0) && (maxSolved[helper_stages_1[j-1]] != 0)){
             if ( ((maxSolved[helper_stages_1[j-1]] > 0) && (maxSolved[helper_stages_1[v]] > 1)) || ((maxSolved[helper_stages_1[j-1]] > 1) && (maxSolved[helper_stages_1[v]] > 0))) {
@@ -485,9 +657,20 @@ List esf_mst_sum_vector(List parlist,
               out2[o] *= 0;
             } 
             
-          }          
+          }
+          // if (maxSolved[helper_stages_1[j-1]] <= 1) {
+          //   out2[o] *= 0;
+          // }
+          
         }
+        // Rcpp::Rcout << "out2: " << out2 << std::endl;  
+        // if ((maxSolved[helper_stages_1[v]] == 0) || (maxSolved[helper_stages_1[j-1]] == 0)) {
+        //     // out2 *= 0;
+        //     std::fill(out2.begin(), out2.end(), 0); // special condition
+        //   }
         
+        // Rcpp::Rcout << "j: " << j << " v: " << v << " eps_vec: " << eps_vec << " out2: " << out2 << " eps_vec[v]: " << eps_vec[v] << " eps_vec[j-1]: " << eps_vec[j-1] << std::endl;
+
         if(j == 0){
           std::copy(out2.begin(), out2.end(), g_vec3.begin() + ((dim+1) * (dim) * (v)) + kk + 1);
         } else {
@@ -497,10 +680,10 @@ List esf_mst_sum_vector(List parlist,
         kk += out2.size()+1;
       } //end v
     }
+    // Rcpp::Rcout << "g_vec3: " << g_vec3 << std::endl;
 
     g_vec3.attr("dim") = dim_2o;
     esf_mst["2"] = g_vec3;
   }
-
  return(esf_mst);
 }

@@ -30,6 +30,11 @@ tmt_msttemplate <- function(formula = NULL, full = TRUE, eval = TRUE) {
     plsl <- any(pls.ct > 0)
     cuml <- any(cum.ct > 0)
 
+    # constr.pt <- c(constr[[1]])
+    # pls.pt <- c(pls[[1]])
+    # cum.pt <- c(cum[[1]])
+
+    # nun die elemente zusammenbringen, die Einträge hinterlegen und über die Positoinen die Reihenfolge erurieren für den untigen Prozess
     elements <- rep(
         c("~","+","+=")[c(constrl,plsl,cuml)], 
         c(length(constr.ct), length(pls.ct), length(cum.ct))[c(constrl,plsl,cuml)]
@@ -81,21 +86,42 @@ tmt_msttemplate <- function(formula = NULL, full = TRUE, eval = TRUE) {
     # --------------------
     # rules (probs, deterministc)
     # --------------------
-      path <- c("\n#--------------------",
-      "\n# rules",
-      "\n#--------------------",
-      "\nPlease fill here the specific rules\n",
-      "\n")
+    # if (full) {
+    #     pathmout <- 
+    #     path <- c("\n#--------------------",
+    #         "\n# rules",
+    #         "\n#--------------------",
+    #         unlist(pathmout),"\n")
+
+    # } else {
+        path <- c("\n#--------------------",
+        "\n# rules",
+        "\n#--------------------",
+        "\nPlease fill here the specific rules\n",
+        "\n")
+    # } 
     out[[length(out) + 1]] <- path
     # ------------------------------------------------------------------------------------
     # --------------------
     # path
     # -------------------- 
+    # den Fall abbilden, dass nur ein dummy-Gerüst angelegt wird...
+            # if (length(grep("\\*", frmsplit, fixed = TRUE))!=0) {
+            #     frmsplit <- sapply(frmsplit,strsplit,"\\*")
+            #     frmout <- lapply(frmsplit,function(x){
+            #                         paste0(rep(x[2], as.numeric(x[1])),"(",1:as.numeric(x[1]),")")
+            #                     })
+            # }
+    # assay <- "Some Assay"
+    # xlab <- bquote(.(assay) ~ AC50 ~ (mu*M))
+
+    # keine Multiplikation, sondern Variablen in den Daten...
     if (length(grep("\\(|\\)",frmsplit))!=0) {
         frmpreout <- sapply(frmsplit,strsplit,"\\(|,|\\)")
+
+        # für alle Elemente, die nicht '~' sind, anders aufbereiten!!
         frmout <- list()
         evalcrit <- c((elements%in%c("+","+="))[1],elements%in%c("+","+="))
-        
         for (i in seq(evalcrit)) {
             if (evalcrit[i]) {
                 if (length(grep("\\:",frmpreout[i]))>0 && eval) {

@@ -6,6 +6,9 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
     call <- call_intern
   }
   # ----------------------------
+  # diagnostic
+  # a0 <- Sys.time(); cat("Start:",format(a0,"%H:%M:%S")); flush.console()
+  # ----------------------------
   if(inherits(dat, "list") & "mstdesign" %in% class(dat)){
     mstdesign <- dat$mstdesign
     dat <- dat$data
@@ -24,13 +27,32 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
   if(!is.null(mstdesign)) {
     mstdesign_orig <- mstdesign  
   } 
+  # else {
+  #   mstdesign_orig <- mstdesign
+  # }
   
+  ################################################################################################
+  # todo: MST Design should be added for additional plot
+   # if (!any(colnames(dat) %in% "branching")) {
+   #   stop("branching design is required in the submitted data, with the column name 'branching'")
+   # }
+
+   # design <- dat[,"branching"]
+   # dat <- dat[,!colnames(dat) %in% "branching"]
+  ################################################################################################
   # preparing the submitted mst design
   designelements <- tmt_mstdesign(mstdesign = mstdesign, options = c("design","items"))
   items_design <- designelements$items
   cumulative <- ifelse(any(class(designelements$design)=="cumulative"),TRUE,FALSE)
   mstdesign <- apply(designelements$design,2,as.character)
+  # startmodules <-  designelements$start
+  # info_startval <- NULL
   
+  # if(nrow(startmodules)==1){
+  #   info_startval <- strsplit(startmodules[,"items_to"],",")[[1]]
+  # }
+
+
   names_dat <- colnames(dat)
 
   precondition <- NULL
@@ -51,6 +73,9 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
       cat("The following items are specified in the mstdesign, but not in the dataset: ")
       cat(items_design[!items_design %in% names_dat],"\n")
     }
+  #  if (length(status)!=0){
+  #    cat("The following items had to be excluded, due to (nearly) full '1' or '0' responses: ",status,"\n")
+  #  }  
     stop("It is necessary, that all Items in the dataset are also specified in the submitted mstdesign and vice versa! \nPlease update the design and the data.\n")
   }
 
@@ -106,6 +131,10 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
       cs <- colSums(dat[,names_dat] * weights, na.rm = TRUE)
       ws <- colSums(!is.na(dat[,names_dat]) * weights)
       start <- log(ws - cs) - log(cs)
+        # choose for start module informative starting values
+        # if(!is.null(info_startval)){
+        #   start[!names(start)%in%info_startval] <- 0
+        # }
     }
     start <- start[-i]
     desmat <- rbind(diag(1,nrow = length(start) ), -1)
@@ -116,6 +145,10 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
       cs <- colSums(dat[,names_dat] * weights, na.rm = TRUE)
       ws <- colSums(!is.na(dat[,names_dat]) * weights)
       start <- log(ws - cs) - log(cs)
+        # choose for start module informative starting values
+        # if(!is.null(info_startval)){
+        #   start[!names(start)%in%info_startval] <- 0
+        # }
     }
     start <- start[-1]
     desmat <- rbind(0,diag(1,nrow=length(start)))
@@ -127,7 +160,7 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
       esf <- esf_mst_sum_vector(parlist = par_i, ojlist = oj_i, probs = probabilities_i, order = 0,
                                 minSolved = minSolved_i, maxSolved = maxSolved_i,
                                 minSolved_design = minSolved_stage_i, maxSolved_design = maxSolved_stage_i, cumulative = cumulative_i)[[1]]
-
+      #esf[(sum(minSolved_i) + 1):(sum(maxSolved_i) + 1)] <- log(esf[(sum(minSolved_i)+1):(sum(maxSolved_i)+1)])
       esf[(tail(minSolved_stage_i,n=1) + 1):(tail(maxSolved_stage_i,n=1) + 1)] <- log(esf[(tail(minSolved_stage_i,n=1) + 1):(tail(maxSolved_stage_i,n=1) + 1)])
       return( -sum( cs_i * unlist(par_i) ) - sum(rf_i  * esf) )
     }
@@ -181,8 +214,9 @@ raschmodel.mst <- function(dat, mstdesign = NULL, weights = NULL, start = NULL,
       out <- colSums(out[, drop = FALSE]) %*% desmat
       return(out)
     }
-    
-  # analytival hessian matrix
+    # esf[(sum(minSolved_i) + 1):(sum(maxSolved_i) + 1)] <- log(esf[(sum(minSolved_i)+1):(sum(maxSolved_i)+1)])
+
+  # # analytival hessian matrix
   ahessian <- function(par) {
       par_n <- c(desmat %*% par)
        par_i <- lapply(items_l, FUN = function(x){

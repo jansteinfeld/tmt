@@ -9,6 +9,7 @@ authors:
 
 template:
   params:
+    bootstrap: 5
     bootswatch: flatly
     docsearch:
       api_key: cc39db1658f617f09fb24d30d4ddc270

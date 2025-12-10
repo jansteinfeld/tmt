@@ -8,7 +8,7 @@ sim.rm <- function(theta, b, seed = NULL){
   if (((length(theta) + length(b) )== 2) && !is.null(seed) && length(seed) != 2) {
 
     warning("It is necessary to set a seed for both theta and beta if no vector is passed. The specified seed was used for the theta parameters, the following is used for beta: ", seed + 1)
-
+    #> Warning: This is what a warning looks like
     seed_theta <- seed
     seed_beta <- seed + 1
   }
@@ -29,6 +29,8 @@ sim.rm <- function(theta, b, seed = NULL){
     seed_beta <- seed
   }
 
+  # cat("seed sim: ",seed)
+  
 	if(length(theta) == 1) {
     if(!is.null(seed_theta)) {
       set.seed(seed_theta)
@@ -42,6 +44,13 @@ sim.rm <- function(theta, b, seed = NULL){
     }
     b <- stats::rnorm(b, mean = 0, sd = 1)	
 	}
+	# if(!is.null(seed)){
+		# set.seed(seed)
+		# resp <- outer(theta, b, "-")
+		# p_exp <- exp(resp)
+		# prop_solve <- p_exp/(1 + p_exp)
+		# dat.resp <-(prop_solve > matrix(stats::runif(length(b)*length(theta)),length(theta),length(b)))*1
+	# } else {
 		resp <- outer(theta, b, "-")
 		p_exp <- exp(resp)
 		prop_solve <- p_exp/(1 + p_exp)

@@ -26,19 +26,23 @@ URL:
 ----
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+-------------------------------------------------------------
+VERSIONS tmt 0.3.6-4  |  2025-12-04  |  Last: tmt 0.3.6-0
+-------------------------------------------------------------
+* fixed testthat error 
+
 -------------------------------------------------------------
 VERSIONS tmt 0.3.6-0  |  2025-06-20  |  Last: tmt 0.3.3-0
 -------------------------------------------------------------
 * fixed testthat error caused by ggplot2
 * removed suggestion of dexterMST (Package 'dexterMST' was removed from the CRAN repository.)
 
-
 -------------------------------------------------------------
 VERSIONS tmt 0.3.3-0  |  2024-03-15  |  Last: tmt 0.3.2-1
 -------------------------------------------------------------
 * fixed testthat error caused by ggplot2
 * NOTE * fixed a bug in ifelse (thanks to Tobias Alfers & Philipp Gewessler)
-
 
 -------------------------------------------------------------
 VERSIONS tmt 0.3.2-1  |  2024-03-12  |  Last: tmt 0.3.1-10

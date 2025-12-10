@@ -1007,7 +1007,8 @@ thresholds_to_probs <- function(thres, opts = "mstdesign", row = TRUE){
 
   if (row) {
     if (nrow(thres)==1) {
-      thres_diff <- cbind(thres[1,,drop=FALSE],t(diff(thres)))
+      # thres_diff <- cbind(thres[1, , drop = FALSE], t(diff(thres)))
+      thres_diff <- thres[1, , drop = FALSE]
     } else {
       thres_diff <- cbind(thres[1,],t(diff(thres)))  
     }

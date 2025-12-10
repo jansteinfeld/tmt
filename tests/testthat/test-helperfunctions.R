@@ -755,7 +755,7 @@ test_that("test additional functions",{
   thres_error[3:1,1] <- thres_error[1:3,1]
     
     output1 <- capture_output_lines(thresholds_to_probs(thres))
-    output2 <- thresholds_to_probs(thres, opts="")
+    output2 <- thresholds_to_probs(thres, opts = "", row = TRUE)
     output3 <- thresholds_to_probs(tthres, opts="", row = FALSE)
     
     expect_that(length(output1),equals(8))

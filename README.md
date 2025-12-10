@@ -30,8 +30,8 @@ parameter estimation of sequential as well as cumulative deterministic
 multistage (MST) designs (Zwitser & Maris, 2015,
 [\<10.1007/s11336-013-9369-6\>](https://doi.org/10.1007/s11336-013-9369-6))
 as well as probabilistic sequential and cumulative multistage designs
-(Steinfeld & Robitzsch, 2024,
-[\<10.1007/s41237-024-00228-3\>](https://doi.org/10.1007/s41237-024-00228-3)).
+(Steinfeld & Robitzsch, 2021,
+[\<10.31234/osf.io/ew27f\>](https://doi.org/10.31234/osf.io/ew27f)).
 Supports CML item parameter estimation of conventional linear designs
 and additional functions for the likelihood ratio test (Andersen, 1973,
 [\<10.1007/BF02291180\>](https://doi.org/10.1007/BF02291180)) as well as
